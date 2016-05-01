@@ -161,9 +161,8 @@ void RenderProject::updateCamera(const std::string &camera, const double &deltaT
     bRenderer().getObjects()->getCamera(camera)->setAspectRatio(bRenderer().getView()->getAspectRatio());
     
     
-    
     if(carIsMoving){
-        vmml::Vector3f newPos = bRenderer().getObjects()->getCamera(camera)->getPosition()+ (float)deltaTime * velocity;
+        vmml::Vector3f newPos = bRenderer().getObjects()->getCamera(camera)->getPosition() + (float)deltaTime * velocity;
         bRenderer().getObjects()->getCamera(camera)->setPosition(newPos);
     }
         
