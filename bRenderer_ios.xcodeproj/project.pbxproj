@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		540DDD781CA0024A00DE3FCC /* guy.frag in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD751CA0024A00DE3FCC /* guy.frag */; };
-		540DDD791CA0024A00DE3FCC /* guy.obj.backup in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD761CA0024A00DE3FCC /* guy.obj.backup */; };
 		540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD771CA0024A00DE3FCC /* guy.vert */; };
-		540DDD7C1CA0058A00DE3FCC /* guy.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD7B1CA0058A00DE3FCC /* guy.mtl */; };
-		540DDD7E1CA020B700DE3FCC /* diffuse.png in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD7D1CA020B700DE3FCC /* diffuse.png */; };
-		54B964A81CB259CE008843E2 /* normal3.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B964A61CB259CE008843E2 /* normal3.png */; };
-		54B964A91CB259CE008843E2 /* specular.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B964A71CB259CE008843E2 /* specular.png */; };
-		81EBB2111CD6471A0052ABE2 /* guy.obj.car in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB2101CD6471A0052ABE2 /* guy.obj.car */; };
-		81EBB2131CD6472E0052ABE2 /* guy.mtl.car in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB2121CD6472E0052ABE2 /* guy.mtl.car */; };
+		814B3EB71CD6709F00CAD51B /* guy.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB11CD6709F00CAD51B /* guy.mtl */; };
+		814B3EB81CD6709F00CAD51B /* guy.obj in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB21CD6709F00CAD51B /* guy.obj */; };
+		814B3EB91CD6709F00CAD51B /* s_1024_C.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB31CD6709F00CAD51B /* s_1024_C.png */; };
+		814B3EBA1CD6709F00CAD51B /* s_1024_I.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB41CD6709F00CAD51B /* s_1024_I.png */; };
+		814B3EBB1CD6709F00CAD51B /* s_1024_N.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB51CD6709F00CAD51B /* s_1024_N.png */; };
+		814B3EBC1CD6709F00CAD51B /* s_1024_S.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB61CD6709F00CAD51B /* s_1024_S.png */; };
+		814B3EBF1CD6766C00CAD51B /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EBD1CD6766C00CAD51B /* terrain.mtl */; };
+		814B3EC01CD6766C00CAD51B /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EBE1CD6766C00CAD51B /* terrain.obj */; };
 		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B47949AF1BA6742B00B5E9DC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = B47949921BA6742B00B5E9DC /* config.json */; };
 		B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B47949C41BA6743D00B5E9DC /* LICENSE.txt */; };
@@ -117,14 +118,15 @@
 
 /* Begin PBXFileReference section */
 		540DDD751CA0024A00DE3FCC /* guy.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.frag; sourceTree = "<group>"; };
-		540DDD761CA0024A00DE3FCC /* guy.obj.backup */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj.backup; sourceTree = "<group>"; };
 		540DDD771CA0024A00DE3FCC /* guy.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.vert; sourceTree = "<group>"; };
-		540DDD7B1CA0058A00DE3FCC /* guy.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl; sourceTree = "<group>"; };
-		540DDD7D1CA020B700DE3FCC /* diffuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diffuse.png; sourceTree = "<group>"; };
-		54B964A61CB259CE008843E2 /* normal3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal3.png; sourceTree = "<group>"; };
-		54B964A71CB259CE008843E2 /* specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = specular.png; sourceTree = "<group>"; };
-		81EBB2101CD6471A0052ABE2 /* guy.obj.car */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj.car; sourceTree = "<group>"; };
-		81EBB2121CD6472E0052ABE2 /* guy.mtl.car */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl.car; sourceTree = "<group>"; };
+		814B3EB11CD6709F00CAD51B /* guy.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl; sourceTree = "<group>"; };
+		814B3EB21CD6709F00CAD51B /* guy.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj; sourceTree = "<group>"; };
+		814B3EB31CD6709F00CAD51B /* s_1024_C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_C.png; sourceTree = "<group>"; };
+		814B3EB41CD6709F00CAD51B /* s_1024_I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_I.png; sourceTree = "<group>"; };
+		814B3EB51CD6709F00CAD51B /* s_1024_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_N.png; sourceTree = "<group>"; };
+		814B3EB61CD6709F00CAD51B /* s_1024_S.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_S.png; sourceTree = "<group>"; };
+		814B3EBD1CD6766C00CAD51B /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
+		814B3EBE1CD6766C00CAD51B /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949921BA6742B00B5E9DC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -341,14 +343,15 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-				81EBB2121CD6472E0052ABE2 /* guy.mtl.car */,
-				81EBB2101CD6471A0052ABE2 /* guy.obj.car */,
-				54B964A61CB259CE008843E2 /* normal3.png */,
-				54B964A71CB259CE008843E2 /* specular.png */,
-				540DDD7D1CA020B700DE3FCC /* diffuse.png */,
-				540DDD7B1CA0058A00DE3FCC /* guy.mtl */,
+				814B3EBD1CD6766C00CAD51B /* terrain.mtl */,
+				814B3EBE1CD6766C00CAD51B /* terrain.obj */,
+				814B3EB11CD6709F00CAD51B /* guy.mtl */,
+				814B3EB21CD6709F00CAD51B /* guy.obj */,
+				814B3EB31CD6709F00CAD51B /* s_1024_C.png */,
+				814B3EB41CD6709F00CAD51B /* s_1024_I.png */,
+				814B3EB51CD6709F00CAD51B /* s_1024_N.png */,
+				814B3EB61CD6709F00CAD51B /* s_1024_S.png */,
 				540DDD751CA0024A00DE3FCC /* guy.frag */,
-				540DDD761CA0024A00DE3FCC /* guy.obj.backup */,
 				540DDD771CA0024A00DE3FCC /* guy.vert */,
 				B47949921BA6742B00B5E9DC /* config.json */,
 			);
@@ -637,7 +640,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 94PFB8AHJE;
@@ -669,20 +672,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				540DDD7C1CA0058A00DE3FCC /* guy.mtl in Resources */,
-				81EBB2111CD6471A0052ABE2 /* guy.obj.car in Resources */,
+				814B3EB81CD6709F00CAD51B /* guy.obj in Resources */,
+				814B3EBC1CD6709F00CAD51B /* s_1024_S.png in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
+				814B3EBF1CD6766C00CAD51B /* terrain.mtl in Resources */,
+				814B3EB91CD6709F00CAD51B /* s_1024_C.png in Resources */,
 				540DDD781CA0024A00DE3FCC /* guy.frag in Resources */,
-				540DDD791CA0024A00DE3FCC /* guy.obj.backup in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
+				814B3EBB1CD6709F00CAD51B /* s_1024_N.png in Resources */,
 				540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */,
-				54B964A91CB259CE008843E2 /* specular.png in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
-				81EBB2131CD6472E0052ABE2 /* guy.mtl.car in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
-				540DDD7E1CA020B700DE3FCC /* diffuse.png in Resources */,
-				54B964A81CB259CE008843E2 /* normal3.png in Resources */,
+				814B3EC01CD6766C00CAD51B /* terrain.obj in Resources */,
 				B4CB8CD01B72E43300FE041B /* Project-Info.plist in Resources */,
+				814B3EB71CD6709F00CAD51B /* guy.mtl in Resources */,
+				814B3EBA1CD6709F00CAD51B /* s_1024_I.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +823,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.uzh.ifi.cgapp;
 				PRODUCT_NAME = bRenderer_ios;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
@@ -858,6 +863,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.uzh.ifi.cgapp;
 				PRODUCT_NAME = bRenderer_ios;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
@@ -870,6 +876,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = $SRCROOT;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
