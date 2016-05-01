@@ -45,13 +45,14 @@ void RenderProject::initFunction()
     // load materials and shaders before loading the model
     //loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
     
-    ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, true, true, false, false);
-    //ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
+    ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, true, true, false, false);
+    ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
+    
 // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
-    //PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
+    PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
     
     // load model
     
@@ -60,8 +61,8 @@ void RenderProject::initFunction()
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
 
     
-    bRenderer().getObjects()->loadObjModel("guy.obj", true, true, true, 4, true, false, guyProperties);
-    //bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, terrainShader, terrainProperties);
+    bRenderer().getObjects()->loadObjModel("plane.obj", true, true, true, 4, true, false, guyProperties);
+    bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, terrainShader, terrainProperties);
     //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
@@ -88,16 +89,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
     //	}
     
     
-    if(!gameRunning && bRenderer().getInput()->singleTapRecognized()){
-        carIsMoving = true;
-        gameRunning = true;
-    }
     
-    if(gameRunning && bRenderer().getInput()->singleTapRecognized()){
-        carIsMoving = false;
-        gameRunning = false;
-    }
-        
 
     /// Draw scene ///
     
@@ -125,6 +117,10 @@ void RenderProject::terminateFunction()
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
     
+    if(bRenderer().getInput()->singleTapRecognized()){
+        carIsMoving = !carIsMoving;
+        gameRunning = !gameRunning;
+    }
     
     
     /*** solar system ***/
@@ -134,11 +130,12 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::Matrix4f modelMatrix = vmml::create_scaling(vmml::Vector3f(0.6f));
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
-    ShaderPtr shader[] = {bRenderer().getObjects()->getShader("guy"), bRenderer().getObjects()->getShader("terrain")};
+    ShaderPtr shader[] = {bRenderer().getObjects()->getShader("plane"), bRenderer().getObjects()->getShader("terrain")};
     //ShaderPtr shaderTerrain = bRenderer().getObjects()->getShader("terrain");
-    int i = 0;
-    //for(int i = 0; i < 2 && shader[i].get(); i++)
-    if (shader[0].get())
+    //ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
+ 
+    for(int i = 0; i < 2; i++)
+    //if (shader.get())
     {
         shader[i]->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader[i]->setUniform("ViewMatrix", viewMatrix);
@@ -151,10 +148,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         shader[i]->setUniform("EyePos", eyePos);
         
-        shader[i]->setUniform("LightPos", vmml::Vector4f(0.f, 100.f, 30.f, 1.f));
+        shader[i]->setUniform("LightPos", vmml::Vector4f(0.f, 20.f, 0.f, 1.f));
         shader[i]->setUniform("Ia", vmml::Vector3f(1.f));
         shader[i]->setUniform("Id", vmml::Vector3f(1.f));
         shader[i]->setUniform("Is", vmml::Vector3f(1.f));
+        
+        //bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
+        
+        if (i == 0) bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
+        else bRenderer().getModelRenderer()->drawModel("terrain", "camera", modelMatrix, std::vector<std::string>({ }));
     }
     //else
     //{
@@ -162,7 +164,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     //}
     
     //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
-    bRenderer().getModelRenderer()->drawModel("guy", "camera", modelMatrix, std::vector<std::string>({ }));
+    
+    
 }
 
 /* Camera movement */

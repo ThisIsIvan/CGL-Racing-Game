@@ -9,14 +9,27 @@
 /* Begin PBXBuildFile section */
 		540DDD781CA0024A00DE3FCC /* guy.frag in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD751CA0024A00DE3FCC /* guy.frag */; };
 		540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD771CA0024A00DE3FCC /* guy.vert */; };
-		814B3EB71CD6709F00CAD51B /* guy.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB11CD6709F00CAD51B /* guy.mtl */; };
-		814B3EB81CD6709F00CAD51B /* guy.obj in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB21CD6709F00CAD51B /* guy.obj */; };
+		814B3EB71CD6709F00CAD51B /* plane.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB11CD6709F00CAD51B /* plane.mtl */; };
+		814B3EB81CD6709F00CAD51B /* plane.obj in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB21CD6709F00CAD51B /* plane.obj */; };
 		814B3EB91CD6709F00CAD51B /* s_1024_C.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB31CD6709F00CAD51B /* s_1024_C.png */; };
 		814B3EBA1CD6709F00CAD51B /* s_1024_I.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB41CD6709F00CAD51B /* s_1024_I.png */; };
 		814B3EBB1CD6709F00CAD51B /* s_1024_N.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB51CD6709F00CAD51B /* s_1024_N.png */; };
 		814B3EBC1CD6709F00CAD51B /* s_1024_S.png in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EB61CD6709F00CAD51B /* s_1024_S.png */; };
-		814B3EBF1CD6766C00CAD51B /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EBD1CD6766C00CAD51B /* terrain.mtl */; };
-		814B3EC01CD6766C00CAD51B /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = 814B3EBE1CD6766C00CAD51B /* terrain.obj */; };
+		81C734AA1CD6902C000185B9 /* Color.tif in Resources */ = {isa = PBXBuildFile; fileRef = 81C734A61CD6902C000185B9 /* Color.tif */; };
+		81C734AB1CD6902C000185B9 /* Height_Map.tif in Resources */ = {isa = PBXBuildFile; fileRef = 81C734A71CD6902C000185B9 /* Height_Map.tif */; };
+		81C734AC1CD6902C000185B9 /* Light_map.tif in Resources */ = {isa = PBXBuildFile; fileRef = 81C734A81CD6902C000185B9 /* Light_map.tif */; };
+		81C734AD1CD6902C000185B9 /* Normal_Map.tif in Resources */ = {isa = PBXBuildFile; fileRef = 81C734A91CD6902C000185B9 /* Normal_Map.tif */; };
+		81C734B91CD69788000185B9 /* Terrain_50000.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81C734B71CD69788000185B9 /* Terrain_50000.vert */; };
+		81C734C11CD6994E000185B9 /* Terrain_50000.obj in Resources */ = {isa = PBXBuildFile; fileRef = 81C734BF1CD6994E000185B9 /* Terrain_50000.obj */; };
+		81C734C41CD6A0AA000185B9 /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 81C734C21CD6A0AA000185B9 /* terrain.mtl */; };
+		81C734C51CD6A0AA000185B9 /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = 81C734C31CD6A0AA000185B9 /* terrain.obj */; };
+		81C734C81CD6A0D9000185B9 /* terrain.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81C734C61CD6A0D9000185B9 /* terrain.frag */; };
+		81C734C91CD6A0D9000185B9 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81C734C71CD6A0D9000185B9 /* terrain.vert */; };
+		81C734CC1CD6A11A000185B9 /* plane.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81C734CA1CD6A11A000185B9 /* plane.frag */; };
+		81C734CD1CD6A11A000185B9 /* plane.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81C734CB1CD6A11A000185B9 /* plane.vert */; };
+		81C734CF1CD6A46E000185B9 /* Terrain_50000.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81C734CE1CD6A46E000185B9 /* Terrain_50000.frag */; };
+		81C734D11CD6A48E000185B9 /* Terrain_50000.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 81C734D01CD6A48E000185B9 /* Terrain_50000.mtl */; };
+		81C734D51CD6B7D0000185B9 /* terrain.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C734D41CD6B7D0000185B9 /* terrain.png */; };
 		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B47949AF1BA6742B00B5E9DC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = B47949921BA6742B00B5E9DC /* config.json */; };
 		B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B47949C41BA6743D00B5E9DC /* LICENSE.txt */; };
@@ -119,14 +132,27 @@
 /* Begin PBXFileReference section */
 		540DDD751CA0024A00DE3FCC /* guy.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.frag; sourceTree = "<group>"; };
 		540DDD771CA0024A00DE3FCC /* guy.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.vert; sourceTree = "<group>"; };
-		814B3EB11CD6709F00CAD51B /* guy.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl; sourceTree = "<group>"; };
-		814B3EB21CD6709F00CAD51B /* guy.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj; sourceTree = "<group>"; };
+		814B3EB11CD6709F00CAD51B /* plane.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.mtl; sourceTree = "<group>"; };
+		814B3EB21CD6709F00CAD51B /* plane.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plane.obj; sourceTree = "<group>"; };
 		814B3EB31CD6709F00CAD51B /* s_1024_C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_C.png; sourceTree = "<group>"; };
 		814B3EB41CD6709F00CAD51B /* s_1024_I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_I.png; sourceTree = "<group>"; };
 		814B3EB51CD6709F00CAD51B /* s_1024_N.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_N.png; sourceTree = "<group>"; };
 		814B3EB61CD6709F00CAD51B /* s_1024_S.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = s_1024_S.png; sourceTree = "<group>"; };
-		814B3EBD1CD6766C00CAD51B /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
-		814B3EBE1CD6766C00CAD51B /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
+		81C734A61CD6902C000185B9 /* Color.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Color.tif; sourceTree = "<group>"; };
+		81C734A71CD6902C000185B9 /* Height_Map.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Height_Map.tif; sourceTree = "<group>"; };
+		81C734A81CD6902C000185B9 /* Light_map.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Light_map.tif; sourceTree = "<group>"; };
+		81C734A91CD6902C000185B9 /* Normal_Map.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Normal_Map.tif; sourceTree = "<group>"; };
+		81C734B71CD69788000185B9 /* Terrain_50000.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Terrain_50000.vert; sourceTree = "<group>"; };
+		81C734BF1CD6994E000185B9 /* Terrain_50000.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain_50000.obj; sourceTree = "<group>"; };
+		81C734C21CD6A0AA000185B9 /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
+		81C734C31CD6A0AA000185B9 /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
+		81C734C61CD6A0D9000185B9 /* terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.frag; sourceTree = "<group>"; };
+		81C734C71CD6A0D9000185B9 /* terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.vert; sourceTree = "<group>"; };
+		81C734CA1CD6A11A000185B9 /* plane.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
+		81C734CB1CD6A11A000185B9 /* plane.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = plane.vert; sourceTree = "<group>"; };
+		81C734CE1CD6A46E000185B9 /* Terrain_50000.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Terrain_50000.frag; sourceTree = "<group>"; };
+		81C734D01CD6A48E000185B9 /* Terrain_50000.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Terrain_50000.mtl; sourceTree = "<group>"; };
+		81C734D41CD6B7D0000185B9 /* terrain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = terrain.png; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949921BA6742B00B5E9DC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -343,10 +369,23 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-				814B3EBD1CD6766C00CAD51B /* terrain.mtl */,
-				814B3EBE1CD6766C00CAD51B /* terrain.obj */,
-				814B3EB11CD6709F00CAD51B /* guy.mtl */,
-				814B3EB21CD6709F00CAD51B /* guy.obj */,
+				81C734C61CD6A0D9000185B9 /* terrain.frag */,
+				81C734CA1CD6A11A000185B9 /* plane.frag */,
+				81C734CB1CD6A11A000185B9 /* plane.vert */,
+				81C734C71CD6A0D9000185B9 /* terrain.vert */,
+				81C734B71CD69788000185B9 /* Terrain_50000.vert */,
+				81C734D01CD6A48E000185B9 /* Terrain_50000.mtl */,
+				81C734BF1CD6994E000185B9 /* Terrain_50000.obj */,
+				81C734C21CD6A0AA000185B9 /* terrain.mtl */,
+				81C734CE1CD6A46E000185B9 /* Terrain_50000.frag */,
+				81C734C31CD6A0AA000185B9 /* terrain.obj */,
+				81C734A61CD6902C000185B9 /* Color.tif */,
+				81C734A71CD6902C000185B9 /* Height_Map.tif */,
+				81C734A81CD6902C000185B9 /* Light_map.tif */,
+				81C734D41CD6B7D0000185B9 /* terrain.png */,
+				81C734A91CD6902C000185B9 /* Normal_Map.tif */,
+				814B3EB11CD6709F00CAD51B /* plane.mtl */,
+				814B3EB21CD6709F00CAD51B /* plane.obj */,
 				814B3EB31CD6709F00CAD51B /* s_1024_C.png */,
 				814B3EB41CD6709F00CAD51B /* s_1024_I.png */,
 				814B3EB51CD6709F00CAD51B /* s_1024_N.png */,
@@ -672,20 +711,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				814B3EB81CD6709F00CAD51B /* guy.obj in Resources */,
+				81C734CC1CD6A11A000185B9 /* plane.frag in Resources */,
+				814B3EB81CD6709F00CAD51B /* plane.obj in Resources */,
 				814B3EBC1CD6709F00CAD51B /* s_1024_S.png in Resources */,
+				81C734C91CD6A0D9000185B9 /* terrain.vert in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
-				814B3EBF1CD6766C00CAD51B /* terrain.mtl in Resources */,
+				81C734C81CD6A0D9000185B9 /* terrain.frag in Resources */,
 				814B3EB91CD6709F00CAD51B /* s_1024_C.png in Resources */,
+				81C734D51CD6B7D0000185B9 /* terrain.png in Resources */,
+				81C734CF1CD6A46E000185B9 /* Terrain_50000.frag in Resources */,
 				540DDD781CA0024A00DE3FCC /* guy.frag in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
+				81C734B91CD69788000185B9 /* Terrain_50000.vert in Resources */,
+				81C734D11CD6A48E000185B9 /* Terrain_50000.mtl in Resources */,
+				81C734AC1CD6902C000185B9 /* Light_map.tif in Resources */,
+				81C734AB1CD6902C000185B9 /* Height_Map.tif in Resources */,
 				814B3EBB1CD6709F00CAD51B /* s_1024_N.png in Resources */,
 				540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */,
+				81C734C41CD6A0AA000185B9 /* terrain.mtl in Resources */,
+				81C734AD1CD6902C000185B9 /* Normal_Map.tif in Resources */,
+				81C734AA1CD6902C000185B9 /* Color.tif in Resources */,
+				81C734C11CD6994E000185B9 /* Terrain_50000.obj in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
-				814B3EC01CD6766C00CAD51B /* terrain.obj in Resources */,
+				81C734C51CD6A0AA000185B9 /* terrain.obj in Resources */,
+				81C734CD1CD6A11A000185B9 /* plane.vert in Resources */,
 				B4CB8CD01B72E43300FE041B /* Project-Info.plist in Resources */,
-				814B3EB71CD6709F00CAD51B /* guy.mtl in Resources */,
+				814B3EB71CD6709F00CAD51B /* plane.mtl in Resources */,
 				814B3EBA1CD6709F00CAD51B /* s_1024_I.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

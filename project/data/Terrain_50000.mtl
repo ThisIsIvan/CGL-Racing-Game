@@ -1,0 +1,14 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl Terrain_50000
+Ns 29.411765
+Ka 0.000000 0.000000 0.000000
+Kd 0.552900 0.552900 0.552900
+Ks 0.024300 0.024300 0.024300
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Color.tif
+map_Bump  Normal_Map.tif
