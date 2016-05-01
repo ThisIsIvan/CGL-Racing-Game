@@ -39,9 +39,9 @@ void main()
     mediump vec3 n = normalize(normalVarying);
     
     // TODO: calculate tbn matrix, ensure it's orthonormal
-//    mediump vec3 t = ... ;
-//    mediump vec3 b = ... ;
-//    mediump mat3 tbn = ... ;
+    //    mediump vec3 t = ... ;
+    //    mediump vec3 b = ... ;
+    //    mediump mat3 tbn = ... ;
     
     // TODO: read and correctly transform normals from normal map, then use them for lighting
     
@@ -62,7 +62,7 @@ void main()
         mediump vec3 specular = Ks * clamp(specIntensity, 0.0, 1.0) * Is;
         specularResult = vec4(clamp(specular, 0.0, 1.0), 1.0);
     }
-
+    
     lowp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
     gl_FragColor = (ambientResult + diffuseResult) * color + specularResult;
 }
