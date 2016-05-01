@@ -10,12 +10,12 @@
 		540DDD781CA0024A00DE3FCC /* guy.frag in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD751CA0024A00DE3FCC /* guy.frag */; };
 		540DDD791CA0024A00DE3FCC /* guy.obj.backup in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD761CA0024A00DE3FCC /* guy.obj.backup */; };
 		540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD771CA0024A00DE3FCC /* guy.vert */; };
-		540DDD7C1CA0058A00DE3FCC /* guy.mtl.backup in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD7B1CA0058A00DE3FCC /* guy.mtl.backup */; };
+		540DDD7C1CA0058A00DE3FCC /* guy.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD7B1CA0058A00DE3FCC /* guy.mtl */; };
 		540DDD7E1CA020B700DE3FCC /* diffuse.png in Resources */ = {isa = PBXBuildFile; fileRef = 540DDD7D1CA020B700DE3FCC /* diffuse.png */; };
 		54B964A81CB259CE008843E2 /* normal3.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B964A61CB259CE008843E2 /* normal3.png */; };
 		54B964A91CB259CE008843E2 /* specular.png in Resources */ = {isa = PBXBuildFile; fileRef = 54B964A71CB259CE008843E2 /* specular.png */; };
-		81EBB20E1CD63F100052ABE2 /* guy.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB20C1CD63F100052ABE2 /* guy.mtl */; };
-		81EBB20F1CD63F100052ABE2 /* guy.obj in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB20D1CD63F100052ABE2 /* guy.obj */; };
+		81EBB2111CD6471A0052ABE2 /* guy.obj.car in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB2101CD6471A0052ABE2 /* guy.obj.car */; };
+		81EBB2131CD6472E0052ABE2 /* guy.mtl.car in Resources */ = {isa = PBXBuildFile; fileRef = 81EBB2121CD6472E0052ABE2 /* guy.mtl.car */; };
 		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B47949AF1BA6742B00B5E9DC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = B47949921BA6742B00B5E9DC /* config.json */; };
 		B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B47949C41BA6743D00B5E9DC /* LICENSE.txt */; };
@@ -119,12 +119,12 @@
 		540DDD751CA0024A00DE3FCC /* guy.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.frag; sourceTree = "<group>"; };
 		540DDD761CA0024A00DE3FCC /* guy.obj.backup */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj.backup; sourceTree = "<group>"; };
 		540DDD771CA0024A00DE3FCC /* guy.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = guy.vert; sourceTree = "<group>"; };
-		540DDD7B1CA0058A00DE3FCC /* guy.mtl.backup */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl.backup; sourceTree = "<group>"; };
+		540DDD7B1CA0058A00DE3FCC /* guy.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl; sourceTree = "<group>"; };
 		540DDD7D1CA020B700DE3FCC /* diffuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diffuse.png; sourceTree = "<group>"; };
 		54B964A61CB259CE008843E2 /* normal3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal3.png; sourceTree = "<group>"; };
 		54B964A71CB259CE008843E2 /* specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = specular.png; sourceTree = "<group>"; };
-		81EBB20C1CD63F100052ABE2 /* guy.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = guy.mtl; path = "../../../../Downloads/ferrari durch blender/guy.mtl"; sourceTree = "<group>"; };
-		81EBB20D1CD63F100052ABE2 /* guy.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = guy.obj; path = "../../../../Downloads/ferrari durch blender/guy.obj"; sourceTree = "<group>"; };
+		81EBB2101CD6471A0052ABE2 /* guy.obj.car */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.obj.car; sourceTree = "<group>"; };
+		81EBB2121CD6472E0052ABE2 /* guy.mtl.car */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = guy.mtl.car; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949921BA6742B00B5E9DC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -341,12 +341,12 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
-				81EBB20C1CD63F100052ABE2 /* guy.mtl */,
-				81EBB20D1CD63F100052ABE2 /* guy.obj */,
+				81EBB2121CD6472E0052ABE2 /* guy.mtl.car */,
+				81EBB2101CD6471A0052ABE2 /* guy.obj.car */,
 				54B964A61CB259CE008843E2 /* normal3.png */,
 				54B964A71CB259CE008843E2 /* specular.png */,
 				540DDD7D1CA020B700DE3FCC /* diffuse.png */,
-				540DDD7B1CA0058A00DE3FCC /* guy.mtl.backup */,
+				540DDD7B1CA0058A00DE3FCC /* guy.mtl */,
 				540DDD751CA0024A00DE3FCC /* guy.frag */,
 				540DDD761CA0024A00DE3FCC /* guy.obj.backup */,
 				540DDD771CA0024A00DE3FCC /* guy.vert */,
@@ -669,16 +669,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				540DDD7C1CA0058A00DE3FCC /* guy.mtl.backup in Resources */,
+				540DDD7C1CA0058A00DE3FCC /* guy.mtl in Resources */,
+				81EBB2111CD6471A0052ABE2 /* guy.obj.car in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
-				81EBB20E1CD63F100052ABE2 /* guy.mtl in Resources */,
-				81EBB20F1CD63F100052ABE2 /* guy.obj in Resources */,
 				540DDD781CA0024A00DE3FCC /* guy.frag in Resources */,
 				540DDD791CA0024A00DE3FCC /* guy.obj.backup in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				540DDD7A1CA0024A00DE3FCC /* guy.vert in Resources */,
 				54B964A91CB259CE008843E2 /* specular.png in Resources */,
 				B47949AF1BA6742B00B5E9DC /* config.json in Resources */,
+				81EBB2131CD6472E0052ABE2 /* guy.mtl.car in Resources */,
 				B4794A301BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				540DDD7E1CA020B700DE3FCC /* diffuse.png in Resources */,
 				54B964A81CB259CE008843E2 /* normal3.png in Resources */,

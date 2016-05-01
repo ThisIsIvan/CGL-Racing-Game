@@ -33,36 +33,32 @@ varying mediump vec3 tangentVarying;    // tangent in world space
 
 void main()
 {
-    lowp vec4 ambientResult = vec4(Ka * Ia, 1.0);
-    
     mediump vec4 pos = posVarying;
-    mediump vec3 n = normalize(normalVarying);
+    mediump vec3 normal = normalVarying;
     
-    // TODO: calculate tbn matrix, ensure it's orthonormal
-//    mediump vec3 t = ... ;
-//    mediump vec3 b = ... ;
-//    mediump mat3 tbn = ... ;
+    lowp vec4 ambientVarying = vec4(Ka * Ia, 1.0);
     
-    // TODO: read and correctly transform normals from normal map, then use them for lighting
-    
-    mediump vec3 l = normalize(LightPos - pos).xyz;
+    // TODO: calculate diffuse lighting
+    lowp vec4 diffuseVarying = vec4(0.0);
+    mediump vec3 n = normal;
+    mediump vec3 l = normalize(vec3(LightPos - pos));
     
     lowp float intensity = dot(n, l);
     lowp vec3 diffuse = Kd * clamp(intensity, 0.0, 1.0) * Id;
-    lowp vec4 diffuseResult = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
+    diffuseVarying = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
     
-    // If vertex is lit, calculate specular term in view space using the Blinn-Phong model
-    lowp vec4 specularResult = vec4(0.0);
+    // TODO: If vertex is lit, calculate specular term in view space using the Blinn-Phong model
+    lowp vec4 specularVarying = vec4(0.0);
     if (intensity > 0.0)
     {
-        mediump vec3 eyeVec = normalize(EyePos.xyz - pos.xyz);
-        mediump vec3 h = normalize(l + eyeVec);
+        mediump vec3 eyeVec = normalize(vec3(EyePos - pos));
+        mediump vec3 h = normalize((eyeVec + l) / length(eyeVec + l));
         
-        mediump float specIntensity = pow(max(dot(h,n), 0.0), Ns);
-        mediump vec3 specular = Ks * clamp(specIntensity, 0.0, 1.0) * Is;
-        specularResult = vec4(clamp(specular, 0.0, 1.0), 1.0);
+        mediump vec3 specular = Ks * pow(max(0.0, dot(n, h)), Ns) * Is;
+        specularVarying = vec4(clamp(specular, 0.0, 1.0), 1.0);
     }
-
-    lowp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
-    gl_FragColor = (ambientResult + diffuseResult) * color + specularResult;
+    
+    lowp vec4 color = vec4(1.0);
+    
+    gl_FragColor = color * (ambientVarying + diffuseVarying + specularVarying);
 }

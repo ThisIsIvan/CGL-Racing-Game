@@ -43,18 +43,26 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->setShaderVersionES("#version 100");
     
     // load materials and shaders before loading the model
+    //loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
+    
     ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);				// load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
     
     // load model
-    //bRenderer().getObjects()->loadObjModel("guy.obj", true, true, true, 0, false, false, guyProperties);
+    
+    
+    //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, ShaderPtr shader, PropertiesPtr properties);
+    //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
+
+    
     bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
+    //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
     // create camera
-    bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, 0.0f, 10.0f), vmml::Vector3f(0.f, 0.0f, 0.f));
+    bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, 0.0f, 10.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
     
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -140,6 +148,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         shader->setUniform("EyePos", eyePos);
         
+        shader->setUniform("LightPos2", vmml::Vector3f(0.f, 100.f, 30.5f, 1.0f));
         shader->setUniform("LightPos", vmml::Vector4f(0.f, 1.f, .5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(1.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
