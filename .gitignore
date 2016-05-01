@@ -28,3 +28,5 @@
 .DS_Store
 .pbxproj
 .xcuserstate
+.xcbkptlist
+/bRenderer_ios.xcodeproj/*
