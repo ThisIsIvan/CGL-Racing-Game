@@ -1,6 +1,6 @@
 # Blender v2.77 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib plane.mtl
+mtllib plane.mtl 
 o plane
 v -4.997300 10.244599 8.317702
 v -9.784700 6.849198 8.418801
