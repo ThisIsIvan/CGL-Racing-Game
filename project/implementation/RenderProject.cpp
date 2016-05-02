@@ -54,7 +54,7 @@ void RenderProject::initFunction()
     //loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
     
     ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
-    ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, true, true, false, false);
+    ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
     
 // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
@@ -62,6 +62,7 @@ void RenderProject::initFunction()
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
     PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
+    PropertiesPtr planeProperties = bRenderer().getObjects()->createProperties("planeProperties");
     
     // load model
     
@@ -70,13 +71,13 @@ void RenderProject::initFunction()
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
 
     
-    bRenderer().getObjects()->loadObjModel("plane.obj", false,true, guyShader, guyProperties);
-    bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, guyShader, guyProperties);
+    bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties);
+    bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, guyShader, terrainProperties);
     //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
     // create camera
-    bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, 0.0f, 0.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
+    bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, -30.0f, 100.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
     
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -106,7 +107,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
     bRenderer().getModelRenderer()->clearQueue();
     
     //// Camera Movement ////
-    updateCamera("camera", deltaTime, carIsMoving);
+    updateCamera("camera", deltaTime);
     
     /// Update render queue ///
     updateRenderQueue("camera", deltaTime);
@@ -125,13 +126,13 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    
-    if(bRenderer().getInput()->singleTapRecognized()){
-        carIsMoving = !carIsMoving;
-        gameRunning = !gameRunning;
-    }
+//    
+//    if(bRenderer().getInput()->singleTapRecognized()){
+//        carIsMoving = !carIsMoving;
+//        gameRunning = !gameRunning;
+//    }
     _time += deltaTime;
-//    float angle = _time * 0.9;
+    float angle = _time * 0.9;
 //    int timer = 1;
 //    int start = 2;
 //    
@@ -174,7 +175,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,angle/50*10.f);
     
     vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
-    modelMatrixTerrain *=planeMotion;
+    modelMatrix *= planeMotion;
 
     vmml::Matrix4f rotationMatrix = rotationX*rotationZ;
     modelMatrix *= rotationMatrix;
@@ -230,8 +231,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 //        shader[i]->setUniform("Id", vmml::Vector3f(1.f));
 //        shader[i]->setUniform("Is", vmml::Vector3f(1.f));
         shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
-        //shader[i]->setUniform("LightPos2", vmml::Vector4f(1.f, 1.f, 15.5f, 1.f));
-        shader->setUniform("Ia", vmml::Vector3f(1.f));
+        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
+        shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     
@@ -254,7 +255,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 }
 
 /* Camera movement */
-void RenderProject::updateCamera(const std::string &camera, const double &deltaTime, bool carIsMoving)
+void RenderProject::updateCamera(const std::string &camera, const double &deltaTime)
 {
     //// Adjust aspect ratio ////
     bRenderer().getObjects()->getCamera(camera)->setAspectRatio(bRenderer().getView()->getAspectRatio());
