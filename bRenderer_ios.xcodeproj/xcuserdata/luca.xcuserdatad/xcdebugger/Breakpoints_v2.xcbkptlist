@@ -47,39 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "126"
             endingLineNumber = "126"
-            landmarkName = "RenderProject::updateRenderQueue(const std::string &amp;camera, const double &amp;deltaTime)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project/implementation/RenderProject.cpp"
-            timestampString = "483833693.312474"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "RenderProject::updateRenderQueue(const std::string &amp;camera, const double &amp;deltaTime)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project/implementation/RenderProject.cpp"
-            timestampString = "483834697.051142"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "RenderProject::updateRenderQueue(const std::string &amp;camera, const double &amp;deltaTime)"
+            landmarkName = "RenderProject::terminateFunction()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -135,36 +135,36 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 //    
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
-    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
-    vmml::Matrix4f rotationZ = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopePitch()/64), vmml::Vector3f::UNIT_Z);
+//    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
+    vmml::Matrix4f rotationY = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopePitch()/50), vmml::Vector3f::UNIT_Y);
     
-    TouchMap touchMap = bRenderer().getInput()->getTouches();
-    int i = 0;
-    float rotation = 0.0f;
-    for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
-    {
-        Touch touch = t->second;
-        rotation = (touch.currentPositionX - touch.startPositionX) / 100;
-        if (++i > 1)
-            break;
-    }
-    // get input rotation
-    TouchMap touchMap2 = bRenderer().getInput()->getTouches();
-    int i2 = 0;
-    float rotation2 = 0.0f;
-    for (auto t = touchMap2.begin(); t != touchMap2.end(); ++t)
-    {
-        Touch touch = t->second;
-        rotation2 = (touch.currentPositionY - touch.startPositionY) / 100;
-        if (++i2 > 1)
-            break;
-    }
+//    TouchMap touchMap = bRenderer().getInput()->getTouches();
+//    int i = 0;
+//    float rotation = 0.0f;
+//    for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
+//    {
+//        Touch touch = t->second;
+//        rotation = (touch.currentPositionX - touch.startPositionX) / 100;
+//        if (++i > 1)
+//            break;
+//    }
+//    // get input rotation
+//    TouchMap touchMap2 = bRenderer().getInput()->getTouches();
+//    int i2 = 0;
+//    float rotation2 = 0.0f;
+//    for (auto t = touchMap2.begin(); t != touchMap2.end(); ++t)
+//    {
+//        Touch touch = t->second;
+//        rotation2 = (touch.currentPositionY - touch.startPositionY) / 100;
+//        if (++i2 > 1)
+//            break;
+//    }
     GameObject plane2 = GameObject(model2Matrix, 50.0f, aabb);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 5.5f));
-    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
-    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
+//    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
+//    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
     
     angle++;
     
@@ -173,7 +173,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
     modelMatrix *= planeMotion;
 
-    vmml::Matrix4f rotationMatrix = rotationX*rotationZ;
+    vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
     modelMatrix *= rotationMatrix;
     
     vmml::Vector3f cameraPos=bRenderer().getObjects()->getCamera("camera")->getPosition();
