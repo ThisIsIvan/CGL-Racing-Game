@@ -136,7 +136,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
 //    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
-    vmml::Matrix4f rotationY = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopePitch()/50), vmml::Vector3f::UNIT_Y);
+    float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
+    vmml::Vector3f planeRotation = vmml::Vector3f(0., pitch, 0.);
+//    vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
+      vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
     
 //    TouchMap touchMap = bRenderer().getInput()->getTouches();
 //    int i = 0;
@@ -176,12 +179,12 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
     modelMatrix *= rotationMatrix;
     
-    vmml::Vector3f cameraPos=bRenderer().getObjects()->getCamera("camera")->getPosition();
+    vmml::Vector3f cameraPos = bRenderer().getObjects()->getCamera("camera")->getPosition();
 
-    bRenderer().getObjects()->getCamera("camera")->setRotation(vmml::Vector3f((float)(0*M_PI_F/180),0.f,0.f));
+//    bRenderer().getObjects()->getCamera("camera")->setRotation(vmml::Vector3f((float)(0*M_PI_F/180),0.f,0.f));
     
-    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
-    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
+//    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
+//    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
     
     modelMatrixTerrain *= modelMatrix;
     /*** solar system ***/
@@ -211,7 +214,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         //shader[i]->setUniform("EyePos", eyePos);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
+        shader->setUniform("LightPos", vmml::Vector4f(modelMatrix.x(), modelMatrix.y()+25., modelMatrix.z()-20., 1.));
         shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
@@ -226,6 +229,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 
     shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
     bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
+    
+    bRenderer().getObjects()->getCamera("camera")->setPosition(vmml::Vector3f(-1.*modelMatrix.x(), -1.*modelMatrix.y()-20., -1.*modelMatrix.z()+100.));
     
     if (shader.get())
     {
