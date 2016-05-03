@@ -61,7 +61,7 @@ void RenderProject::initFunction()
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
     
-// load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
+    // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
@@ -73,7 +73,7 @@ void RenderProject::initFunction()
     
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, ShaderPtr shader, PropertiesPtr properties);
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
-
+    
     
     aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, guyShader, terrainProperties);
@@ -104,7 +104,7 @@ void RenderProject::loopFunction(const double &deltaTime, const double &elapsedT
     
     
     
-
+    
     /// Draw scene ///
     
     bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
@@ -132,42 +132,42 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 {
     _time += deltaTime;
     float angle = _time * 0.9;
-//    
+    //
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
-//    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
+    //    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
     vmml::Vector3f planeRotation = vmml::Vector3f(0., pitch, 0.);
-//    vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
-      vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
+    //    vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
+    vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
     
-//    TouchMap touchMap = bRenderer().getInput()->getTouches();
-//    int i = 0;
-//    float rotation = 0.0f;
-//    for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
-//    {
-//        Touch touch = t->second;
-//        rotation = (touch.currentPositionX - touch.startPositionX) / 100;
-//        if (++i > 1)
-//            break;
-//    }
-//    // get input rotation
-//    TouchMap touchMap2 = bRenderer().getInput()->getTouches();
-//    int i2 = 0;
-//    float rotation2 = 0.0f;
-//    for (auto t = touchMap2.begin(); t != touchMap2.end(); ++t)
-//    {
-//        Touch touch = t->second;
-//        rotation2 = (touch.currentPositionY - touch.startPositionY) / 100;
-//        if (++i2 > 1)
-//            break;
-//    }
+    //    TouchMap touchMap = bRenderer().getInput()->getTouches();
+    //    int i = 0;
+    //    float rotation = 0.0f;
+    //    for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
+    //    {
+    //        Touch touch = t->second;
+    //        rotation = (touch.currentPositionX - touch.startPositionX) / 100;
+    //        if (++i > 1)
+    //            break;
+    //    }
+    //    // get input rotation
+    //    TouchMap touchMap2 = bRenderer().getInput()->getTouches();
+    //    int i2 = 0;
+    //    float rotation2 = 0.0f;
+    //    for (auto t = touchMap2.begin(); t != touchMap2.end(); ++t)
+    //    {
+    //        Touch touch = t->second;
+    //        rotation2 = (touch.currentPositionY - touch.startPositionY) / 100;
+    //        if (++i2 > 1)
+    //            break;
+    //    }
     GameObject plane2 = GameObject(model2Matrix, 50.0f, aabb);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 5.5f));
-//    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
-//    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
+    //    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
+    //    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
     
     angle++;
     
@@ -175,16 +175,16 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
     modelMatrix *= planeMotion;
-
+    
     vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
     modelMatrix *= rotationMatrix;
     
     vmml::Vector3f cameraPos = bRenderer().getObjects()->getCamera("camera")->getPosition();
-
-//    bRenderer().getObjects()->getCamera("camera")->setRotation(vmml::Vector3f((float)(0*M_PI_F/180),0.f,0.f));
     
-//    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
-//    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
+    //    bRenderer().getObjects()->getCamera("camera")->setRotation(vmml::Vector3f((float)(0*M_PI_F/180),0.f,0.f));
+    
+    //    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
+    //    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
     
     modelMatrixTerrain *= modelMatrix;
     /*** solar system ***/
@@ -200,7 +200,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", modelMatrix);
         //shader->setUniform("model2Matrix", normal2Matrix);
-
+        
         
         vmml::Matrix3f normalMatrix;
         vmml::Matrix3f normalMatrixPlane;
@@ -219,14 +219,14 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
-        }
-        else
-        {
+    }
+    else
+    {
         bRenderer::log("No shader available.");
-        }
+    }
     
-        GameObject plane1 = GameObject(modelMatrix, 50.0f, aabb);
-
+    GameObject plane1 = GameObject(modelMatrix, 50.0f, aabb);
+    
     shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
     bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
     
@@ -256,7 +256,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
- 
+    
     bRenderer().getModelRenderer()->drawModel("plane", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
     //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
     ObjectManagerPtr _objManager = bRenderer().getModelRenderer()->getObjectManager();
@@ -275,16 +275,16 @@ void RenderProject::updateCamera(const std::string &camera, const double &deltaT
     //// Adjust aspect ratio ////
     bRenderer().getObjects()->getCamera(camera)->setAspectRatio(bRenderer().getView()->getAspectRatio());
     
-//    
-//    if(carIsMoving){
-//        vmml::Vector3f currentPos = bRenderer().getObjects()->getCamera(camera)->getPosition();
-//        vmml::Vector3f newPos;
-//        if(currentPos.z() < -50)
-//            newPos = vmml::Vector3f(0.0f, -20.0f, 100.0f);
-//        else
-//            newPos = bRenderer().getObjects()->getCamera(camera)->getPosition() + (float)deltaTime * velocity;
-//        bRenderer().getObjects()->getCamera(camera)->setPosition(newPos);
-//    }
+    //
+    //    if(carIsMoving){
+    //        vmml::Vector3f currentPos = bRenderer().getObjects()->getCamera(camera)->getPosition();
+    //        vmml::Vector3f newPos;
+    //        if(currentPos.z() < -50)
+    //            newPos = vmml::Vector3f(0.0f, -20.0f, 100.0f);
+    //        else
+    //            newPos = bRenderer().getObjects()->getCamera(camera)->getPosition() + (float)deltaTime * velocity;
+    //        bRenderer().getObjects()->getCamera(camera)->setPosition(newPos);
+    //    }
     
 }
 
