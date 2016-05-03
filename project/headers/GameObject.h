@@ -14,7 +14,8 @@ public:
     vmml::Matrix4f modelMatrix;
     int hitCircleDistance = 0;
     
-    GameObject(vmml::Matrix4f, float);
+    GameObject(vmml::Matrix4f, float, vmml::AABBf);
     bool collidesWith(GameObject);
+    vmml::AABBf aabb;
 };
 #endif

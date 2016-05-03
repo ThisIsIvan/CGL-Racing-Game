@@ -11,6 +11,7 @@ vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f
 double _time = 0;
 double _pitchSum;
 float angle=0.f;
+vmml::AABBf aabb;
 
 void RenderProject::init()
 {
@@ -74,7 +75,7 @@ void RenderProject::initFunction()
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
 
     
-    bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties);
+    aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, guyShader, terrainProperties);
     //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
@@ -158,7 +159,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         if (++i2 > 1)
             break;
     }
-    GameObject plane2 = GameObject(model2Matrix, 50.0f);
+    GameObject plane2 = GameObject(model2Matrix, 50.0f, aabb);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 5.5f));
@@ -188,8 +189,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     //vmml::Matrix4f
     modelMatrix = vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * modelMatrix;;
-    //bRenderer().getModelRenderer()->drawModel("plane", "camera", normal2Matrix, std::vector<std::string>({}));
-    
+    //bRenderer().getModelRenderer()->drawModel("plane", "camera", normal2Matrix, std::vector<std::string>({}));ü
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
@@ -222,13 +222,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         bRenderer::log("No shader available.");
         }
     
-        GameObject plane1 = GameObject(modelMatrix, 50.0f);
-    
-        //GameObject plane2 = GameObject(normal2Matrix, 10.0f);
+        GameObject plane1 = GameObject(modelMatrix, 50.0f, aabb);
 
     shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
     bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
-    
     
     if (shader.get())
     {
@@ -236,8 +233,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("ViewMatrix", viewMatrix);
         shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", plane2.modelMatrix);
-        //shader->setUniform("model2Matrix", normal2Matrix);
-        
         
         vmml::Matrix3f normalMatrix;
         vmml::Matrix3f normalMatrixPlane;
@@ -259,9 +254,11 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
  
     bRenderer().getModelRenderer()->drawModel("plane", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
     //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
+    ObjectManagerPtr _objManager = bRenderer().getModelRenderer()->getObjectManager();
+    //if(car1aabb.isIn(vmml::Vector3f(0.0f, 0.0f, 20.0f))){
     
     if(plane1.collidesWith(plane2)){
-        modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 1.0f, 0.0f)) * modelMatrix;
+        modelMatrix = vmml::create_translation(vmml::Vector3f(-1.0f, 0.0f, 0.0f)) * modelMatrix;
         std::cerr << "COLLISION DETECTED" <<  std::endl;
     }
     
