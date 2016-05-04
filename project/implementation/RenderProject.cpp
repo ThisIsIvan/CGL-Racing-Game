@@ -7,6 +7,7 @@
 
 /* Initialize the Project */
 vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+
 vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 100.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
 double _time = 0;
 double _pitchSum;
@@ -59,7 +60,7 @@ void RenderProject::initFunction()
     
     ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
-    ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
+    //ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
     
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
@@ -76,7 +77,7 @@ void RenderProject::initFunction()
     
     
     aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
-    bRenderer().getObjects()->loadObjModel("terrain.obj", false, true, guyShader, terrainProperties);
+    bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties);
     //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
@@ -130,8 +131,10 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
+//    glDisable(GL_CULL_FACE);
     _time += deltaTime;
     float angle = _time * 0.9;
+//    float angle = 0.;
     //
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
@@ -165,7 +168,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     GameObject plane2 = GameObject(model2Matrix, 50.0f, aabb);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
-    vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 5.5f));
+    vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f));
     //    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
     //    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
     
@@ -174,7 +177,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,angle/50*10.f);
     
     vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
-    modelMatrix *= planeMotion;
+//    modelMatrix *= planeMotion;
     
     vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
     modelMatrix *= rotationMatrix;
@@ -232,6 +235,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     bRenderer().getObjects()->getCamera("camera")->setPosition(vmml::Vector3f(-1.*modelMatrix.x(), -1.*modelMatrix.y()-20., -1.*modelMatrix.z()+100.));
     
+    shader = bRenderer().getObjects()->getShader("terrain");
+    
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
@@ -257,7 +262,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
     
-    bRenderer().getModelRenderer()->drawModel("plane", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
+    bRenderer().getModelRenderer()->drawModel("terrain", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
     //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
     ObjectManagerPtr _objManager = bRenderer().getModelRenderer()->getObjectManager();
     //if(car1aabb.isIn(vmml::Vector3f(0.0f, 0.0f, 20.0f))){
