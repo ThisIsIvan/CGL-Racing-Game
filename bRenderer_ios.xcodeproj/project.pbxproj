@@ -23,6 +23,7 @@
 		81C734CC1CD6A11A000185B9 /* plane.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81C734CA1CD6A11A000185B9 /* plane.frag */; };
 		81C734CD1CD6A11A000185B9 /* plane.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81C734CB1CD6A11A000185B9 /* plane.vert */; };
 		81C734D51CD6B7D0000185B9 /* terrain.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C734D41CD6B7D0000185B9 /* terrain.png */; };
+		A80BFF641CDA2B3900F4ADB8 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A80BFF621CDA2B3900F4ADB8 /* Car.cpp */; };
 		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B47949AF1BA6742B00B5E9DC /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = B47949921BA6742B00B5E9DC /* config.json */; };
 		B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B47949C41BA6743D00B5E9DC /* LICENSE.txt */; };
@@ -140,6 +141,8 @@
 		81C734CA1CD6A11A000185B9 /* plane.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = plane.frag; sourceTree = "<group>"; };
 		81C734CB1CD6A11A000185B9 /* plane.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = plane.vert; sourceTree = "<group>"; };
 		81C734D41CD6B7D0000185B9 /* terrain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = terrain.png; sourceTree = "<group>"; };
+		A80BFF611CDA2AB300F4ADB8 /* Car.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
+		A80BFF621CDA2B3900F4ADB8 /* Car.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949921BA6742B00B5E9DC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -342,6 +345,7 @@
 			children = (
 				8177E8EE1CD8ED20001FBFEE /* GameObject.h */,
 				B44186941BA331E300604D7F /* RenderProject.h */,
+				A80BFF611CDA2AB300F4ADB8 /* Car.h */,
 			);
 			path = headers;
 			sourceTree = "<group>";
@@ -351,6 +355,7 @@
 			children = (
 				8177E8F11CD8EF76001FBFEE /* GameObject.cpp */,
 				B44186961BA331E300604D7F /* RenderProject.cpp */,
+				A80BFF621CDA2B3900F4ADB8 /* Car.cpp */,
 			);
 			path = implementation;
 			sourceTree = "<group>";
@@ -752,6 +757,7 @@
 				B47AD6C11B827DF200AFC632 /* ftlcdfil.c in Sources */,
 				B47AD6E91B827FA900AFC632 /* autofit.c in Sources */,
 				B4794A491BA6743D00B5E9DC /* Sprite.cpp in Sources */,
+				A80BFF641CDA2B3900F4ADB8 /* Car.cpp in Sources */,
 				B4794A2B1BA6743D00B5E9DC /* platform.c in Sources */,
 				B4794A451BA6743D00B5E9DC /* Shader.cpp in Sources */,
 				B4794A4C1BA6743D00B5E9DC /* TextureData.cpp in Sources */,

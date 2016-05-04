@@ -9,15 +9,21 @@
 #include "GameObject.h"
 #include <math.h>
 
-GameObject::GameObject(vmml::Matrix4f modelMatrix, float hitCircleDistance, vmml::AABBf aabb){
+
+GameObject::GameObject(vmml::Vector3f scaling, vmml::Vector3f translation, vmml::Vector3f rotation, float angle){
+    modelMatrix = vmml::create_translation(translation) * vmml::create_scaling(scaling)* vmml::create_rotation(angle, rotation);
+    
+}
+
+GameObject::GameObject(vmml::Matrix4f modelMatrix, vmml::AABBf aabb){
     this->modelMatrix = modelMatrix;
-    this->hitCircleDistance = hitCircleDistance;
     this->aabb = aabb;
 }
 
+void init(ObjectManagerPtr ptr){
+}
+
 bool GameObject::collidesWith(GameObject obj){
-    float distance = sqrtf(powf(modelMatrix.x() - obj.modelMatrix.x(), 2.0f) + powf(modelMatrix.y() - obj.modelMatrix.y(), 2.0f) + powf(modelMatrix.z() - obj.modelMatrix.z(), 2.0f));
-    bool collides = distance <= (hitCircleDistance);
     
     float max_x = aabb.getMax().x() + modelMatrix.x();
     float max_y = aabb.getMax().y() + modelMatrix.y();
@@ -46,3 +52,4 @@ bool GameObject::collidesWith(GameObject obj){
     }
     return true;
 }
+

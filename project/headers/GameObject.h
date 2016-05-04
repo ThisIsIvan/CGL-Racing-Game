@@ -12,10 +12,11 @@
 class GameObject{
 public:
     vmml::Matrix4f modelMatrix;
-    int hitCircleDistance = 0;
-    
-    GameObject(vmml::Matrix4f, float, vmml::AABBf);
-    bool collidesWith(GameObject);
     vmml::AABBf aabb;
+    
+    GameObject(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
+    GameObject(vmml::Matrix4f, vmml::AABBf);
+    void init(ObjectManagerPtr);
+    bool collidesWith(GameObject);
 };
 #endif

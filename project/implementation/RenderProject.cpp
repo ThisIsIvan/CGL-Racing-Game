@@ -1,18 +1,19 @@
 #include "RenderProject.h"
 #include "GameObject.h"
+#include "Car.h"
 
 #ifdef __OBJC__
 #import <CoreMotion/CoreMotion.h>
 #endif
 
 /* Initialize the Project */
-vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+Car plane1 = Car(vmml::Vector3f(0.0f, 0.0f, 0.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, (float)(180*M_PI_F/180));
 
-vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 100.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 1000.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
 double _time = 0;
 double _pitchSum;
 float angle=0.f;
-vmml::AABBf aabb;
+vmml::AABBf aabb2;
 
 void RenderProject::init()
 {
@@ -76,8 +77,9 @@ void RenderProject::initFunction()
     //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
     
     
-    aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
-    bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties);
+    
+    plane1.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
+    aabb2 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
     // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
@@ -131,17 +133,13 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-//    glDisable(GL_CULL_FACE);
-    _time += deltaTime;
-    float angle = _time * 0.9;
-//    float angle = 0.;
-    //
+//    glDisable(GL_CULL_FACE);§
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
     //    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
-    vmml::Vector3f planeRotation = vmml::Vector3f(0., pitch, 0.);
-    //    vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
+    //vmml::Vector3f planeRotation = vmml::Vector3f(0., pitch, 0.);
+    //vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
     vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
     
     //    TouchMap touchMap = bRenderer().getInput()->getTouches();
@@ -165,22 +163,22 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     //        if (++i2 > 1)
     //            break;
     //    }
-    GameObject plane2 = GameObject(model2Matrix, 50.0f, aabb);
+    GameObject plane2 = GameObject(model2Matrix, aabb2);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f));
     //    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
     //    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
     
-    angle++;
-    
-    vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,angle/50*10.f);
-    
-    vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
-//    modelMatrix *= planeMotion;
-    
-    vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
-    modelMatrix *= rotationMatrix;
+    plane1.move(rotationY);
+//    
+//    vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,angle/50*10.f);
+//    
+//    vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
+//    plane1.modelMatrix = planeMotion * plane1.modelMatrix;
+//    
+//    vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
+//    plane1.modelMatrix *= rotationMatrix;
     
     vmml::Vector3f cameraPos = bRenderer().getObjects()->getCamera("camera")->getPosition();
     
@@ -189,19 +187,19 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     //    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
     //    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
     
-    modelMatrixTerrain *= modelMatrix;
+    modelMatrixTerrain *= plane1.modelMatrix;
     /*** solar system ***/
     ShaderPtr shader = bRenderer().getObjects()->getShader("guy");
     
-    //vmml::Matrix4f
-    modelMatrix = vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * modelMatrix;;
+    plane1.handleCollision(plane2);
+    
     //bRenderer().getModelRenderer()->drawModel("plane", "camera", normal2Matrix, std::vector<std::string>({}));ü
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader->setUniform("ViewMatrix", viewMatrix);
         shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
-        shader->setUniform("ModelMatrix", modelMatrix);
+        shader->setUniform("ModelMatrix", plane1.modelMatrix);
         //shader->setUniform("model2Matrix", normal2Matrix);
         
         
@@ -209,7 +207,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Matrix3f normalMatrixPlane;
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
         //vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(normal2Matrix)), normalMatrixPlane);
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrixPlane);
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
         
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
@@ -217,7 +215,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         //shader[i]->setUniform("EyePos", eyePos);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(modelMatrix.x(), modelMatrix.y()+25., modelMatrix.z()-20., 1.));
+        shader->setUniform("LightPos", vmml::Vector4f(plane1.modelMatrix.x(), plane1.modelMatrix.y()+25., plane1.modelMatrix.z()-20., 1.));
         shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
@@ -228,12 +226,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         bRenderer::log("No shader available.");
     }
     
-    GameObject plane1 = GameObject(modelMatrix, 50.0f, aabb);
-    
     shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
-    bRenderer().getModelRenderer()->drawModel("plane", "camera", modelMatrix, std::vector<std::string>({ }));
+    bRenderer().getModelRenderer()->drawModel("plane", "camera", plane1.modelMatrix, std::vector<std::string>({ }));
     
-    bRenderer().getObjects()->getCamera("camera")->setPosition(vmml::Vector3f(-1.*modelMatrix.x(), -1.*modelMatrix.y()-20., -1.*modelMatrix.z()+100.));
+    bRenderer().getObjects()->getCamera("camera")->setPosition(vmml::Vector3f(-1.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y()-20., -1.*plane1.modelMatrix.z()+100.));
     
     shader = bRenderer().getObjects()->getShader("terrain");
     
@@ -253,7 +249,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
         
         vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
-        //shader[i]->setUniform("EyePos", eyePos);
         shader->setUniform("EyePos", eyePos);
         shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
         shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
@@ -265,12 +260,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bRenderer().getModelRenderer()->drawModel("terrain", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
     //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
     ObjectManagerPtr _objManager = bRenderer().getModelRenderer()->getObjectManager();
-    //if(car1aabb.isIn(vmml::Vector3f(0.0f, 0.0f, 20.0f))){
-    
-    if(plane1.collidesWith(plane2)){
-        modelMatrix = vmml::create_translation(vmml::Vector3f(-1.0f, 0.0f, 0.0f)) * modelMatrix;
-        std::cerr << "COLLISION DETECTED" <<  std::endl;
-    }
+
     
 }
 

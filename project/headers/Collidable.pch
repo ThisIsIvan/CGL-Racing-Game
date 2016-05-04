@@ -1,0 +1,15 @@
+//
+//  Collidable.pch
+//  bRenderer_ios
+//
+//  Created by dev_lab on 04/05/16.
+//
+//
+
+#ifndef bRenderer_ios_Collidable_pch
+#define bRenderer_ios_Collidable_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif
