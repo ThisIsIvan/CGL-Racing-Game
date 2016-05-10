@@ -143,6 +143,8 @@
 		81C734D41CD6B7D0000185B9 /* terrain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = terrain.png; sourceTree = "<group>"; };
 		A80BFF611CDA2AB300F4ADB8 /* Car.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
 		A80BFF621CDA2B3900F4ADB8 /* Car.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
+		A87FAAFB1CE1FF0D0046D0F0 /* 256BYTES.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; name = 256BYTES.TTF; path = project/data/256BYTES.TTF; sourceTree = SOURCE_ROOT; };
+		A87FAAFC1CE2020B0046D0F0 /* 256BYTES.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = 256BYTES.TTF; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949921BA6742B00B5E9DC /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 		B44186951BA331E300604D7F /* implementation */ = {
 			isa = PBXGroup;
 			children = (
+				A87FAAFB1CE1FF0D0046D0F0 /* 256BYTES.TTF */,
 				8177E8F11CD8EF76001FBFEE /* GameObject.cpp */,
 				B44186961BA331E300604D7F /* RenderProject.cpp */,
 				A80BFF621CDA2B3900F4ADB8 /* Car.cpp */,
@@ -363,6 +366,7 @@
 		B47949841BA6742B00B5E9DC /* data */ = {
 			isa = PBXGroup;
 			children = (
+				A87FAAFC1CE2020B0046D0F0 /* 256BYTES.TTF */,
 				81C734C61CD6A0D9000185B9 /* terrain.frag */,
 				81C734CA1CD6A11A000185B9 /* plane.frag */,
 				81C734CB1CD6A11A000185B9 /* plane.vert */,

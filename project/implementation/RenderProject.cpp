@@ -7,7 +7,7 @@
 #endif
 
 /* Initialize the Project */
-Car plane1 = Car(vmml::Vector3f(0.0f, 0.0f, 0.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, (float)(180*M_PI_F/180));
+Car plane1 = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, (float)(180*M_PI_F/180));
 
 vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 1000.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
 double _time = 0;
@@ -19,6 +19,7 @@ void RenderProject::init()
 {
     bRenderer::loadConfigFile("config.json");	// load custom configurations replacing the default values in Configuration.cpp
     
+    FontPtr font = bRenderer().getObjects()->loadFont("/Users/dev_lab/Desktop/git/CGL-Racing-Game/project/data/256BYTES.ttf", 50);
     // let the renderer create an OpenGL context and the main window
     if(Input::isTouchDevice())
         bRenderer().initRenderer(true);										// full screen on iOS
@@ -70,18 +71,8 @@ void RenderProject::initFunction()
     PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
     PropertiesPtr planeProperties = bRenderer().getObjects()->createProperties("planeProperties");
     
-    // load model
-    
-    
-    //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, ShaderPtr shader, PropertiesPtr properties);
-    //loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties);
-    
-    
-    
-    plane1.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, guyShader, planeProperties)->getBoundingBoxObjectSpace();
+    plane1.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, planeProperties)->getBoundingBoxObjectSpace();
     aabb2 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
-    //bRenderer().getObjects()->loadObjModel("guy.obj", false, true, guyShader, guyProperties);
-    // automatically generates a shader with a maximum of 4 lights (number of lights may vary between 0 and 4 during rendering without performance loss)
     
     // create camera
     bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, -30.0f, 300.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
@@ -93,21 +84,6 @@ void RenderProject::initFunction()
 /* Draw your scene here */
 void RenderProject::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
-    //	bRenderer::log("FPS: " + std::to_string(1 / deltaTime));	// write number of frames per second to the console every frame
-    
-    //// Draw Scene and do post processing ////
-    
-    /// Begin post processing ///
-    //	GLint defaultFBO;
-    //	if (!_running){
-    //		bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 5, bRenderer().getView()->getHeight() / 5);		// reduce viewport size
-    //		defaultFBO = Framebuffer::getCurrentFramebuffer();	// get current fbo to bind it again after drawing the scene
-    //		bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture("fbo_texture1"), false);	// bind the fbo
-    //	}
-    
-    
-    
-    
     /// Draw scene ///
     
     bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
@@ -136,64 +112,41 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 //    glDisable(GL_CULL_FACE);§
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     
-    //    vmml::Matrix4f rotationX = vmml::create_rotation((float)(bRenderer().getInput()->getGyroscopeRoll()/300), vmml::Vector3f::UNIT_X);
+    //bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
+    
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
-    //vmml::Vector3f planeRotation = vmml::Vector3f(0., pitch, 0.);
-    //vmml::Matrix4f rotationY = vmml::create_rotation(planeRotation);
     vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
     
-    //    TouchMap touchMap = bRenderer().getInput()->getTouches();
-    //    int i = 0;
-    //    float rotation = 0.0f;
-    //    for (auto t = touchMap.begin(); t != touchMap.end(); ++t)
-    //    {
-    //        Touch touch = t->second;
-    //        rotation = (touch.currentPositionX - touch.startPositionX) / 100;
-    //        if (++i > 1)
-    //            break;
-    //    }
-    //    // get input rotation
-    //    TouchMap touchMap2 = bRenderer().getInput()->getTouches();
-    //    int i2 = 0;
-    //    float rotation2 = 0.0f;
-    //    for (auto t = touchMap2.begin(); t != touchMap2.end(); ++t)
-    //    {
-    //        Touch touch = t->second;
-    //        rotation2 = (touch.currentPositionY - touch.startPositionY) / 100;
-    //        if (++i2 > 1)
-    //            break;
-    //    }
     GameObject plane2 = GameObject(model2Matrix, aabb2);
+    plane1.addCollidable(plane2);
     vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
+    GLint m_viewport[4];
+    glGetIntegerv( GL_VIEWPORT, m_viewport);
+    
+    TouchMap touchMap = bRenderer().getInput()->getTouches();
+    if(touchMap.empty()){
+        plane1.decelerate();
+    }
+    else{
+        auto t = touchMap.begin();
+        Touch touch = t->second;
+        if(touch.lastPositionX > m_viewport[2]/2){
+            plane1.accelerate();
+        }
+        else{
+            plane1.brake();
+        }
+    }
+    
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f));
-    //    vmml::Matrix4f rotationMatrixPlane = vmml::create_rotation(rotation, vmml::Vector3f::UNIT_Y);
-    //    rotationMatrixPlane = vmml::create_rotation(rotation2, vmml::Vector3f::UNIT_X);
-    
     plane1.move(rotationY);
-//    
-//    vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,angle/50*10.f);
-//    
-//    vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
-//    plane1.modelMatrix = planeMotion * plane1.modelMatrix;
-//    
-//    vmml::Matrix4f rotationMatrix = /*rotationX**/rotationY;
-//    plane1.modelMatrix *= rotationMatrix;
-    
     vmml::Vector3f cameraPos = bRenderer().getObjects()->getCamera("camera")->getPosition();
-    
-    //    bRenderer().getObjects()->getCamera("camera")->setRotation(vmml::Vector3f((float)(0*M_PI_F/180),0.f,0.f));
-    
-    //    cameraPos=vmml::Vector3f(cameraPos.x()-planeChange.x()+0.0f,-planeChange.y()+cameraPos.y()-0.f,-planeChange.z()+cameraPos.z()+0.f);
-    //    bRenderer().getObjects()->getCamera("camera")->setPosition(cameraPos);
     
     modelMatrixTerrain *= plane1.modelMatrix;
     /*** solar system ***/
-    ShaderPtr shader = bRenderer().getObjects()->getShader("guy");
+    ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
     
-    plane1.handleCollision(plane2);
-    
-    //bRenderer().getModelRenderer()->drawModel("plane", "camera", normal2Matrix, std::vector<std::string>({}));ü
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
@@ -269,18 +222,6 @@ void RenderProject::updateCamera(const std::string &camera, const double &deltaT
 {
     //// Adjust aspect ratio ////
     bRenderer().getObjects()->getCamera(camera)->setAspectRatio(bRenderer().getView()->getAspectRatio());
-    
-    //
-    //    if(carIsMoving){
-    //        vmml::Vector3f currentPos = bRenderer().getObjects()->getCamera(camera)->getPosition();
-    //        vmml::Vector3f newPos;
-    //        if(currentPos.z() < -50)
-    //            newPos = vmml::Vector3f(0.0f, -20.0f, 100.0f);
-    //        else
-    //            newPos = bRenderer().getObjects()->getCamera(camera)->getPosition() + (float)deltaTime * velocity;
-    //        bRenderer().getObjects()->getCamera(camera)->setPosition(newPos);
-    //    }
-    
 }
 
 /* For iOS only: Handle device rotation */

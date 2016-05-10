@@ -11,13 +11,22 @@
 
 #include "GameObject.h"
 
+
 class Car : public GameObject{
 public:
     float speed;
     
     Car(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
-    void handleCollision(GameObject);
     void move(vmml::Matrix4f);
+    void accelerate();
+    void decelerate();
+    void brake();
+    void addCollidable(GameObject);
+
+private:
+    std::vector<GameObject> collidables;
+    
+    void handleCollision(GameObject);
 };
 
 #endif

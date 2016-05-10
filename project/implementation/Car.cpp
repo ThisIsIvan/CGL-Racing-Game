@@ -8,10 +8,11 @@
 
 #include "Car.h"
 #include "GameObject.h"
+#include <math.h>
 
 Car::Car(vmml::Vector3f scaling, vmml::Vector3f translation, vmml::Vector3f rotation, float angle) :
 GameObject(scaling, translation, rotation, angle){
-    speed = 10.f;
+    speed = 0.f;
 }
 
 void Car::handleCollision(GameObject obj){
@@ -30,4 +31,24 @@ void Car::move(vmml::Matrix4f rotationY){
     
     vmml::Matrix4f rotationMatrix = rotationY;
     modelMatrix = rotationMatrix * modelMatrix;
+    
+    for(int i = 0; i < collidables.size(); i++){
+        handleCollision(collidables.at(i));
+    }
+}
+
+void Car::accelerate(){
+    speed = speed + std::max(2., 2*std::log(speed/10.));
+}
+
+void Car::decelerate(){
+    speed = speed * .975;
+}
+
+void Car::brake(){
+    speed = std::max(0., speed - 10.);
+}
+
+void Car::addCollidable(GameObject obj){
+    collidables.push_back(obj);
 }
