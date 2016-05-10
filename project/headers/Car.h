@@ -15,12 +15,15 @@
 class Car : public GameObject{
 public:
     float speed;
+    int boost;
+    const int MAX_BOOST = 300;
     
     Car(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
     void move(vmml::Matrix4f);
     void accelerate();
     void decelerate();
     void brake();
+    void activateBoost();
     void addCollidable(GameObject);
 
 private:

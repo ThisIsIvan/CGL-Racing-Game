@@ -13,11 +13,12 @@
 Car::Car(vmml::Vector3f scaling, vmml::Vector3f translation, vmml::Vector3f rotation, float angle) :
 GameObject(scaling, translation, rotation, angle){
     speed = 0.f;
+    boost = 5;
 }
 
 void Car::handleCollision(GameObject obj){
     if(GameObject::collidesWith(obj)){
-        modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -5.f)) * modelMatrix;
+        modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -.5f)) * modelMatrix;
         speed = 0.f;
     }
 }
@@ -39,14 +40,24 @@ void Car::move(vmml::Matrix4f rotationY){
 
 void Car::accelerate(){
     speed = speed + std::max(2., 2*std::log(speed/10.));
+    boost += 1;
 }
 
 void Car::decelerate(){
     speed = speed * .975;
+    boost += 1;
 }
 
 void Car::brake(){
     speed = std::max(0., speed - 10.);
+    boost += 1;
+}
+
+void Car::activateBoost(){
+    if(boost > 10){
+        boost -= 10;
+        speed = speed + std::max(2., 10*std::log(speed/10.));
+    }
 }
 
 void Car::addCollidable(GameObject obj){

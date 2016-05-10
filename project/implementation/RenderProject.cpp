@@ -18,8 +18,7 @@ vmml::AABBf aabb2;
 void RenderProject::init()
 {
     bRenderer::loadConfigFile("config.json");	// load custom configurations replacing the default values in Configuration.cpp
-    
-    FontPtr font = bRenderer().getObjects()->loadFont("/Users/dev_lab/Desktop/git/CGL-Racing-Game/project/data/256BYTES.ttf", 50);
+   
     // let the renderer create an OpenGL context and the main window
     if(Input::isTouchDevice())
         bRenderer().initRenderer(true);										// full screen on iOS
@@ -132,7 +131,12 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         auto t = touchMap.begin();
         Touch touch = t->second;
         if(touch.lastPositionX > m_viewport[2]/2){
-            plane1.accelerate();
+            if(touch.lastPositionY < m_viewport[3] / 2){
+                plane1.activateBoost();
+            }
+            else{
+                plane1.accelerate();
+            }
         }
         else{
             plane1.brake();
