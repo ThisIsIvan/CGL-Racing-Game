@@ -14,6 +14,11 @@ double _time = 0;
 double _pitchSum;
 float angle=0.f;
 vmml::AABBf aabb2;
+vmml::Vector4f eyePos;
+vmml::Matrix4f viewMatrix;
+CubeMapPtr cubemap;
+vmml::Vector3f cameraOffset = vmml::Vector3f(0., -20., 100.); //(0., -20., 100.)
+
 
 void RenderProject::init()
 {
@@ -118,7 +123,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     GameObject plane2 = GameObject(model2Matrix, aabb2);
     plane1.addCollidable(plane2);
-    vmml::Matrix4f viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     GLint m_viewport[4];
     glGetIntegerv( GL_VIEWPORT, m_viewport);
@@ -150,6 +154,17 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     modelMatrixTerrain *= plane1.modelMatrix;
     /*** solar system ***/
     ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
+    
+    plane1.modelMatrix = vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * plane1.modelMatrix;
+    
+    vmml::Matrix3f normalMatrixPlane;
+    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
+
+    
+    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-2.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z());
+    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., -pitch, 0.);
+    bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
+    viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     if (shader.get())
     {
@@ -185,8 +200,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
     bRenderer().getModelRenderer()->drawModel("plane", "camera", plane1.modelMatrix, std::vector<std::string>({ }));
-    
-    bRenderer().getObjects()->getCamera("camera")->setPosition(vmml::Vector3f(-1.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y()-20., -1.*plane1.modelMatrix.z()+100.));
     
     shader = bRenderer().getObjects()->getShader("terrain");
     
