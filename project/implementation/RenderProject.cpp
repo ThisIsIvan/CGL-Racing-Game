@@ -161,8 +161,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
 
     
-    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-2.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z());
-    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., -pitch, 0.);
+    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z());
+    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
     bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
     viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
