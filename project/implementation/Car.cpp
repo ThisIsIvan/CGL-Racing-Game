@@ -28,10 +28,10 @@ void Car::move(vmml::Matrix4f rotationY){
     vmml::Vector3f planeChange=vmml::Vector3f(0.f,0.f,speed/50*10.f);
     
     vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
-    modelMatrix = planeMotion * modelMatrix;
+    modelMatrix *= planeMotion;
     
     vmml::Matrix4f rotationMatrix = rotationY;
-    modelMatrix = rotationMatrix * modelMatrix;
+    modelMatrix *= rotationMatrix;
     
     for(int i = 0; i < collidables.size(); i++){
         handleCollision(collidables.at(i));

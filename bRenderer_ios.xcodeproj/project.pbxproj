@@ -855,7 +855,7 @@
 					"$SRCROOT/externalLibraries/freetype-2.6/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/project/ios/Resources/Project-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -895,7 +895,7 @@
 					"$SRCROOT/externalLibraries/freetype-2.6/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/project/ios/Resources/Project-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";

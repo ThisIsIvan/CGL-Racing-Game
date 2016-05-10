@@ -46,7 +46,7 @@ bool GameObject::collidesWith(GameObject obj){
     
     
     for(int i = 0; i < 3; i++){
-        if(min[i] > omax[i]|| omin[i] > max[i]){
+        if(min[i] > omax[i] || omin[i] > max[i]){
             return false;
         }
     }

@@ -9,7 +9,7 @@
 /* Initialize the Project */
 Car plane1 = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, (float)(180*M_PI_F/180));
 
-vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 1000.f)) * vmml::create_scaling(vmml::Vector3f(1.f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, -50.0f, 100.f)) * vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 10.0f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
 double _time = 0;
 double _pitchSum;
 float angle=0.f;
@@ -161,8 +161,9 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
 
     
-    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-2.*plane1.modelMatrix.x(), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z());
-    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., -pitch, 0.);
+    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*plane1.modelMatrix.x()+50.0*sinf(pitch*60), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z()+50.*cosf(pitch*60));
+    
+    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
     bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
     viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
