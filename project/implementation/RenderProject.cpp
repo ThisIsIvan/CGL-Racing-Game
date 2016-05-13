@@ -7,9 +7,9 @@
 #endif
 
 /* Initialize the Project */
-Car plane1 = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, (float)(180*M_PI_F/180));
+Car plane1 = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, 0.f);
 
-vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, -50.0f, 100.f)) * vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 10.0f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, -50.0f, 0.f)) * vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
 double _time = 0;
 double _pitchSum;
 float angle=0.f;
@@ -119,9 +119,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     //bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
     
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
-    vmml::Matrix4f rotationY = vmml::create_rotation(pitch, vmml::Vector3f::UNIT_Y);
+    vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
     
-    GameObject plane2 = GameObject(model2Matrix, aabb2);
+    GameObject plane2 = GameObject(model2Matrix, aabb2, ObjectType::FLOOR);
+    plane1.clearCollidables();
     plane1.addCollidable(plane2);
     
     GLint m_viewport[4];
@@ -159,12 +160,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     vmml::Matrix3f normalMatrixPlane;
     vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
-
+    vmml::Matrix4f cacheMatrix = vmml::create_translation(vmml::Vector3f(-sin(pitch)*2500, 0.0f, 0.0f)) * plane1.modelMatrix;
     
-    vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*plane1.modelMatrix.x()+50.0*sinf(pitch*60), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z()+50.*cosf(pitch*60));
+    if(plane1.speed > 0){
+        vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*cacheMatrix.x(), -1.*cacheMatrix.y(), -1.*cacheMatrix.z());
+        bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
+        bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
+    }
+    //vmml::Vector3f(-10.*plane1.modelMatrix.x()+50.0*sinf(pitch*60), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z()+50.*cosf(pitch*60));
     
-    bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
-    bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
     viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     if (shader.get())

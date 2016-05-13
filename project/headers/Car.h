@@ -25,6 +25,7 @@ public:
     void brake();
     void activateBoost();
     void addCollidable(GameObject);
+    void clearCollidables();
 
 private:
     std::vector<GameObject> collidables;

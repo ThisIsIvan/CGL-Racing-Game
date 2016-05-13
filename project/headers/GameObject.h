@@ -6,6 +6,7 @@
 //
 //
 #include "bRenderer.h"
+#include "ObjectType.h"
 
 #ifndef bRenderer_ios_object_h
 #define bRenderer_ios_object_h
@@ -14,9 +15,12 @@ public:
     vmml::Matrix4f modelMatrix;
     vmml::AABBf aabb;
     
-    GameObject(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
-    GameObject(vmml::Matrix4f, vmml::AABBf);
+    GameObject(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float, ObjectType);
+    GameObject(vmml::Matrix4f, vmml::AABBf, ObjectType);
     void init(ObjectManagerPtr);
     bool collidesWith(GameObject);
+    ObjectType getType();
+private:
+    ObjectType type;
 };
 #endif
