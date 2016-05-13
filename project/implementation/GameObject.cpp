@@ -50,6 +50,7 @@ bool GameObject::collidesWith(GameObject obj){
     float omax[] = {omax_x, omax_y,omax_z};
     float omin[] = {omin_x, omin_y,omin_z};
     
+    
     for(int i = 0; i < 3; i++){
         if(min[i] > omax[i] || omin[i] > max[i]){
             return false;

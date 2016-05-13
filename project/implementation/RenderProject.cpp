@@ -119,7 +119,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 {
     _time += deltaTime;
 //    glDisable(GL_CULL_FACE);
-    FontPtr font = bRenderer().getObjects()->loadFont("Capture_it.ttf", 10);
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
     vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
