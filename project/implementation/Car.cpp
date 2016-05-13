@@ -27,6 +27,7 @@ void Car::handleCollision(GameObject obj){
                 speed = 0.f;
                 break;
             case ObjectType::CHECKPOINT:
+                std::cout << "CHECKPOINT PASSED U  FUCK" << std::endl;
                 break;
             default:
                 break;

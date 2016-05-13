@@ -9,15 +9,19 @@
 /* Initialize the Project */
 Car plane1 = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, 0.f);
 
-vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.0f, -50.0f, 0.f)) * vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f))* vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+vmml::Matrix4f model2Matrix = vmml::create_translation(vmml::Vector3f(0.f, -20.0f, 1000.f)) * vmml::create_scaling(vmml::Vector3f(20.0f, 20.0f, 20.0f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);;
+
+vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, -20.0f, 1000.f)) *  vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z);
+                                                    
 double _time = 0;
 double _pitchSum;
 float angle=0.f;
 vmml::AABBf aabb2;
+vmml::AABBf aabb3;
 vmml::Vector4f eyePos;
 vmml::Matrix4f viewMatrix;
 CubeMapPtr cubemap;
-vmml::Vector3f cameraOffset = vmml::Vector3f(0., -20., 100.); //(0., -20., 100.)
+vmml::Vector3f cameraOffset = vmml::Vector3f(0., -20., 100.);
 
 
 void RenderProject::init()
@@ -49,8 +53,7 @@ void RenderProject::initFunction()
     carIsMoving = false;
     gameRunning = false;
     velocity = vmml::Vector3f(0.0f, 0.0f, -20.0f);
-    
-    
+
     _offset = 0.0f;
     _randomOffset = 0.0f;
     _cameraSpeed = 40.0f;
@@ -64,7 +67,7 @@ void RenderProject::initFunction()
     // load materials and shaders before loading the model
     //loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
     
-    ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
+    //ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     //ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
     
@@ -76,7 +79,8 @@ void RenderProject::initFunction()
     PropertiesPtr planeProperties = bRenderer().getObjects()->createProperties("planeProperties");
     
     plane1.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, planeProperties)->getBoundingBoxObjectSpace();
-    aabb2 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     
     // create camera
     bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, -30.0f, 300.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
@@ -113,17 +117,18 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-//    glDisable(GL_CULL_FACE);§
+    _time += deltaTime;
+//    glDisable(GL_CULL_FACE);
+    FontPtr font = bRenderer().getObjects()->loadFont("Capture_it.ttf", 10);
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
-    
-    //bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), "Press space to start", font);
-    
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
     vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
     
-    GameObject plane2 = GameObject(model2Matrix, aabb2, ObjectType::FLOOR);
+    GameObject plane2 = GameObject(model2Matrix, aabb2, ObjectType::CHECKPOINT);
+    GameObject terr = GameObject(terrainMM, aabb3, ObjectType::FLOOR);
     plane1.clearCollidables();
     plane1.addCollidable(plane2);
+    plane1.addCollidable(terr);
     
     GLint m_viewport[4];
     glGetIntegerv( GL_VIEWPORT, m_viewport);
@@ -145,18 +150,16 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         }
         else{
             plane1.brake();
+            std::cout << _time << std::endl;
         }
     }
     
     vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f));
     plane1.move(rotationY);
-    vmml::Vector3f cameraPos = bRenderer().getObjects()->getCamera("camera")->getPosition();
     
     modelMatrixTerrain *= plane1.modelMatrix;
     /*** solar system ***/
     ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
-    
-    plane1.modelMatrix = vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f)) * plane1.modelMatrix;
     
     vmml::Matrix3f normalMatrixPlane;
     vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(plane1.modelMatrix)), normalMatrixPlane);
@@ -167,8 +170,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
         bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
     }
-    //vmml::Vector3f(-10.*plane1.modelMatrix.x()+50.0*sinf(pitch*60), -1.*plane1.modelMatrix.y(), -1.*plane1.modelMatrix.z()+50.*cosf(pitch*60));
-    
     viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     if (shader.get())
@@ -202,11 +203,37 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     {
         bRenderer::log("No shader available.");
     }
-    
-    shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrixTerrain));
+
     bRenderer().getModelRenderer()->drawModel("plane", "camera", plane1.modelMatrix, std::vector<std::string>({ }));
-    
     shader = bRenderer().getObjects()->getShader("terrain");
+    
+    if (shader.get())
+    {
+        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+        shader->setUniform("ViewMatrix", viewMatrix);
+        shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
+        shader->setUniform("ModelMatrix", terr.modelMatrix);
+        
+        vmml::Matrix3f normalMatrix;
+        vmml::Matrix3f normalMatrixPlane;
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(terr.modelMatrix)), normalMatrixPlane);
+        
+        shader->setUniform("NormalMatrix", normalMatrix);
+        shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
+        
+        vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
+        shader->setUniform("EyePos", eyePos);
+        shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
+        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
+        shader->setUniform("Ia", vmml::Vector3f(5.f));
+        shader->setUniform("Id", vmml::Vector3f(1.f));
+        shader->setUniform("Is", vmml::Vector3f(1.f));
+    }
+    
+    bRenderer().getModelRenderer()->drawModel("terrain", "camera", terr.modelMatrix, std::vector<std::string>({ }));
+    
+    shader = bRenderer().getObjects()->getShader("cp");
     
     if (shader.get())
     {
@@ -232,12 +259,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
     
-    bRenderer().getModelRenderer()->drawModel("terrain", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
-    //shader->setUniform("NormalMatrix", vmml::Matrix3f(modelMatrix));
-    ObjectManagerPtr _objManager = bRenderer().getModelRenderer()->getObjectManager();
-
-    
-}
+    bRenderer().getModelRenderer()->drawModel("cp", "camera", plane2.modelMatrix, std::vector<std::string>({ }));
+ }
 
 /* Camera movement */
 void RenderProject::updateCamera(const std::string &camera, const double &deltaTime)

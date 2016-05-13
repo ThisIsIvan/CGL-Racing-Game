@@ -25,7 +25,6 @@ void init(ObjectManagerPtr ptr){
 }
 
 bool GameObject::collidesWith(GameObject obj){
-    
     vmml::Matrix4f bbMin = vmml::create_translation(aabb.getMin()) * modelMatrix;
     vmml::Matrix4f bbMax = vmml::create_translation(aabb.getMax()) * modelMatrix;
     
