@@ -1,4 +1,3 @@
-
 uniform highp mat4 ViewMatrix;
 uniform highp mat4 ModelMatrix;
 uniform highp mat4 ProjectionMatrix;
@@ -70,5 +69,5 @@ void main()
     }
     
     lowp vec4 color = texture2DProj(DiffuseMap, texCoordVarying);
-    gl_FragColor = /*vec4(0.0, 1.0, 1.0, 1.0); /* (ambientResult + diffuseResult)*/  color /* + specularResult*/;
+    gl_FragColor = /*vec4(0.0, 0.0, 1.0, 1.0);*/ /* (ambientResult + diffuseResult) */ color /*+ specularResult*/;
 }

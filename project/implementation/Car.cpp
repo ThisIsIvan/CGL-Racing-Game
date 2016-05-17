@@ -37,7 +37,7 @@ void Car::handleCollision(GameObject obj){
 
 void Car::move(vmml::Matrix4f rotationY){
     if(speed > 0){
-        vmml::Vector3f planeChange=vmml::Vector3f(0.f, -1.f, speed/50*10.f);
+        vmml::Vector3f planeChange=vmml::Vector3f(0.f, -1.f, speed/50*1.f);
     
         vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
         modelMatrix *= planeMotion;

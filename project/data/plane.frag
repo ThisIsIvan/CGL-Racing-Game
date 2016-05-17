@@ -64,5 +64,5 @@ void main()
     }
     
     highp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
-    gl_FragColor = (ambientResult + diffuseResult) * color + specularResult;
+    gl_FragColor = /*(ambientResult + diffuseResult) */ color /*+ specularResult*/;
 }
