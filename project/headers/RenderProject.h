@@ -44,6 +44,8 @@ public:
         return bRenderer();
     }
     
+    void showCPPassedText(ObjectManagerPtr, vmml::Matrix4f);
+    
 private:
     
     // draw sphere at origin of current reference frame

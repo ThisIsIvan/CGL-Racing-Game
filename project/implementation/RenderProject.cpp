@@ -25,6 +25,7 @@ vmml::Vector4f eyePos;
 vmml::Matrix4f viewMatrix;
 CubeMapPtr cubemap;
 vmml::Vector3f cameraOffset = vmml::Vector3f(0., -2., 3.5);
+FontPtr font;
 
 
 void RenderProject::init()
@@ -37,8 +38,6 @@ void RenderProject::init()
     else
         bRenderer().initRenderer(1920, 1080, false, "Assignment 6");		// windowed mode on desktop
     //bRenderer().initRenderer(View::getScreenWidth(), View::getScreenHeight(), true);		// full screen using full width and height of the screen
-    
-    
     
     // start main loop
     bRenderer().runRenderer();
@@ -62,6 +61,8 @@ void RenderProject::initFunction()
     _cameraSpeed = 40.0f;
     _running = true; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
     _viewMatrixHUD = Camera::lookAt(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
+    
+    font = bRenderer().getObjects()->loadFont("Capture_it.ttf", 20);
     
     // set shader versions (optional)
     bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
@@ -97,9 +98,9 @@ void RenderProject::initFunction()
 void RenderProject::loopFunction(const double &deltaTime, const double &elapsedTime)
 {
     /// Draw scene ///
-    
     bRenderer().getModelRenderer()->drawQueue(/*GL_LINES*/);
     bRenderer().getModelRenderer()->clearQueue();
+    
     
     //// Camera Movement ////
     updateCamera("camera", deltaTime);
@@ -126,6 +127,9 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
     vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
+    
+    std::ostringstream timeString;
+    timeString << _time;
     
     GameObject plane2 = GameObject(model2Matrix, aabb2, ObjectType::CHECKPOINT);
     GameObject road = GameObject(model3Matrix, aabb4, ObjectType::FLOOR);
@@ -174,8 +178,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*cacheMatrix.x(), -1.*cacheMatrix.y(), -1.*cacheMatrix.z());
         bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
         bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
+        vmml::Matrix4f textMatrix = vmml::create_translation(vmml::Vector3f(-camPosition.x(), -camPosition.y(), -camPosition.z() + 10.0f));
+        
+        std::cout << "TIME: " << timeString.str() << std::endl;
+        bRenderer().getObjects()->removeTextSprite("instructions", true);
+        bRenderer().getObjects()->createTextSprite("instructions", vmml::Vector3f(1.f, 1.f, 1.f), timeString.str(), font);
+        bRenderer().getModelRenderer()->drawText("instructions", "camera", textMatrix, std::vector<std::string>({ }), false);
     }
     viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
+    
     //draw vehicle
     if (shader.get())
     {
@@ -344,4 +355,10 @@ void RenderProject::appWillTerminate()
 /* Helper functions */
 GLfloat RenderProject::randomNumber(GLfloat min, GLfloat max){
     return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
+}
+
+void RenderProject::showCPPassedText(ObjectManagerPtr ptr, vmml::Matrix4f textMatrix){
+    bRenderer().getObjects()->removeTextSprite("cp", true);
+    bRenderer().getObjects()->createTextSprite("cp", vmml::Vector3f(1.f, 1.f, 1.f), "Checkpoint passed", font);
+    bRenderer().getModelRenderer()->drawText("cp", "camera", textMatrix, std::vector<std::string>({ }), false);
 }
