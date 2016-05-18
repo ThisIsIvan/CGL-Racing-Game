@@ -11,15 +11,15 @@
 
 #include "GameObject.h"
 
-
 class Car : public GameObject{
 public:
     float speed;
     int boost;
     const int MAX_BOOST = 300;
+    const int MAX_SPEED = 120;
     
     Car(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
-    void move(vmml::Matrix4f);
+    bool move(vmml::Matrix4f);
     void accelerate();
     void decelerate();
     void brake();
@@ -30,7 +30,7 @@ public:
 private:
     std::vector<GameObject> collidables;
     
-    void handleCollision(GameObject);
+    bool handleCollision(GameObject);
 };
 
 #endif

@@ -44,7 +44,7 @@ public:
         return bRenderer();
     }
     
-    void showCPPassedText(ObjectManagerPtr, vmml::Matrix4f);
+    void showCPPassedText();
     
 private:
     
@@ -59,7 +59,13 @@ private:
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
-
+    
+    void updateTimeText(std::string);
+    
+    void updateSpeedText(std::string);
+    
+    void drawStartText();
+    
 	/* Variables */
 	GLfloat _randomOffset;
 	GLfloat _offset;

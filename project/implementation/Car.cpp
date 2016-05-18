@@ -8,6 +8,7 @@
 
 #include "Car.h"
 #include "GameObject.h"
+#include "ObjectType.h"
 #include <math.h>
 
 Car::Car(vmml::Vector3f scaling, vmml::Vector3f translation, vmml::Vector3f rotation, float angle) :
@@ -16,7 +17,7 @@ GameObject(scaling, translation, rotation, angle, ObjectType::NORMAL){
     boost = 5;
 }
 
-void Car::handleCollision(GameObject obj){
+bool Car::handleCollision(GameObject obj){
     if(GameObject::collidesWith(obj)){
         switch(obj.getType()){
             case ObjectType::FLOOR:
@@ -27,17 +28,20 @@ void Car::handleCollision(GameObject obj){
                 speed = 0.f;
                 break;
             case ObjectType::CHECKPOINT:
-                
                 break;
             default:
                 break;
         }
+        
+        return true;
     }
+    return false;
 }
 
-void Car::move(vmml::Matrix4f rotationY){
+bool Car::move(vmml::Matrix4f rotationY){
+    bool checkPointPassed = false;
     if(speed > 0){
-        vmml::Vector3f planeChange=vmml::Vector3f(0.f, -1.f, speed/50*1.f);
+        vmml::Vector3f planeChange=vmml::Vector3f(0.f, -1.f, speed/100.f);
     
         vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
         modelMatrix *= planeMotion;
@@ -46,20 +50,24 @@ void Car::move(vmml::Matrix4f rotationY){
         modelMatrix *= rotationMatrix;
     
         for(int i = 0; i < collidables.size(); i++){
-            handleCollision(collidables.at(i));
+            if(handleCollision(collidables.at(i)) && collidables.at(i).getType() == ObjectType::CHECKPOINT){
+                checkPointPassed = true;
+            };
         }
     }
+    
+    return checkPointPassed;
 }
 
 void Car::accelerate(){
-    speed = speed + std::max(2., 2*std::log(speed/10.));
+    speed = speed + std::max(2., 2*std::log(speed/10.)/2.);
+    speed = std::min((float)MAX_SPEED, speed);
     boost += 1;
 }
 
 void Car::decelerate(){
-    speed = speed * .975;
-    boost += 1;
-}
+    speed = speed * .99;
+    boost += 1;}
 
 void Car::brake(){
     speed = std::max(0., speed - 10.);
@@ -70,6 +78,10 @@ void Car::activateBoost(){
     if(boost > 10){
         boost -= 10;
         speed = speed + std::max(2., 10*std::log(speed/10.));
+        speed = std::min(1.1f * MAX_SPEED, speed);
+    }
+    else{
+        decelerate();
     }
 }
 
