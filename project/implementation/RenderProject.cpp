@@ -7,13 +7,13 @@
 #endif
 
 /* Initialize the Project */
-Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(1.f),  vmml::Vector3f::UNIT_Z, 0.f);
+Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(0.f, 0.f, 0.f),  vmml::Vector3f::UNIT_Z, 0.f);
 
 vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
 
-vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f))*vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
 
-vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) /*  vmml::create_rotation((float)(180*M_PI_F/180), vmml::Vector3f::UNIT_Z)*/;
+vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
 
 double _time = 0;
 double _pitchSum;
@@ -24,7 +24,8 @@ vmml::AABBf aabb4;
 vmml::Vector4f eyePos;
 vmml::Matrix4f viewMatrix;
 CubeMapPtr cubemap;
-vmml::Vector3f cameraOffset = vmml::Vector3f(0., -2., 3.5);
+vmml::Vector3f cameraOffset = vmml::Vector3f(0., -1.67, 0.);
+//vmml::Vector3f cameraOffset = vmml::Vector3f(0., 2., 15.f);
 FontPtr font;
 FontPtr font2;
 bool isRunning = false;
@@ -91,7 +92,7 @@ void RenderProject::initFunction()
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     
     // create camera
-    bRenderer().getObjects()->createCamera("camera", vmml::Vector3f(0.0f, -3.0f, 3.0f), vmml::Vector3f(0.0f, 0.0f, 0.0f));
+    bRenderer().getObjects()->createCamera("camera");
     
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -125,10 +126,10 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
-    glDisable(GL_CULL_FACE);
-    _pitchSum += bRenderer().getInput()->getGyroscopePitch()* 1.0f;
-    float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/50);
-    vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
+//    glDisable(GL_CULL_FACE);
+    
+    float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
+    CameraPtr cameraPtr = bRenderer().getObjects()->getCamera("camera");
     
     GameObject checkpoint = GameObject(checkpointMatrix, aabb2, ObjectType::CHECKPOINT);
     GameObject road = GameObject(roadMatrix, aabb4, ObjectType::FLOOR);
@@ -140,6 +141,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     GLint m_viewport[4];
     glGetIntegerv( GL_VIEWPORT, m_viewport);
+    
     
     TouchMap touchMap = bRenderer().getInput()->getTouches();
     if(touchMap.empty()){
@@ -164,27 +166,11 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
             std::cout << _time << std::endl;
         }
     }
+    
+    vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
     if(car.move(rotationY)){
         showCPPassedText();
     };
-    
-    vmml::Matrix4f modelMatrixTerrain = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, 0.f));
-    
-    modelMatrixTerrain *= car.modelMatrix;
-    /*** solar system ***/
-    ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
-    
-    vmml::Matrix3f normalMatrixPlane;
-    vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrixPlane);
-    vmml::Matrix4f cacheMatrix = vmml::create_translation(vmml::Vector3f(-sin(pitch)*25, 0.0f, 0.0f)) * car.modelMatrix;
-    
-    if(car.speed > 0){
-        vmml::Vector3f camPosition = cameraOffset + vmml::Vector3f(-1.*cacheMatrix.x(), -1.*cacheMatrix.y(), -1.*cacheMatrix.z());
-        bRenderer().getObjects()->getCamera("camera")->rotateCamera(0., pitch, 0.);
-        bRenderer().getObjects()->getCamera("camera")->setPosition(camPosition);
-        //vmml::create_translation(vmml::Vector3f(-camPosition.x(), -camPosition.y(), -camPosition.z() + 10.0f));
-    }
-    viewMatrix = bRenderer().getObjects()->getCamera("camera")->getViewMatrix();
     
     if(isRunning){
         _time += deltaTime;
@@ -200,30 +186,26 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     else{
         drawStartText();
     }
+    
+    vmml::compute_inverse(car.modelMatrix, viewMatrix);
+    viewMatrix *= vmml::create_translation(cameraOffset);
+    
+    ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
+    vmml::Vector3f camTranslation = car.modelMatrix.get_translation();
+    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
+    
     //draw vehicle
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", car.modelMatrix);
-        //shader->setUniform("checkpointMatrix", normal2Matrix);
-        
         
         vmml::Matrix3f normalMatrix;
-        vmml::Matrix3f normalMatrixPlane;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
-        //vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(normal2Matrix)), normalMatrixPlane);
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrixPlane);
-        
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
-        
-        vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
-        //shader[i]->setUniform("EyePos", eyePos);
         shader->setUniform("EyePos", eyePos);
         shader->setUniform("LightPos", vmml::Vector4f(car.modelMatrix.x(), car.modelMatrix.y()+25., car.modelMatrix.z()-20., 1.));
-        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
@@ -234,56 +216,46 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     }
     
     bRenderer().getModelRenderer()->drawModel("plane", "camera", car.modelMatrix, std::vector<std::string>({ }));
+    
     //draw terrain
     shader = bRenderer().getObjects()->getShader("terrain");
+    camTranslation = terr.modelMatrix.get_translation();
+    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
     
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", terr.modelMatrix);
         
         vmml::Matrix3f normalMatrix;
-        vmml::Matrix3f normalMatrixPlane;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(terr.modelMatrix)), normalMatrixPlane);
-        
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(terr.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
-        
-        vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
         shader->setUniform("EyePos", eyePos);
         shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
-        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
     
     bRenderer().getModelRenderer()->drawModel("terrain", "camera", terr.modelMatrix, std::vector<std::string>({ }));
+    
     //draw Checkpoint
     shader = bRenderer().getObjects()->getShader("cp");
+    camTranslation = checkpoint.modelMatrix.get_translation();
+    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
     
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", checkpoint.modelMatrix);
         
         vmml::Matrix3f normalMatrix;
-        vmml::Matrix3f normalMatrixPlane;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(checkpoint.modelMatrix)), normalMatrixPlane);
-        
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(checkpoint.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
-        
-        vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         shader->setUniform("EyePos", eyePos);
         shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
-        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
@@ -293,25 +265,19 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     //draw road
     shader = bRenderer().getObjects()->getShader("road");
+    camTranslation = road.modelMatrix.get_translation();
+    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
         shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("modelMatrixTerrain", modelMatrixTerrain);
         shader->setUniform("ModelMatrix", road.modelMatrix);
         
         vmml::Matrix3f normalMatrix;
-        vmml::Matrix3f normalMatrixPlane;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrixTerrain)), normalMatrix);
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(road.modelMatrix)), normalMatrixPlane);
-        
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(road.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("NormalMatrixPlane", normalMatrixPlane);
-        
-        vmml::Vector4f eyePos = vmml::Vector4f(0.0f, 0.0f, 10.0f, 1.0f);
         shader->setUniform("EyePos", eyePos);
         shader->setUniform("LightPos", vmml::Vector4f(.5f, 100.f, 30.5f, 1.f));
-        shader->setUniform("LightPos2", vmml::Vector4f(1.f, 100.f, 15.5f, 1.f));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
