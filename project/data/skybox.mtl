@@ -1,0 +1,56 @@
+﻿# Blender MTL File: 'skybox.obj'
+# Material Count: 6
+
+newmtl Material~0
+Kd 0.7 0.7 0.7
+Ka 0 0 0
+Ks 0 0 0
+d 1
+
+newmtl skybox_country_paths_back
+Ns 96.078431
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+d 1.000000
+map_Kd rightright_test.png
+
+newmtl skybox_country_paths_bottom
+Ns 96.078431
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+d 1.000000
+map_Kd bottom_test.jpg
+
+newmtl skybox_country_paths_front
+Ns 96.078431
+Ka 0.669952 0.669952 0.669952
+Kd 0.580868 0.580868 0.580868
+Ks 0.600330 0.600330 0.600330
+d 1.000000
+map_Kd middle_test.png
+
+newmtl skybox_country_paths_left
+Ns 96.078431
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+d 1.000000
+map_Kd left_test.png
+
+newmtl skybox_country_paths_right
+Ns 96.078431
+Ka 0.678336 0.678336 0.678336
+Kd 0.967581 0.967581 0.967581
+Ks 1.000000 1.000000 1.000000
+d 1.000000
+map_Kd right_test.png
+
+newmtl skybox_country_paths_top
+Ns 96.078431
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+d 1.000000
+map_Kd top.jpg
