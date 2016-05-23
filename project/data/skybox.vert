@@ -1,12 +1,12 @@
-uniform mediump mat4 ViewMatrix;
-uniform mediump mat4 ModelMatrix;
-uniform mediump mat4 ProjectionMatrix;
+uniform lowp mat4 ViewMatrix;
+uniform lowp mat4 ModelMatrix;
+uniform lowp mat4 ProjectionMatrix;
 
-varying highp vec4 texCoordVarying;
-varying highp vec4 posVarying;
-
-attribute vec4 TexCoord;
 attribute vec4 Position;
+attribute vec4 TexCoord;
+
+varying lowp vec4 texCoordVarying;
+varying lowp vec4 posVarying;
 
 void main()
 {

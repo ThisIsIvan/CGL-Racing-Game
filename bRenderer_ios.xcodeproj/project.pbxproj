@@ -31,7 +31,7 @@
 		818FBD591CF0E8F600CBA491 /* skybox.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD4F1CF0E8F600CBA491 /* skybox.mtl */; };
 		818FBD5A1CF0E8F600CBA491 /* skybox.obj in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD501CF0E8F600CBA491 /* skybox.obj */; };
 		818FBD5B1CF0E8F600CBA491 /* skybox.vert in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD511CF0E8F600CBA491 /* skybox.vert */; };
-		818FBD5C1CF0E8F600CBA491 /* skyrender0001.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD521CF0E8F600CBA491 /* skyrender0001.bmp */; };
+		818FBD5C1CF0E8F600CBA491 /* skyrender_right.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD521CF0E8F600CBA491 /* skyrender_right.bmp */; };
 		818FBD5D1CF0E8F600CBA491 /* skyrender0002.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD531CF0E8F600CBA491 /* skyrender0002.bmp */; };
 		818FBD5E1CF0E8F600CBA491 /* skyrender_top.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD541CF0E8F600CBA491 /* skyrender_top.bmp */; };
 		818FBD5F1CF0E8F600CBA491 /* skyrender0004.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 818FBD551CF0E8F600CBA491 /* skyrender0004.bmp */; };
@@ -207,7 +207,7 @@
 		818FBD4F1CF0E8F600CBA491 /* skybox.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skybox.mtl; sourceTree = "<group>"; };
 		818FBD501CF0E8F600CBA491 /* skybox.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skybox.obj; sourceTree = "<group>"; };
 		818FBD511CF0E8F600CBA491 /* skybox.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = skybox.vert; sourceTree = "<group>"; };
-		818FBD521CF0E8F600CBA491 /* skyrender0001.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skyrender0001.bmp; sourceTree = "<group>"; };
+		818FBD521CF0E8F600CBA491 /* skyrender_right.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skyrender_right.bmp; sourceTree = "<group>"; };
 		818FBD531CF0E8F600CBA491 /* skyrender0002.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skyrender0002.bmp; sourceTree = "<group>"; };
 		818FBD541CF0E8F600CBA491 /* skyrender_top.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skyrender_top.bmp; sourceTree = "<group>"; };
 		818FBD551CF0E8F600CBA491 /* skyrender0004.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skyrender0004.bmp; sourceTree = "<group>"; };
@@ -530,7 +530,7 @@
 				818FBD511CF0E8F600CBA491 /* skybox.vert */,
 				8176DCAC1CF230AA00DA8145 /* skybox2.mtl */,
 				8176DCAD1CF230AA00DA8145 /* skybox2.obj */,
-				818FBD521CF0E8F600CBA491 /* skyrender0001.bmp */,
+				818FBD521CF0E8F600CBA491 /* skyrender_right.bmp */,
 				818FBD531CF0E8F600CBA491 /* skyrender0002.bmp */,
 				818FBD541CF0E8F600CBA491 /* skyrender_top.bmp */,
 				818FBD551CF0E8F600CBA491 /* skyrender0004.bmp */,
@@ -903,7 +903,7 @@
 				A85E58F11CE5EFED0089488E /* cp.vert in Resources */,
 				89B1C54C1CE8941A002BA6B6 /* terrain5.mtl in Resources */,
 				81C734D51CD6B7D0000185B9 /* terrain1.png in Resources */,
-				818FBD5C1CF0E8F600CBA491 /* skyrender0001.bmp in Resources */,
+				818FBD5C1CF0E8F600CBA491 /* skyrender_right.bmp in Resources */,
 				8176DCAF1CF230AA00DA8145 /* skybox2.obj in Resources */,
 				89B1C56E1CE8D555002BA6B6 /* truck_spec_clean.jpg in Resources */,
 				89B1C53C1CE885EA002BA6B6 /* terrain2.mtl in Resources */,

@@ -13,7 +13,8 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender0001.bmp
+map_Kd sky_back.png
+#map_Kd skyrender0005.bmp
 
 newmtl skybox_country_paths_bottom
 Ns 96.078431
@@ -21,7 +22,8 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender_bottom.bmp
+map_Kd sky_down.png
+#map_Kd skyrender_bottom.bmp
 
 newmtl skybox_country_paths_front
 Ns 96.078431
@@ -29,7 +31,8 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender0002.bmp
+map_Kd sky_front.png
+#map_Kd skyrender0004.bmp
 
 newmtl skybox_country_paths_left
 Ns 96.078431
@@ -37,7 +40,8 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender0004.bmp
+map_Kd sky_left.png
+#map_Kd skyrender0002.bmp
 
 newmtl skybox_country_paths_right
 Ns 96.078431
@@ -45,7 +49,8 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender0005.bmp
+map_Kd sky_right.png
+#map_Kd skyrender_right.bmp
 
 newmtl skybox_country_paths_top
 Ns 96.078431
@@ -53,4 +58,5 @@ Ka 0.678336 0.678336 0.678336
 Kd 0.967581 0.967581 0.967581
 Ks 1.000000 1.000000 1.000000
 d 1.000000
-map_Kd skyrender_top.bmp
+map_Kd sky_up.png
+#map_Kd skyrender_top.bmp

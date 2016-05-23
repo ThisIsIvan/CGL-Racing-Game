@@ -71,7 +71,7 @@ void RenderProject::initFunction()
     // loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
     
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
-    ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
+    ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
     
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
@@ -88,7 +88,7 @@ void RenderProject::initFunction()
     aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
-    bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, skyProperties);
+    bRenderer().getObjects()->loadObjModel("skybox2.obj", false, true, skyShader, skyProperties);
     
     // create camera
     bRenderer().getObjects()->createCamera("camera");
@@ -299,7 +299,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bRenderer().getModelRenderer()->drawModel("road", "camera", road.modelMatrix, std::vector<std::string>({ }));
     
     //draw skybox
-    shader = bRenderer().getObjects()->getShader("guy");
+    shader = bRenderer().getObjects()->getShader("skybox");
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
@@ -320,7 +320,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         bRenderer::log("No shader available.");
     }
     
-    bRenderer().getModelRenderer()->drawModel("skybox", "camera", skyMM, std::vector<std::string>({ }));
+    bRenderer().getModelRenderer()->drawModel("skybox2", "camera", skyMM, std::vector<std::string>({ }));
 
 }
 
