@@ -74,9 +74,6 @@ private:
 	bool _running = false; 
 	GLint _lastStateSpaceKey = 0;
 	vmml::Matrix4f _viewMatrixHUD;
-    bool carIsMoving;
-    bool gameRunning;
-    vmml::Vector3f velocity;
 
 };
 

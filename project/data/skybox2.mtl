@@ -1,0 +1,68 @@
+# Blender MTL File: 'None'
+# Material Count: 6
+
+newmtl skybox_country_paths_back
+Ns 94.117647
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_right.png
+
+newmtl skybox_country_paths_bottom
+Ns 94.117647
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_down.png
+
+newmtl skybox_country_paths_front
+Ns 94.117647
+Ka 0.669952 0.669952 0.669952
+Kd 0.580868 0.580868 0.580868
+Ks 0.600330 0.600330 0.600330
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_front.png
+
+newmtl skybox_country_paths_left
+Ns 94.117647
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_left.png
+
+newmtl skybox_country_paths_right
+Ns 94.117647
+Ka 0.678336 0.678336 0.678336
+Kd 0.967581 0.967581 0.967581
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_right.png
+
+newmtl skybox_country_paths_top
+Ns 94.117647
+Ka 0.678336 0.678336 0.678336
+Kd 0.588138 0.588138 0.588138
+Ks 0.607843 0.607843 0.607843
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sky_up.png

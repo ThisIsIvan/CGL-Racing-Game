@@ -1,6 +1,6 @@
 # Blender v2.77 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib skybox.mtl
+mtllib skybox2.mtl
 o 3DGeom~5
 v 1.551436 -1.479708 -1.500156
 v -1.448564 -1.479708 -1.500156
