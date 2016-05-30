@@ -16,22 +16,21 @@ vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 1
 vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
 
 vmml::Matrix4f particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
+vmml::Matrix4f skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
 
 double _time = 0;
-double _pitchSum;
+float _pitchSum = 0.0f;
 float angle=0.f;
 vmml::AABBf aabb2;
 vmml::AABBf aabb3;
 vmml::AABBf aabb4;
+vmml::AABBf aabb5;
 vmml::Vector4f eyePos;
 vmml::Matrix4f viewMatrix;
-CubeMapPtr cubemap;
-vmml::Vector3f cameraOffset = vmml::Vector3f(0., -1.67, 0.);
-//vmml::Vector3f cameraOffset = vmml::Vector3f(0., 2., 15.f);
 FontPtr font;
 FontPtr font2;
 bool isRunning = false;
-
+float pitch;
 
 void RenderProject::init()
 {
@@ -56,11 +55,6 @@ void RenderProject::initFunction()
     bRenderer::log("Shading Language Version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
     
     // initialize variables
-    
-    carIsMoving = false;
-    gameRunning = false;
-    velocity = vmml::Vector3f(0.0f, 0.0f, -20.0f);
-    
     _offset = 0.0f;
     _randomOffset = 0.0f;
     _cameraSpeed = 40.0f;
@@ -77,11 +71,10 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->setShaderVersionES("#version 100");
     
     // load materials and shaders before loading the model
-    //loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
+    // loadShaderFile(const std::string &shaderName, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, bool diffuseLighting, bool specularLighting, bool cubicReflectionMap);
     
-    //ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
-    //ShaderPtr terrainShader = bRenderer().getObjects()->loadShaderFile("terrain", 0, false, false, false, false, false);
+    ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
     
     // load shader from file without lighting, the number of lights won't ever change during rendering (no variable number of lights)
     
@@ -89,11 +82,16 @@ void RenderProject::initFunction()
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
     PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
     PropertiesPtr planeProperties = bRenderer().getObjects()->createProperties("planeProperties");
+    PropertiesPtr skyProperties = bRenderer().getObjects()->createProperties("skyProperties");
     
+    // loadObjModel(const std::string &fileName, bool flipT, bool flipZ, ShaderPtr shader, PropertiesPtr properties)
+    // loadObjModel(const std::string &fileName, bool flipT, bool flipZ, bool shaderFromFile, GLuint shaderMaxLights, bool variableNumberOfLights, bool ambientLighting, PropertiesPtr properties)
+
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, planeProperties)->getBoundingBoxObjectSpace();
-    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
-    aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
-    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 4, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
+    bRenderer().getObjects()->loadObjModel("skybox2.obj", false, true, skyShader, skyProperties);
     
     // create camera
     bRenderer().getObjects()->createCamera("camera");
@@ -155,10 +153,12 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bool boosting = false;
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
     CameraPtr cameraPtr = bRenderer().getObjects()->getCamera("camera");
-    
+
     GameObject checkpoint = GameObject(checkpointMatrix, aabb2, ObjectType::CHECKPOINT);
     GameObject road = GameObject(roadMatrix, aabb4, ObjectType::FLOOR);
     GameObject terr = GameObject(terrainMM, aabb3, ObjectType::FLOOR);
+    
+    
     car.clearCollidables();
     car.addCollidable(checkpoint);
     car.addCollidable(road);
@@ -202,7 +202,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     if(isRunning){
         _time += deltaTime;
 
-        bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth() / 2, bRenderer().getView()->getHeight() / 2);		// reduce viewport size
+        bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());		// reduce viewport size
         defaultFBO = Framebuffer::getCurrentFramebuffer();	// get current fbo to bind it again after drawing the scene
         bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture("fbo_texture1"), false);	// bind the fbo
         
@@ -211,41 +211,21 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         drawStartText();
     }
     
-    vmml::compute_inverse(car.modelMatrix, viewMatrix);
-    viewMatrix *= vmml::create_translation(cameraOffset);
-    
-    ShaderPtr shader = bRenderer().getObjects()->getShader("plane");
-    vmml::Vector3f camTranslation = car.modelMatrix.get_translation();
-    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
-    
-    //draw vehicle
-    if (shader.get())
-    {
-        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
-        shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("ModelMatrix", car.modelMatrix);
-        
-        vmml::Matrix3f normalMatrix;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
-        shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
-                                                      //car.modelMatrix.x(), car.modelMatrix.y()+25., car.modelMatrix.z()-20., 1.));
-        shader->setUniform("Ia", vmml::Vector3f(5.f));
-        shader->setUniform("Id", vmml::Vector3f(1.f));
-        shader->setUniform("Is", vmml::Vector3f(1.f));
+    if (car.speed < 1){
+        pitch = 0.0f;
+    } else {
+        pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
+        _pitchSum += pitch;
     }
-    else
-    {
-        bRenderer::log("No shader available.");
-    }
+    vmml::Vector3f camPosition = vmml::Vector3f(-car.modelMatrix.x() - 4. * sinf(_pitchSum),
+                                                -2.0,
+                                                -car.modelMatrix.z() + 4. * cosf(_pitchSum));
+    cameraPtr->setPosition(camPosition);
+    cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
+    viewMatrix = cameraPtr->getViewMatrix();
     
-    bRenderer().getModelRenderer()->drawModel("plane", "camera", car.modelMatrix, std::vector<std::string>({ }));
-    
-    //draw terrain
-    shader = bRenderer().getObjects()->getShader("terrain");
-    camTranslation = terr.modelMatrix.get_translation();
-    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
+        //draw terrain
+    ShaderPtr shader = bRenderer().getObjects()->getShader("terrain");
     
     if (shader.get())
     {
@@ -257,18 +237,19 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(terr.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
-        shader->setUniform("Ia", vmml::Vector3f(5.f));
+        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));        shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
+    }
+    else
+    {
+        bRenderer::log("No shader available.");
     }
     
     bRenderer().getModelRenderer()->drawModel("terrain", "camera", terr.modelMatrix, std::vector<std::string>({ }));
     
     //draw Checkpoint
     shader = bRenderer().getObjects()->getShader("cp");
-    camTranslation = checkpoint.modelMatrix.get_translation();
-    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
     
     if (shader.get())
     {
@@ -285,13 +266,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
+    else
+    {
+        bRenderer::log("No shader available.");
+    }
     
     bRenderer().getModelRenderer()->drawModel("cp", "camera", checkpoint.modelMatrix, std::vector<std::string>({ }));
     
     //draw road
     shader = bRenderer().getObjects()->getShader("road");
-    camTranslation = road.modelMatrix.get_translation();
-    cameraPtr->setPosition(vmml::Vector3f(-1*camTranslation.x(), -1*camTranslation.y(), -1*camTranslation.z()));
     if (shader.get())
     {
         shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
@@ -307,36 +290,78 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
+    else
+    {
+        bRenderer::log("No shader available.");
+    }
     
     bRenderer().getModelRenderer()->drawModel("road", "camera", road.modelMatrix, std::vector<std::string>({ }));
     
-  
-    
-    // translate
-    vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
-    // blur vertically and horizontally
-    bool b = true;		int numberOfBlurSteps = 2;
-    for (int i = 0; i < numberOfBlurSteps; i++) {
-        if (i == numberOfBlurSteps - 1){
-            bRenderer().getObjects()->getFramebuffer("fbo")->unbind(defaultFBO); //unbind (original fbo will be bound)
-            bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
-        }
-        else
-            bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture(b ? "fbo_texture2" : "fbo_texture1"), false);
-        bRenderer().getObjects()->getMaterial("blurMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture(b ? "fbo_texture1" : "fbo_texture2"));
-        bRenderer().getObjects()->getMaterial("blurMaterial")->setScalar("isVertical", static_cast<GLfloat>(b));
-        // draw
-        shader = bRenderer().getObjects()->getShader("blurShader");
-        float speed = car.speed;
-        if(boosting){
-            speed = 220.0;
-        }
-        shader->setUniform("speed", speed);
-        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("blurSprite"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-        b = !b;
+    // draw vehicle
+    shader = bRenderer().getObjects()->getShader("plane");
+    if (shader.get())
+    {
+        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+        shader->setUniform("ViewMatrix", viewMatrix);
+        shader->setUniform("ModelMatrix", car.modelMatrix);
+        
+        vmml::Matrix3f normalMatrix;
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
+        shader->setUniform("NormalMatrix", normalMatrix);
+        shader->setUniform("EyePos", eyePos);
+        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
+        //car.modelMatrix.x(), car.modelMatrix.y()+25., car.modelMatrix.z()-20., 1.));
+        shader->setUniform("Ia", vmml::Vector3f(5.f));
+        shader->setUniform("Id", vmml::Vector3f(1.f));
+        shader->setUniform("Is", vmml::Vector3f(1.f));
+    }
+    else
+    {
+        bRenderer::log("No shader available.");
     }
     
+    bRenderer().getModelRenderer()->drawModel("plane", "camera", car.modelMatrix, std::vector<std::string>({ }));
+    
+    //draw skybox
+    shader = bRenderer().getObjects()->getShader("skybox");
+    if (shader.get())
+    {
+        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+        shader->setUniform("ViewMatrix", viewMatrix);
+        shader->setUniform("ModelMatrix", skyMM);
+        
+        vmml::Matrix3f normalMatrix;
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(skyMM)), normalMatrix);
+        shader->setUniform("NormalMatrix", normalMatrix);
+        shader->setUniform("EyePos", eyePos);
+        //        shader->setUniform("LightPos", vmml::Vector4f(.5f, 1.f, 300.5f, 1.f));
+        shader->setUniform("Ia", vmml::Vector3f(1.f));
+        shader->setUniform("Id", vmml::Vector3f(1.f));
+        shader->setUniform("Is", vmml::Vector3f(1.f));
+    }
+    else
+    {
+        bRenderer::log("No shader available.");
+    }
+    
+    bRenderer().getModelRenderer()->drawModel("skybox2", "camera", skyMM, std::vector<std::string>({ }));
     if(isRunning){
+        if(car.speed > -1){
+            // translate
+            vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
+
+            bRenderer().getObjects()->getFramebuffer("fbo")->unbind(defaultFBO); //unbind (original fbo will be bound)
+            bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
+            bRenderer().getObjects()->getMaterial("blurMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("fbo_texture1"));
+
+            shader = bRenderer().getObjects()->getShader("blurShader");
+            float speed = car.speed;
+            if(boosting){
+                speed = 220.0;
+            }
+            shader->setUniform("speed", speed);
+            bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("blurSprite"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+        }
         std::ostringstream timeString;
         timeString << _time;
         updateTimeText(timeString.str());
@@ -397,7 +422,7 @@ GLfloat RenderProject::randomNumber(GLfloat min, GLfloat max){
 }
 
 void RenderProject::showCPPassedText(){
-    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.5f)) * vmml::create_translation(vmml::Vector3f(-5.f, 1.f, 5.0f));
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.5f)) * vmml::create_translation(vmml::Vector3f(-5.f, 1.f, 0.0f));
     
     bRenderer().getObjects()->removeTextSprite("cpText", true);
     bRenderer().getObjects()->createTextSprite("cpText", vmml::Vector3f(1.f, 1.f, 1.f), "Checkpoint passed", font2);
@@ -406,8 +431,13 @@ void RenderProject::showCPPassedText(){
 }
 
 void RenderProject::updateTimeText(std::string timeString){
-    vmml::Matrix4f textMatrix = vmml::create_translation(vmml::Vector3f(3.510f, 5.f, 10.0f));
-    
+    if(timeString.find(".") == std::string::npos){
+        timeString += ".00";
+    }
+    if(timeString.length() > timeString.find(".") + 3){
+        timeString = timeString.substr(0, timeString.find(".") + 3);
+    }
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.1f, 0.1f, 0.1f)) * vmml::create_translation(vmml::Vector3f(4.f, 5.f, 0.0f));
     bRenderer().getObjects()->removeTextSprite("time", true);
     bRenderer().getObjects()->createTextSprite("time", vmml::Vector3f(1.f, 1.f, 1.f), timeString, font);
     vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
@@ -416,7 +446,7 @@ void RenderProject::updateTimeText(std::string timeString){
 
 
 void RenderProject::updateSpeedText(std::string speedString){
-    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.2f, 0.2f, 0.2f)) * vmml::create_translation(vmml::Vector3f(3.5f, -5.f, 5.0f));
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.1f, 0.1f, 0.1f)) * vmml::create_translation(vmml::Vector3f(4.f, -5.f, 0.0f));
     
     bRenderer().getObjects()->removeTextSprite("speed", true);
     bRenderer().getObjects()->createTextSprite("speed", vmml::Vector3f(1.f, 1.f, 1.f), speedString, font);
@@ -425,7 +455,7 @@ void RenderProject::updateSpeedText(std::string speedString){
 }
 
 void RenderProject::drawStartText(){
-    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.4f)) * vmml::create_translation(vmml::Vector3f(-4.f, 1.f, 5.0f));
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.4f)) * vmml::create_translation(vmml::Vector3f(-4.f, 1.f, 0.0f));
     
     bRenderer().getObjects()->removeTextSprite("startText", true);
     bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(1.f, 1.f, 1.f), "Touch to start", font2);
