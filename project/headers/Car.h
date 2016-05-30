@@ -23,7 +23,7 @@ public:
     void accelerate();
     void decelerate();
     void brake();
-    void activateBoost();
+    bool activateBoost();
     void addCollidable(GameObject);
     void clearCollidables();
 

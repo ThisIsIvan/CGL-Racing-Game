@@ -67,21 +67,24 @@ void Car::accelerate(){
 
 void Car::decelerate(){
     speed = speed * .99;
-    boost += 1;}
-
-void Car::brake(){
-    speed = std::max(0., speed - 10.);
     boost += 1;
 }
 
-void Car::activateBoost(){
+void Car::brake(){
+    speed = std::max(0., speed-3.22);
+    boost += 1;
+}
+
+bool Car::activateBoost(){
     if(boost > 10){
         boost -= 10;
         speed = speed + std::max(2., 10*std::log(speed/10.));
         speed = std::min(1.1f * MAX_SPEED, speed);
+        return true;
     }
     else{
         decelerate();
+        return false;
     }
 }
 
