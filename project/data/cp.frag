@@ -67,7 +67,6 @@ void main()
         mediump vec3 specular = Ks * clamp(specIntensity, 0.0, 1.0) * Is;
         specularResult = vec4(clamp(specular, 0.0, 1.0), 1.0)*texture2DProj(SpecularMap, texCoordVarying);
     }
-    lowp float rand = fract(sin(dot(texCoordVarying.xy ,vec2(12.9898,78.233))) * 43758.5453);
     lowp vec4 color = texture2DProj(DiffuseMap, texCoordVarying);
-    gl_FragColor = vec4(0.0, 0.0, 1.0, rand); // (ambientResult + diffuseResult) * color + specularResult;
+    gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0); // (ambientResult + diffuseResult) * color + specularResult;
 }

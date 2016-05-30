@@ -79,7 +79,6 @@
 		A80BFF641CDA2B3900F4ADB8 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A80BFF621CDA2B3900F4ADB8 /* Car.cpp */; };
 		A850D9821CFC5FF40033CC0A /* carShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A850D9801CFC5FF40033CC0A /* carShader.frag */; };
 		A850D9831CFC5FF40033CC0A /* carShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = A850D9811CFC5FF40033CC0A /* carShader.vert */; };
-		A85827171CF31E0F00C73DD8 /* ParticleFBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A85827151CF31E0F00C73DD8 /* ParticleFBO.cpp */; };
 		A858271E1CF3286D00C73DD8 /* particles.frag in Resources */ = {isa = PBXBuildFile; fileRef = A858271D1CF3286D00C73DD8 /* particles.frag */; };
 		A85827201CF3289400C73DD8 /* particles.vert in Resources */ = {isa = PBXBuildFile; fileRef = A858271F1CF3289400C73DD8 /* particles.vert */; };
 		A85E58EC1CE5E82B0089488E /* cp.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A85E58EA1CE5E82B0089488E /* cp.mtl */; };
@@ -265,8 +264,6 @@
 		A82779E31CE340EB00FD7D88 /* ObjectType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectType.h; sourceTree = "<group>"; };
 		A850D9801CFC5FF40033CC0A /* carShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = carShader.frag; path = ../../../bRenderer/project/data/carShader.frag; sourceTree = "<group>"; };
 		A850D9811CFC5FF40033CC0A /* carShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = carShader.vert; path = ../../../bRenderer/project/data/carShader.vert; sourceTree = "<group>"; };
-		A85827151CF31E0F00C73DD8 /* ParticleFBO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleFBO.cpp; sourceTree = "<group>"; };
-		A85827161CF31E0F00C73DD8 /* ParticleFBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleFBO.h; path = ../implementation/ParticleFBO.h; sourceTree = "<group>"; };
 		A858271D1CF3286D00C73DD8 /* particles.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particles.frag; sourceTree = "<group>"; };
 		A858271F1CF3289400C73DD8 /* particles.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particles.vert; sourceTree = "<group>"; };
 		A85E58EA1CE5E82B0089488E /* cp.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cp.mtl; sourceTree = "<group>"; };
@@ -477,7 +474,6 @@
 		B44186931BA331E300604D7F /* headers */ = {
 			isa = PBXGroup;
 			children = (
-				A85827161CF31E0F00C73DD8 /* ParticleFBO.h */,
 				8177E8EE1CD8ED20001FBFEE /* GameObject.h */,
 				B44186941BA331E300604D7F /* RenderProject.h */,
 				A80BFF611CDA2AB300F4ADB8 /* Car.h */,
@@ -489,10 +485,9 @@
 		B44186951BA331E300604D7F /* implementation */ = {
 			isa = PBXGroup;
 			children = (
+				A80BFF621CDA2B3900F4ADB8 /* Car.cpp */,
 				8177E8F11CD8EF76001FBFEE /* GameObject.cpp */,
 				B44186961BA331E300604D7F /* RenderProject.cpp */,
-				A80BFF621CDA2B3900F4ADB8 /* Car.cpp */,
-				A85827151CF31E0F00C73DD8 /* ParticleFBO.cpp */,
 			);
 			path = implementation;
 			sourceTree = "<group>";
@@ -1081,7 +1076,6 @@
 				B47AD6CB1B827E4C00AFC632 /* ftsynth.c in Sources */,
 				B47AD6DB1B827EDF00AFC632 /* raster.c in Sources */,
 				B47AD6E31B827F2100AFC632 /* type1cid.c in Sources */,
-				A85827171CF31E0F00C73DD8 /* ParticleFBO.cpp in Sources */,
 				B4794A3D1BA6743D00B5E9DC /* MatrixStack.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
