@@ -314,7 +314,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
         //        shader->setUniform("LightPos", vmml::Vector4f(.5f, 1.f, 300.5f, 1.f));
-        shader->setUniform("Ia", vmml::Vector3f(1.f));
+        shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
     }
@@ -365,11 +365,11 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
-        //car.modelMatrix.x(), car.modelMatrix.y()+25., car.modelMatrix.z()-20., 1.));
+        shader->setUniform("LightPos", vmml::Vector4f(100.0f, 300.f, 10.f,1.));
+        //);
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
-        shader->setUniform("Is", vmml::Vector3f(1.f));
+        shader->setUniform("Is", vmml::Vector3f(5.f));
     }
     else
     {

@@ -37,18 +37,10 @@ void main()
     
     highp vec4 pos = posVarying;
     highp vec3 n = normalize(normalVarying);
-    
-    // TODO: calculate tbn matrix, ensure it's orthonormal
-    //    mediump vec3 t = ... ;
-    //    mediump vec3 b = ... ;
-    //    mediump mat3 tbn = ... ;
-    
-    // TODO: read and correctly transform normals from normal map, then use them for lighting
-    
     highp vec3 l = normalize(LightPos - pos).xyz;
     
     highp float intensity = dot(n, l);
-    highp vec3 diffuse = Kd * clamp(intensity, 0.0, 1.0) * Id;
+    highp vec3 diffuse = clamp(intensity, 0.0, 1.0) * Id;
     highp vec4 diffuseResult = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
     
     // If vertex is lit, calculate specular term in view space using the Blinn-Phong model
@@ -58,11 +50,15 @@ void main()
         highp vec3 eyeVec = normalize(EyePos.xyz - pos.xyz);
         highp vec3 h = normalize(l + eyeVec);
         
-        highp float specIntensity = pow(max(dot(h,n), 0.0), Ns);
-        highp vec3 specular = Ks * clamp(specIntensity, 0.0, 1.0) * Is;
+        highp float specIntensity = pow(1.0, Ns);
+        highp vec3 specular = Ks * clamp(0.5, 0.0, 1.0) * Is;
         specularResult = vec4(clamp(specular, 0.0, 1.0), 1.0);
     }
     
     highp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
-    gl_FragColor = /*(ambientResult + diffuseResult)*/ color ;//+ specularResult;
+    if(color.x > 0.4 && color.z < 0.4){
+        ambientResult = vec4(1.0, 1.0, 1.0, 1.0);
+        diffuseResult = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+    gl_FragColor = (ambientResult + diffuseResult + specularResult) * color;
 }
