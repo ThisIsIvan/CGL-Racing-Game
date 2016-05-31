@@ -94,6 +94,7 @@
 		A82428251CFDB04800311BA8 /* truck_bump.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A82427D01CFDB04800311BA8 /* truck_bump.jpg */; };
 		A82428261CFDB04800311BA8 /* truck_color_clean.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A82427D11CFDB04800311BA8 /* truck_color_clean.jpg */; };
 		A82428271CFDB04800311BA8 /* truck_spec_clean.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A82427D21CFDB04800311BA8 /* truck_spec_clean.jpg */; };
+		A8540A181CFDCB750023DC56 /* CloseRace.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8540A171CFDCB750023DC56 /* CloseRace.ttf */; };
 		B44186971BA331E300604D7F /* RenderProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44186961BA331E300604D7F /* RenderProject.cpp */; };
 		B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = B47949C41BA6743D00B5E9DC /* LICENSE.txt */; };
 		B4794A2B1BA6743D00B5E9DC /* platform.c in Sources */ = {isa = PBXBuildFile; fileRef = B47949C61BA6743D00B5E9DC /* platform.c */; };
@@ -283,6 +284,7 @@
 		A82427D11CFDB04800311BA8 /* truck_color_clean.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = truck_color_clean.jpg; sourceTree = "<group>"; };
 		A82427D21CFDB04800311BA8 /* truck_spec_clean.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = truck_spec_clean.jpg; sourceTree = "<group>"; };
 		A82779E31CE340EB00FD7D88 /* ObjectType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectType.h; sourceTree = "<group>"; };
+		A8540A171CFDCB750023DC56 /* CloseRace.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CloseRace.ttf; sourceTree = "<group>"; };
 		B44186941BA331E300604D7F /* RenderProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderProject.h; sourceTree = "<group>"; };
 		B44186961BA331E300604D7F /* RenderProject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderProject.cpp; sourceTree = "<group>"; };
 		B47949C01BA6743D00B5E9DC /* bRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bRenderer.h; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				A82427821CFDB04800311BA8 /* Capture_it.ttf */,
 				A82427831CFDB04800311BA8 /* carBlurShader.frag */,
 				A82427841CFDB04800311BA8 /* carBlurShader.vert */,
+				A8540A171CFDCB750023DC56 /* CloseRace.ttf */,
 				A82427851CFDB04800311BA8 /* carShader.frag */,
 				A82427861CFDB04800311BA8 /* carShader.vert */,
 				A82427871CFDB04800311BA8 /* config.json */,
@@ -932,6 +935,7 @@
 				A82427EE1CFDB04800311BA8 /* plane.vert in Resources */,
 				A82427F81CFDB04800311BA8 /* road.mtl in Resources */,
 				A82427ED1CFDB04800311BA8 /* plane.obj in Resources */,
+				A8540A181CFDCB750023DC56 /* CloseRace.ttf in Resources */,
 				A824280D1CFDB04800311BA8 /* skybox2.mtl in Resources */,
 				A82428031CFDB04800311BA8 /* sky_left.png in Resources */,
 				A824280C1CFDB04800311BA8 /* skybox.vert in Resources */,

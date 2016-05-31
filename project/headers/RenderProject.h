@@ -2,6 +2,8 @@
 #define PROJECT_MAIN_H
 
 #include "bRenderer.h"
+#include "GameObject.h"
+#include "Car.h"
 
 class RenderProject : public IRenderProject
 {
@@ -65,6 +67,18 @@ private:
     void updateSpeedText(std::string);
     
     void drawStartText();
+    
+    // Draw functions
+    void drawTerrain(GameObject);
+    void drawCheckpoint(GameObject);
+    void drawRoad(GameObject);
+    void drawSkybox(vmml::Matrix4f);
+    void drawCar(Car, bool);
+    
+    // PostProcessing
+    void renderBloomEffect(Car, bool, GLint);
+    void renderCar(Car, bool, GLint);
+    ShaderPtr setShaderUniforms(std::string, vmml::Matrix4f);
     
 	/* Variables */
 	GLfloat _randomOffset;
