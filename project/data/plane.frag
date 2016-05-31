@@ -57,8 +57,8 @@ void main()
     
     highp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
     if(color.x > 0.4 && color.z < 0.4){
-        ambientResult = vec4(1.0, 1.0, 1.0, 1.0);
-        diffuseResult = vec4(1.0, 1.0, 1.0, 1.0);
+        ambientResult = vec4(1.0, 0.5, 0.0, 1.0);
+        diffuseResult = vec4(1.0, 0.5, 0.0, 1.0);
     }
     gl_FragColor = (ambientResult + diffuseResult + specularResult) * color;
 }
