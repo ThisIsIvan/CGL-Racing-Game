@@ -27,7 +27,7 @@ void main()
     factor[12] = 0.00895781211794;
     factor[13] = 0.0044299121055113265;
     
-    vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
     for(int i = 4; i < 10; i++){
         vec4 sampleColor = texture2D(fbo_texture, v_blurTexCoords[i])*factor[i];
         //if(sampleColor.w > 0.0){

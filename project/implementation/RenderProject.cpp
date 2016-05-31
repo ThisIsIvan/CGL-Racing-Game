@@ -62,7 +62,7 @@ void RenderProject::initFunction()
     _viewMatrixHUD = Camera::lookAt(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
     
     font = bRenderer().getObjects()->loadFont("dig.ttf", 100);
-    font2 = bRenderer().getObjects()->loadFont("dig.ttf", 100);
+    font2 = bRenderer().getObjects()->loadFont("CloseRace.ttf", 100);
     
     bRenderer().getObjects()->createTexture("particle_texture", 0.f, 0.f);
     
@@ -207,7 +207,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         bRenderer().getObjects()->getFramebuffer("fbo")->bindTexture(bRenderer().getObjects()->getTexture("fbo_texture1"), false);
     }
 
-    if (car.speed < 3){
+    if (car.speed < 1){
         pitch = 0.0f;
     } else {
         pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
@@ -247,11 +247,13 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         std::ostringstream speedString;
         speedString << (int)car.speed << " km/h";
         updateSpeedText(speedString.str());
-        renderBloomEffect(car, braking, defaultFBO);
         renderCar(car, braking, defaultFBO);
         if(cpPassed){
             showCPPassedText();
         }
+        glBlendFunc(GL_ONE, GL_ONE);
+        renderBloomEffect(car, braking, defaultFBO);
+        glBlendFunc(GL_ONE, GL_ZERO);
     }
     else{
         drawStartText();
@@ -395,7 +397,7 @@ void RenderProject::renderBloomEffect(Car car, bool braking, GLint defaultFBO){
         
         ShaderPtr shader = bRenderer().getObjects()->getShader("glowShader");
         bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glowSprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-        
+  
         bRenderer().getObjects()->getFramebuffer("glow2")->unbind(defaultFBO); //unbind (original fbo will be bound)
         bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
         bRenderer().getObjects()->getMaterial("glow2Material")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("glow2_texture"));
@@ -403,6 +405,7 @@ void RenderProject::renderBloomEffect(Car car, bool braking, GLint defaultFBO){
         shader = bRenderer().getObjects()->getShader("carBlurShader");
         shader->setUniform("speed", car.speed);
         bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glow2Sprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+        
     }
 
 }

@@ -13,7 +13,6 @@
 		A82427D41CFDB04800311BA8 /* blurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A824277F1CFDB04800311BA8 /* blurShader.frag */; };
 		A82427D51CFDB04800311BA8 /* blurShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427801CFDB04800311BA8 /* blurShader.vert */; };
 		A82427D61CFDB04800311BA8 /* bottom_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A82427811CFDB04800311BA8 /* bottom_test.jpg */; };
-		A82427D71CFDB04800311BA8 /* Capture_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A82427821CFDB04800311BA8 /* Capture_it.ttf */; };
 		A82427D81CFDB04800311BA8 /* carBlurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427831CFDB04800311BA8 /* carBlurShader.frag */; };
 		A82427D91CFDB04800311BA8 /* carBlurShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427841CFDB04800311BA8 /* carBlurShader.vert */; };
 		A82427DA1CFDB04800311BA8 /* carShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427851CFDB04800311BA8 /* carShader.frag */; };
@@ -202,7 +201,6 @@
 		A824277F1CFDB04800311BA8 /* blurShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blurShader.frag; sourceTree = "<group>"; };
 		A82427801CFDB04800311BA8 /* blurShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blurShader.vert; sourceTree = "<group>"; };
 		A82427811CFDB04800311BA8 /* bottom_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom_test.jpg; sourceTree = "<group>"; };
-		A82427821CFDB04800311BA8 /* Capture_it.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Capture_it.ttf; sourceTree = "<group>"; };
 		A82427831CFDB04800311BA8 /* carBlurShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = carBlurShader.frag; sourceTree = "<group>"; };
 		A82427841CFDB04800311BA8 /* carBlurShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = carBlurShader.vert; sourceTree = "<group>"; };
 		A82427851CFDB04800311BA8 /* carShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = carShader.frag; sourceTree = "<group>"; };
@@ -509,7 +507,6 @@
 				A824277F1CFDB04800311BA8 /* blurShader.frag */,
 				A82427801CFDB04800311BA8 /* blurShader.vert */,
 				A82427811CFDB04800311BA8 /* bottom_test.jpg */,
-				A82427821CFDB04800311BA8 /* Capture_it.ttf */,
 				A82427831CFDB04800311BA8 /* carBlurShader.frag */,
 				A82427841CFDB04800311BA8 /* carBlurShader.vert */,
 				A8540A171CFDCB750023DC56 /* CloseRace.ttf */,
@@ -997,7 +994,6 @@
 				A82427E21CFDB04800311BA8 /* glowShader.frag in Resources */,
 				A824281C1CFDB04800311BA8 /* terrain2.mtl in Resources */,
 				A82427D31CFDB04800311BA8 /* big_floor.png in Resources */,
-				A82427D71CFDB04800311BA8 /* Capture_it.ttf in Resources */,
 				A824281B1CFDB04800311BA8 /* terrain1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
