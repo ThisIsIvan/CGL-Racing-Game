@@ -190,6 +190,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     
     TouchMap touchMap = bRenderer().getInput()->getTouches();
+    bool braking = false;
+    
     if(touchMap.empty()){
         car.decelerate();
     }
@@ -208,6 +210,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
             }
         }
         else{
+            braking = true;
+            
             car.brake();
             std::cout << _time << std::endl;
         }
@@ -379,6 +383,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         shader->setUniform("ViewMatrix", viewMatrix);
         shader->setUniform("ModelMatrix", car.modelMatrix);
         
+        shader->setUniform("braking", braking);
+        
         vmml::Matrix3f normalMatrix;
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
@@ -405,51 +411,55 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("carSprite"), modelMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     
     // Bloom/Glow shader
-    bRenderer().getObjects()->getFramebuffer("glow2")->bindTexture(bRenderer().getObjects()->getTexture("glow2_texture"), false);
-    GLint glow2FBO = Framebuffer::getCurrentFramebuffer();
-    bRenderer().getObjects()->getFramebuffer("glow")->bindTexture(bRenderer().getObjects()->getTexture("glow_texture"), false);	// bind the fbo
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    // draw vehicle
-    shader = bRenderer().getObjects()->getShader("plane");
-    if (shader.get())
-    {
-        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
-        shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("ModelMatrix", car.modelMatrix);
-        
-        vmml::Matrix3f normalMatrix;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
-        shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(100.0f, 300.f, 10.f,1.));
-        //);
-        shader->setUniform("Ia", vmml::Vector3f(5.f));
-        shader->setUniform("Id", vmml::Vector3f(1.f));
-        shader->setUniform("Is", vmml::Vector3f(5.f));
+    if(braking){
+        bRenderer().getObjects()->getFramebuffer("glow2")->bindTexture(bRenderer().getObjects()->getTexture("glow2_texture"), false);
+        GLint glow2FBO = Framebuffer::getCurrentFramebuffer();
+        bRenderer().getObjects()->getFramebuffer("glow")->bindTexture(bRenderer().getObjects()->getTexture("glow_texture"), false);	// bind the fbo
+        glClearColor(0.0, 0.0, 0.0, 0.0);
+        // draw vehicle
+        shader = bRenderer().getObjects()->getShader("plane");
+        if (shader.get())
+        {
+            shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+            shader->setUniform("ViewMatrix", viewMatrix);
+            shader->setUniform("ModelMatrix", car.modelMatrix);
+            
+            shader->setUniform("braking", braking);
+            
+            vmml::Matrix3f normalMatrix;
+            vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(car.modelMatrix)), normalMatrix);
+            shader->setUniform("NormalMatrix", normalMatrix);
+            shader->setUniform("EyePos", eyePos);
+            shader->setUniform("LightPos", vmml::Vector4f(100.0f, 300.f, 10.f,1.));
+            //);
+            shader->setUniform("Ia", vmml::Vector3f(5.f));
+            shader->setUniform("Id", vmml::Vector3f(1.f));
+            shader->setUniform("Is", vmml::Vector3f(5.f));
+        }
+        else
+        {
+            bRenderer::log("No shader available.");
+        }
+
+        bRenderer().getModelRenderer()->drawModel("plane", "camera", car.modelMatrix, std::vector<std::string>({ }));
+
+        vmml::Matrix4f glowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
+        bRenderer().getObjects()->getFramebuffer("glow")->unbind(glow2FBO); //unbind (original fbo will be bound)
+        bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
+        bRenderer().getObjects()->getMaterial("glowMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("glow_texture"));
+
+        shader = bRenderer().getObjects()->getShader("glowShader");
+        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glowSprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+
+        bRenderer().getObjects()->getFramebuffer("glow2")->unbind(defaultFBO); //unbind (original fbo will be bound)
+        bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
+        bRenderer().getObjects()->getMaterial("glow2Material")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("glow2_texture"));
+
+
+        shader = bRenderer().getObjects()->getShader("carBlurShader");
+        shader->setUniform("speed", car.speed);
+        bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glow2Sprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
     }
-    else
-    {
-        bRenderer::log("No shader available.");
-    }
-    
-    bRenderer().getModelRenderer()->drawModel("plane", "camera", car.modelMatrix, std::vector<std::string>({ }));
-    
-    vmml::Matrix4f glowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
-    bRenderer().getObjects()->getFramebuffer("glow")->unbind(glow2FBO); //unbind (original fbo will be bound)
-    bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
-    bRenderer().getObjects()->getMaterial("glowMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("glow_texture"));
-    
-    shader = bRenderer().getObjects()->getShader("glowShader");
-    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glowSprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
-    
-    bRenderer().getObjects()->getFramebuffer("glow2")->unbind(defaultFBO); //unbind (original fbo will be bound)
-    bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
-    bRenderer().getObjects()->getMaterial("glow2Material")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("glow2_texture"));
-    
-    
-    shader = bRenderer().getObjects()->getShader("carBlurShader");
-    shader->setUniform("speed", car.speed);
-    //bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("glow2Sprite"), glowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
    }
 
 /* Camera movement */
