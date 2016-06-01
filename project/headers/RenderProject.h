@@ -63,10 +63,10 @@ private:
 	GLfloat randomNumber(GLfloat min, GLfloat max);
     
     void updateTimeText(std::string);
-    
     void updateSpeedText(std::string);
-    
     void drawStartText();
+    void drawStandingsText();
+    void drawCountdown();
     
     // Draw functions
     void drawTerrain(GameObject);
@@ -79,6 +79,8 @@ private:
     void renderBloomEffect(Car, bool, GLint);
     void renderCar(Car, bool, GLint);
     ShaderPtr setShaderUniforms(std::string, vmml::Matrix4f);
+    
+    void resetGame();
     
 	/* Variables */
 	GLfloat _randomOffset;

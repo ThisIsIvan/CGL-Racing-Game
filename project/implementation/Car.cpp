@@ -40,7 +40,7 @@ bool Car::handleCollision(GameObject obj){
 
 bool Car::move(vmml::Matrix4f rotationY){
     bool checkPointPassed = false;
-    if(speed > 1){
+    if(speed != 0){
         vmml::Vector3f planeChange=vmml::Vector3f(0.f, -1.f, speed/100.f);
     
         vmml::Matrix4f planeMotion=vmml::create_translation(planeChange);
@@ -71,7 +71,7 @@ void Car::decelerate(){
 }
 
 void Car::brake(){
-    speed = std::max(0., speed-3.22);
+    speed = std::max(-10., speed-3.22);
     boost += 1;
 }
 

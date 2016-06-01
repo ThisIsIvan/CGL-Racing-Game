@@ -1,6 +1,7 @@
 #include "RenderProject.h"
 #include "GameObject.h"
 #include "Car.h"
+#include <string>
 
 #ifdef __OBJC__
 #import <CoreMotion/CoreMotion.h>
@@ -8,17 +9,14 @@
 
 /* Initialize the Project */
 Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(0.f, 0.f, 0.f),  vmml::Vector3f::UNIT_Z, 0.f);
-
 vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-
 vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-
 vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
-
 vmml::Matrix4f particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
 vmml::Matrix4f skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
 
 double _time = 0;
+double countDown = 3.0;
 float _pitchSum = 0.0f;
 float angle=0.f;
 vmml::AABBf aabb2;
@@ -30,7 +28,10 @@ vmml::Matrix4f viewMatrix;
 FontPtr font;
 FontPtr font2;
 bool isRunning = false;
+bool isActivated = false;
 float pitch;
+double roundTimes[3];
+int roundCounter;
 
 void RenderProject::init()
 {
@@ -172,26 +173,34 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bool cpPassed = false;
     
     // User Inputs
-    if(touchMap.empty()){
+    if(touchMap.empty() && isRunning){
         car.decelerate();
     }
     else{
         if(!isRunning){
-            isRunning = true;
-        }
-        auto t = touchMap.begin();
-        Touch touch = t->second;
-        if(touch.lastPositionX > m_viewport[2]/2){
-            if(touch.lastPositionY < m_viewport[3] / 2){
-                boosting = car.activateBoost();
+            if(!isActivated && !touchMap.empty()){
+                isActivated = true;
             }
-            else{
-                car.accelerate();
+            if(isActivated){
+                countDown -= deltaTime;
+                isRunning = countDown <= 0.0;
             }
         }
         else{
-            braking = true;
-            car.brake();
+            auto t = touchMap.begin();
+            Touch touch = t->second;
+            if(touch.lastPositionX > m_viewport[2]/2){
+                if(touch.lastPositionY < m_viewport[3] / 2){
+                    boosting = car.activateBoost();
+                }
+                else{
+                    car.accelerate();
+                }
+            }
+            else{
+                braking = true;
+                car.brake();
+            }
         }
     }
     
@@ -224,9 +233,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     drawCheckpoint(checkpoint);
     drawRoad(road);
     drawSkybox(skyMM);
-    
+    if(!isRunning && isActivated){
+        drawCountdown();
+    }
     if(isRunning){
-        // translate
         vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
 
         bRenderer().getObjects()->getFramebuffer("fbo")->unbind(defaultFBO); //unbind (original fbo will be bound)
@@ -247,16 +257,27 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         std::ostringstream speedString;
         speedString << (int)car.speed << " km/h";
         updateSpeedText(speedString.str());
+        drawStandingsText();
         renderCar(car, braking, defaultFBO);
         if(cpPassed){
             showCPPassedText();
+            if(_time > 5.0){
+                roundTimes[roundCounter] = _time;
+                roundCounter++;
+                _time = 0.0;
+                if(roundCounter == 3){
+                    resetGame();
+                }
+            }
         }
         glBlendFunc(GL_ONE, GL_ONE);
         renderBloomEffect(car, braking, defaultFBO);
         glBlendFunc(GL_ONE, GL_ZERO);
     }
     else{
-        drawStartText();
+        if(!isActivated){
+            drawStartText();
+        }
         drawCar(car, false);
     }
 }
@@ -352,6 +373,45 @@ void RenderProject::drawStartText(){
     bRenderer().getModelRenderer()->drawText("startText", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
 }
 
+void RenderProject::drawStandingsText(){
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.05f)) * vmml::create_translation(vmml::Vector3f(-15.f, 10.f, 0.0f));
+    std::string results[3] = {"--.--", "--.--", "--.--"};
+    for(int i = 0; i < 3; i++){
+        if(roundTimes[i] > 0.0){
+            std::ostringstream timeOStr;
+            timeOStr << roundTimes[i];
+            std::string timeString = timeOStr.str();
+            
+            if(timeString.find(".") == std::string::npos){
+                timeString += ".00";
+            }
+            if(timeString.length() > timeString.find(".") + 3){
+                timeString = timeString.substr(0, timeString.find(".") + 3);
+            }
+            results[i] = timeString;
+        }
+    }
+    
+    
+    bRenderer().getObjects()->removeTextSprite("startText", true);
+    bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(1.f, 1.f, 1.f), "1: " + results[0] + "\n2: " + results[1] + "\n3: " + results[2], font);
+    vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
+    bRenderer().getModelRenderer()->drawText("startText", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
+}
+
+
+void RenderProject::drawCountdown(){
+    int number = (int)countDown + 1;
+    float scaleFactor = (float)countDown - (float)(number-1);
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.5f*scaleFactor)) * vmml::create_translation(vmml::Vector3f(0.f));
+    
+    std::string numberString = std::to_string(number);
+    
+    bRenderer().getObjects()->removeTextSprite("startText", true);
+    bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(0.f, 0.f, 0.f), numberString, font2);
+    vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
+    bRenderer().getModelRenderer()->drawText("startText", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
+}
 // Draw Functions
 void RenderProject::drawTerrain(GameObject terr){
     ShaderPtr shader = setShaderUniforms("terrain", terr.modelMatrix);
@@ -448,4 +508,28 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
         bRenderer::log("No shader available.");
     }
     return shader;
+}
+
+void RenderProject::resetGame(){
+    //vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    checkpointMatrix = vmml::create_translation(vmml::Vector3f(-0.f, 0.f, 50.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
+    particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
+    skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
+    
+    _time = 0;
+    countDown = 3.0;
+    _pitchSum = 0.0f;
+    angle=0.f;
+    isRunning = false;
+    isActivated = false;
+    pitch = 0.0;
+    roundTimes[0] = 0.0;
+    roundTimes[1] = 0.0;
+    roundTimes[2] = 0.0;
+    roundCounter = 0;
+    car.modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 0.0f, 1.f));
+    car.speed = 0.0;
+    car.boost = 5;
 }
