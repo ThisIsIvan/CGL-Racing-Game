@@ -2,6 +2,8 @@
 #define PROJECT_MAIN_H
 
 #include "bRenderer.h"
+#include "GameObject.h"
+#include "Car.h"
 
 class RenderProject : public IRenderProject
 {
@@ -44,6 +46,8 @@ public:
         return bRenderer();
     }
     
+    void showCPPassedText();
+    
 private:
     
     // draw sphere at origin of current reference frame
@@ -57,7 +61,28 @@ private:
 
 	/* Helper Functions */
 	GLfloat randomNumber(GLfloat min, GLfloat max);
-
+    
+    void updateTimeText(std::string);
+    void updateSpeedText(std::string);
+    void drawStartText();
+    void drawStandingsText();
+    void drawCountdown();
+    
+    // Draw functions
+    void drawTerrain(GameObject);
+    void drawCheckpoint(GameObject);
+    void drawRoad(GameObject);
+    void drawSkybox(vmml::Matrix4f);
+    void drawCar(Car, bool);
+    void drawShadow();
+    
+    // PostProcessing
+    void renderBloomEffect(Car, bool, GLint);
+    void renderCar(Car, bool, GLint);
+    ShaderPtr setShaderUniforms(std::string, vmml::Matrix4f);
+    
+    void resetGame();
+    
 	/* Variables */
 	GLfloat _randomOffset;
 	GLfloat _offset;
@@ -66,9 +91,6 @@ private:
 	bool _running = false; 
 	GLint _lastStateSpaceKey = 0;
 	vmml::Matrix4f _viewMatrixHUD;
-    bool carIsMoving;
-    bool gameRunning;
-    vmml::Vector3f velocity;
 
 };
 

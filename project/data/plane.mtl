@@ -1,16 +1,16 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'small_car.blend'
 # Material Count: 1
 
 newmtl plane
-Ns 9.803922
+Ns 94.117647
 Ka 0.000000 0.000000 0.000000
-Kd 0.588000 0.588000 0.588000
-Ks 0.000000 0.000000 0.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.100111 0.100111 0.100111
 Ke 0.000000 0.000000 0.000000
-Ni 1.500000
+Ni 1.000000
 d 1.000000
 illum 2
-map_Kd s_1024_C.png
-map_Bump  s_1024_N.png
-map_Ka  s_1024_C.png
-map_Ke  s_1024_I.png
+map_Kd truck_color_clean.jpg
+map_Bump  truck_bump.jpg
+map_Ka  truck_color_clean.jpg
+map_Ks  truck_spec_clean.jpg
