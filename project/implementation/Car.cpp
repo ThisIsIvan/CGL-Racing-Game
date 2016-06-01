@@ -52,7 +52,7 @@ bool Car::move(vmml::Matrix4f rotationY){
         for(int i = 0; i < collidables.size(); i++){
             if(handleCollision(collidables.at(i)) && collidables.at(i).getType() == ObjectType::CHECKPOINT){
                 checkPointPassed = true;
-            };
+            }
         }
     }
     
@@ -71,7 +71,7 @@ void Car::decelerate(){
 }
 
 void Car::brake(){
-    speed = std::max(-10., speed-3.22);
+    speed = std::max(0., speed-3.22);
     boost += 1;
 }
 

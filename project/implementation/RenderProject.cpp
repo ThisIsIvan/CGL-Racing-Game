@@ -18,7 +18,6 @@ vmml::Matrix4f skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f))
 double _time = 0;
 double countDown = 3.0;
 float _pitchSum = 0.0f;
-float angle=0.f;
 vmml::AABBf aabb2;
 vmml::AABBf aabb3;
 vmml::AABBf aabb4;
@@ -32,6 +31,8 @@ bool isActivated = false;
 float pitch;
 double roundTimes[3];
 int roundCounter;
+vmml::Vector3f camPosition;
+CameraPtr cameraPtr;
 
 void RenderProject::init()
 {
@@ -158,8 +159,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
 {
 //    glDisable(GL_CULL_FACE);
     bool boosting = false;
-    float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
-    CameraPtr cameraPtr = bRenderer().getObjects()->getCamera("camera");
+    cameraPtr = bRenderer().getObjects()->getCamera("camera");
 
     GameObject checkpoint = GameObject(checkpointMatrix, aabb2, ObjectType::CHECKPOINT);
     GameObject road = GameObject(roadMatrix, aabb4, ObjectType::FLOOR);
@@ -227,9 +227,9 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
         _pitchSum += pitch;
     }
-    vmml::Vector3f camPosition = vmml::Vector3f(-car.modelMatrix.x() - 4. * sinf(_pitchSum),
-                                                -2.0,
-                                                -car.modelMatrix.z() + 4. * cosf(_pitchSum));
+    camPosition = vmml::Vector3f(-car.modelMatrix.x() - 4. * sinf(_pitchSum),
+                                 -2.0,
+                                 -car.modelMatrix.z() + 4. * cosf(_pitchSum));
     cameraPtr->setPosition(camPosition);
     cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
     viewMatrix = cameraPtr->getViewMatrix();
@@ -545,17 +545,16 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
 }
 
 void RenderProject::resetGame(){
-    //vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-    checkpointMatrix = vmml::create_translation(vmml::Vector3f(-0.f, 0.f, 50.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-    terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
-    particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
-    skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
-    
     _time = 0;
     countDown = 3.0;
+    car.speed = 0.0;
+    cameraPtr->resetCamera();
+//    cameraPtr->setRotation(vmml::Vector3f(0.0, _pitchSum, 0.0));
+//    camPosition = vmml::Vector3f(-car.modelMatrix.x() + 4. * sinf(_pitchSum),
+//                                 -2.0,
+//                                 -car.modelMatrix.z() - 4. * cosf(_pitchSum));
+    
     _pitchSum = 0.0f;
-    angle=0.f;
     isRunning = false;
     isActivated = false;
     pitch = 0.0;
@@ -564,6 +563,6 @@ void RenderProject::resetGame(){
     roundTimes[2] = 0.0;
     roundCounter = 0;
     car.modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 0.0f, 1.f));
-    car.speed = 0.0;
+    
     car.boost = 5;
 }
