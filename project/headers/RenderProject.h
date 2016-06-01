@@ -74,6 +74,7 @@ private:
     void drawRoad(GameObject);
     void drawSkybox(vmml::Matrix4f);
     void drawCar(Car, bool);
+    void drawShadow();
     
     // PostProcessing
     void renderBloomEffect(Car, bool, GLint);

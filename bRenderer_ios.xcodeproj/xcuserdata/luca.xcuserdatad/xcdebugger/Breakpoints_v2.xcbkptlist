@@ -2,5 +2,134 @@
 <Bucket
    type = "1"
    version = "2.0">
-
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471157.701469"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471172.244727"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471176.172522"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471177.244906"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471180.532732"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/ModelRenderer.cpp"
+            timestampString = "486471186.620517"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "ModelRenderer::drawModel(ModelPtr model, const vmml::Matrix4f &amp;modelMatrix, const vmml::Matrix4f &amp;viewMatrix, const vmml::Matrix4f &amp;projectionMatrix, const std::vector&lt;std::string&gt; &amp;lightNames, bool doFrustumCulling, bool cullIndividualGeometry)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/Geometry.cpp"
+            timestampString = "486471199.796096"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "Geometry::draw(GLenum mode)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bRenderer/implementation/Geometry.cpp"
+            timestampString = "486471201.755803"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "Geometry::draw(GLenum mode)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
