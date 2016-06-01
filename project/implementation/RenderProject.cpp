@@ -11,7 +11,7 @@ Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(0.f, 0.f, 0.f),  v
 
 vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
 
-vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.0f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)); //* vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X); * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
 
 vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
 
@@ -73,6 +73,10 @@ void RenderProject::initFunction()
     // load materials and shaders before loading the model
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
+    
+    ShaderPtr planeShadow = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
+    PropertiesPtr shadowProperties = bRenderer().getObjects()->createProperties("shadowProperties");
+    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadow, shadowProperties);
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
@@ -151,6 +155,7 @@ void RenderProject::terminateFunction()
 /* Update render queue */
 void RenderProject::updateRenderQueue(const std::string &camera, const double &deltaTime)
 {
+//    glDisable(GL_CULL_FACE);
     bool boosting = false;
     float pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
     CameraPtr cameraPtr = bRenderer().getObjects()->getCamera("camera");
@@ -161,7 +166,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     car.clearCollidables();
     car.addCollidable(checkpoint);
-    car.addCollidable(road);
+//    car.addCollidable(road);
     car.addCollidable(terr);
     
     GLint m_viewport[4];
@@ -220,9 +225,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
     viewMatrix = cameraPtr->getViewMatrix();
     
+    drawRoad(road);
     drawTerrain(terr);
     drawCheckpoint(checkpoint);
-    drawRoad(road);
+    drawShadow();
     drawSkybox(skyMM);
     
     if(isRunning){
@@ -353,6 +359,35 @@ void RenderProject::drawStartText(){
 }
 
 // Draw Functions
+void RenderProject::drawShadow(){
+    vmml::Matrix4f shadowMatrix = car.modelMatrix;
+    shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
+    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(1.0f, 0.01f, 1.0f));
+    
+    ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
+    if (shader.get())
+    {
+        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+        shader->setUniform("ViewMatrix", viewMatrix);
+        shader->setUniform("ModelMatrix", shadowMatrix);
+        
+        vmml::Matrix3f normalMatrix;
+        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
+        shader->setUniform("NormalMatrix", normalMatrix);
+        shader->setUniform("EyePos", eyePos);
+        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
+        shader->setUniform("Ia", vmml::Vector3f(5.f));
+        shader->setUniform("Id", vmml::Vector3f(1.f));
+        shader->setUniform("Is", vmml::Vector3f(1.f));
+    }
+    else
+    {
+        bRenderer::log("No shader available.");
+    }
+    
+    bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", shadowMatrix, std::vector<std::string>({ }));
+}
+
 void RenderProject::drawTerrain(GameObject terr){
     ShaderPtr shader = setShaderUniforms("terrain", terr.modelMatrix);
     bRenderer().getModelRenderer()->drawModel("terrain", "camera", terr.modelMatrix, std::vector<std::string>({ }));
@@ -437,8 +472,7 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(100.0f, 300.f, 10.f,1.));
-        //);
+        shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f,1.));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(5.f));
