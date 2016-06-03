@@ -421,8 +421,12 @@ void RenderProject::drawCountdown(){
 // Draw Functions
 void RenderProject::drawShadow(){
     vmml::Matrix4f shadowMatrix = car.modelMatrix;
+
+    float x = std::max(1.0, 0.5*sinf(_pitchSum));
+    float y = std::max(1.0, 0.9*cosf(_pitchSum));
+
+    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(x, 0.1f, y));
     shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
-    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(1.0f, 0.01f, 1.0f));
     
     ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
     if (shader.get())
@@ -435,7 +439,7 @@ void RenderProject::drawShadow(){
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
+//        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
