@@ -209,8 +209,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         }
     }
     
-    vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
-    cpPassed = car.move(rotationY);
+    
     
     GLint defaultFBO = 0;
     
@@ -227,11 +226,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         pitch = (float)(bRenderer().getInput()->getGyroscopePitch()/10);
         _pitchSum += pitch;
     }
+    
+    vmml::Matrix4f rotationY = vmml::create_rotation(-pitch, vmml::Vector3f::UNIT_Y);
+    cpPassed = car.move(rotationY);
+    
+    cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
     camPosition = vmml::Vector3f(-car.modelMatrix.x() - 4. * sinf(_pitchSum),
                                  -2.0,
                                  -car.modelMatrix.z() + 4. * cosf(_pitchSum));
     cameraPtr->setPosition(camPosition);
-    cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
     viewMatrix = cameraPtr->getViewMatrix();
     
     drawRoad(road);
@@ -421,10 +424,7 @@ void RenderProject::drawCountdown(){
 // Draw Functions
 void RenderProject::drawShadow(){
     vmml::Matrix4f shadowMatrix = car.modelMatrix;
-    float x = std::max(1.0, 0.5*sinf(_pitchSum));
-    float y = std::max(1.0, 0.9*cosf(_pitchSum));
-    
-    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(x, 0.1f, y));
+    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(1.f, 0.1f, 1.f));
     shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
     
     ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
@@ -438,7 +438,6 @@ void RenderProject::drawShadow(){
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(1.f));
@@ -552,11 +551,6 @@ void RenderProject::resetGame(){
     countDown = 3.0;
     car.speed = 0.0;
     cameraPtr->resetCamera();
-//    cameraPtr->setRotation(vmml::Vector3f(0.0, _pitchSum, 0.0));
-//    camPosition = vmml::Vector3f(-car.modelMatrix.x() + 4. * sinf(_pitchSum),
-//                                 -2.0,
-//                                 -car.modelMatrix.z() - 4. * cosf(_pitchSum));
-    
     _pitchSum = 0.0f;
     isRunning = false;
     isActivated = false;
