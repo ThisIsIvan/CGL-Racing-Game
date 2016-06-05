@@ -426,27 +426,7 @@ void RenderProject::drawShadow(){
     vmml::Matrix4f shadowMatrix = car.modelMatrix;
     shadowMatrix *= vmml::create_scaling(vmml::Vector3f(1.f, 0.1f, 1.f));
     shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
-    
-    ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
-    if (shader.get())
-    {
-        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
-        shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("ModelMatrix", shadowMatrix);
-        
-        vmml::Matrix3f normalMatrix;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
-        shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("EyePos", eyePos);
-        shader->setUniform("Ia", vmml::Vector3f(5.f));
-        shader->setUniform("Id", vmml::Vector3f(1.f));
-        shader->setUniform("Is", vmml::Vector3f(1.f));
-    }
-    else
-    {
-        bRenderer::log("No shader available.");
-    }
-    
+    ShaderPtr shader = setShaderUniforms("planeShadow", shadowMatrix);
     bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", shadowMatrix, std::vector<std::string>({ }));
 }
 
