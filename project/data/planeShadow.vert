@@ -37,11 +37,7 @@ varying highp vec3 tangentVarying;    // tangent in world space
 void main()
 {
     posVarying = ModelMatrix * Position;
-    normalVarying = normalize(NormalMatrix * Normal);
-    tangentVarying = normalize(NormalMatrix * Tangent);
-    texCoordVarying = TexCoord;
     
     
     gl_Position = ProjectionMatrix * ViewMatrix * posVarying;
-    uv = (vec2( gl_Position.x, gl_Position.y ) + vec2(1.0) ) / vec2(2.0);
 }

@@ -76,9 +76,9 @@ void RenderProject::initFunction()
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
     
-    ShaderPtr planeShadow = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
-    PropertiesPtr shadowProperties = bRenderer().getObjects()->createProperties("shadowProperties");
-    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadow, shadowProperties);
+    
+//    PropertiesPtr shadowProperties = bRenderer().getObjects()->createProperties("shadowProperties");
+//    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadow, shadowProperties);
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
@@ -94,6 +94,7 @@ void RenderProject::initFunction()
     
     // create camera
     bRenderer().getObjects()->createCamera("camera");
+    bRenderer().getObjects()->createCamera("shadowCamera");
     
     // postprocessing
     // create framebuffer objects
@@ -101,11 +102,13 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->createFramebuffer("car");
     bRenderer().getObjects()->createFramebuffer("glow");
     bRenderer().getObjects()->createFramebuffer("glow2");
+    bRenderer().getObjects()->createFramebuffer("shadow");
     // create textures
     bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	
     bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("glow_texture", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("glow2_texture", 0.f, 0.f);
+    bRenderer().getObjects()->createTexture("shadow_texture", 0.f, 0.f);
     // BLUR material, shader, texture
     ShaderPtr blurShader = bRenderer().getObjects()->loadShaderFile("blurShader", 0, false, false, false, false, false);
     MaterialPtr blurMaterial = bRenderer().getObjects()->createMaterial("blurMaterial", blurShader);								
@@ -122,6 +125,10 @@ void RenderProject::initFunction()
     ShaderPtr glow2Shader = bRenderer().getObjects()->loadShaderFile("carBlurShader", 0, false, false, false, false, false);
     MaterialPtr glow2Material = bRenderer().getObjects()->createMaterial("glow2Material", glow2Shader);
     bRenderer().getObjects()->createSprite("glow2Sprite", glow2Material);
+    // SHADOW material, shader, texture
+    ShaderPtr planeShadow = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
+    MaterialPtr shadowMaterial = bRenderer().getObjects()->createMaterial("shadowMaterial", planeShadow);
+    bRenderer().getObjects()->createSprite("shadowSprite", shadowMaterial);
     
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -167,7 +174,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     
     car.clearCollidables();
     car.addCollidable(checkpoint);
-//    car.addCollidable(road);
     car.addCollidable(terr);
     
     GLint m_viewport[4];
@@ -234,10 +240,10 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     cameraPtr->rotateCamera(0.0f, -pitch, 0.0f);
     viewMatrix = cameraPtr->getViewMatrix();
     
-    drawRoad(road);
-    drawTerrain(terr);
+//    drawRoad(road);
+//    drawTerrain(terr);
     drawCheckpoint(checkpoint);
-    drawShadow();
+    
     drawSkybox(skyMM);
     if(!isRunning && isActivated){
         drawCountdown();
@@ -279,6 +285,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
         glBlendFunc(GL_ONE, GL_ONE);
         renderBloomEffect(car, braking, defaultFBO);
         glBlendFunc(GL_ONE, GL_ZERO);
+        drawShadow();
     }
     else{
         if(!isActivated){
@@ -420,35 +427,59 @@ void RenderProject::drawCountdown(){
 }
 // Draw Functions
 void RenderProject::drawShadow(){
-    vmml::Matrix4f shadowMatrix = car.modelMatrix;
-    float x = std::max(1.0, 0.5*sinf(_pitchSum));
-    float y = std::max(1.0, 0.9*cosf(_pitchSum));
+//    vmml::Matrix4f shadowMatrix = car.modelMatrix;
+////    float x = std::max(1.0, 0.5*sinf(_pitchSum));
+////    float y = std::max(1.0, 0.9*cosf(_pitchSum));
+////    
+////    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(x, 0.1f, y));
+////    shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
+//    
+    vmml::Vector3f light = vmml::Vector3f(0.0f, 300.f, 100.f);
+//    vmml::Matrix4f m;
+//    m[3][1] = -1.0/light.y();
+//    shadowMatrix = car.modelMatrix * vmml::create_translation(light) * m * vmml::create_translation(vmml::Vector3f(-light.x(), -light.y(), -light.z()));
+//    
+//    ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
+//    if (shader.get())
+//    {
+//        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
+//        shader->setUniform("ViewMatrix", viewMatrix);
+//        shader->setUniform("ModelMatrix", shadowMatrix);
+//        
+//        vmml::Matrix3f normalMatrix;
+//        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
+//        shader->setUniform("NormalMatrix", normalMatrix);
+//        shader->setUniform("EyePos", eyePos);
+//        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
+//        shader->setUniform("Ia", vmml::Vector3f(5.f));
+//        shader->setUniform("Id", vmml::Vector3f(1.f));
+//        shader->setUniform("Is", vmml::Vector3f(1.f));
+//    }
+//    else
+//    {
+//        bRenderer::log("No shader available.");
+//    }
+//    
+//    bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", shadowMatrix, std::vector<std::string>({ }));
     
-    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(x, 0.1f, y));
-    shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
+    bRenderer().getObjects()->getFramebuffer("shadow")->bindTexture(bRenderer().getObjects()->getTexture("shadow_texture"), false);
+    GLint shadowFBO = Framebuffer::getCurrentFramebuffer();
     
-    ShaderPtr shader = bRenderer().getObjects()->getShader("planeShadow");
-    if (shader.get())
-    {
-        shader->setUniform("ProjectionMatrix", vmml::Matrix4f::IDENTITY);
-        shader->setUniform("ViewMatrix", viewMatrix);
-        shader->setUniform("ModelMatrix", shadowMatrix);
-        
-        vmml::Matrix3f normalMatrix;
-        vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(shadowMatrix)), normalMatrix);
-        shader->setUniform("NormalMatrix", normalMatrix);
-        shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(10.0f, 10.f, 10.f,1.));
-        shader->setUniform("Ia", vmml::Vector3f(5.f));
-        shader->setUniform("Id", vmml::Vector3f(1.f));
-        shader->setUniform("Is", vmml::Vector3f(1.f));
-    }
-    else
-    {
-        bRenderer::log("No shader available.");
-    }
+//    drawCar(car, false);
+    ShaderPtr shader = setShaderUniforms("plane", car.modelMatrix);
+    shader->setUniform("braking", false);
     
-    bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", shadowMatrix, std::vector<std::string>({ }));
+    bRenderer().getObjects()->getCamera("shadowCamera")->setPosition(light);
+    bRenderer().getModelRenderer()->drawModel("plane", "shadowCamera", car.modelMatrix, std::vector<std::string>({ }));
+    
+    vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
+    bRenderer().getObjects()->getFramebuffer("shadow")->unbind(shadowFBO); //unbind (original fbo will be bound)
+    bRenderer().getView()->setViewportSize(bRenderer().getView()->getWidth(), bRenderer().getView()->getHeight());								// reset vieport size
+    bRenderer().getObjects()->getMaterial("shadowMaterial")->setTexture("fbo_texture", bRenderer().getObjects()->getTexture("shadow_texture"));
+    
+    shader = bRenderer().getObjects()->getShader("planeShadow");
+    bRenderer().getModelRenderer()->drawModel(bRenderer().getObjects()->getModel("shadowSprite"), shadowMatrix, _viewMatrixHUD, vmml::Matrix4f::IDENTITY, std::vector<std::string>({}), false);
+
 }
 
 void RenderProject::drawTerrain(GameObject terr){
