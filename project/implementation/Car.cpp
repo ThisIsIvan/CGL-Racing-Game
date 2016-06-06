@@ -95,3 +95,9 @@ void Car::addCollidable(GameObject obj){
 void Car::clearCollidables(){
     collidables.clear();
 }
+
+void Car::reset(){
+    speed = 0.0f;
+    boost = 5;
+    modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 0.0f, 1.f));
+}

@@ -84,13 +84,33 @@ private:
     void resetGame();
     
 	/* Variables */
-	GLfloat _randomOffset;
-	GLfloat _offset;
-	GLfloat _cameraSpeed;
 	double _mouseX, _mouseY;
-	bool _running = false; 
 	GLint _lastStateSpaceKey = 0;
 	vmml::Matrix4f _viewMatrixHUD;
+    
+    double _time;
+    double countDown;
+    float _pitchSum;
+    vmml::AABBf aabb2;
+    vmml::AABBf aabb3;
+    vmml::AABBf aabb4;
+    vmml::AABBf aabb5;
+    vmml::Vector4f eyePos;
+    vmml::Matrix4f viewMatrix;
+    FontPtr font;
+    FontPtr font2;
+    bool isRunning;
+    bool isActivated;
+    float pitch;
+    double roundTimes[3];
+    int roundCounter;
+    vmml::Vector3f camPosition;
+    CameraPtr cameraPtr;
+    vmml::Matrix4f checkpointMatrix;
+    vmml::Matrix4f roadMatrix;
+    vmml::Matrix4f terrainMM;
+    vmml::Matrix4f particlesMM;
+    vmml::Matrix4f skyMM;
 
 };
 

@@ -9,30 +9,6 @@
 
 /* Initialize the Project */
 Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(0.f, 0.f, 0.f),  vmml::Vector3f::UNIT_Z, 0.f);
-vmml::Matrix4f checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-vmml::Matrix4f roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-vmml::Matrix4f terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
-vmml::Matrix4f particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
-vmml::Matrix4f skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
-
-double _time = 0;
-double countDown = 3.0;
-float _pitchSum = 0.0f;
-vmml::AABBf aabb2;
-vmml::AABBf aabb3;
-vmml::AABBf aabb4;
-vmml::AABBf aabb5;
-vmml::Vector4f eyePos;
-vmml::Matrix4f viewMatrix;
-FontPtr font;
-FontPtr font2;
-bool isRunning = false;
-bool isActivated = false;
-float pitch;
-double roundTimes[3];
-int roundCounter;
-vmml::Vector3f camPosition;
-CameraPtr cameraPtr;
 
 void RenderProject::init()
 {
@@ -57,16 +33,21 @@ void RenderProject::initFunction()
     bRenderer::log("Shading Language Version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
     
     // initialize variables
-    _offset = 0.0f;
-    _randomOffset = 0.0f;
-    _cameraSpeed = 40.0f;
-    _running = true; _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
+    _lastStateSpaceKey = bRenderer::INPUT_UNDEFINED;
     _viewMatrixHUD = Camera::lookAt(vmml::Vector3f(0.0f, 0.0f, 0.25f), vmml::Vector3f::ZERO, vmml::Vector3f::UP);
-    
+    _time = 0;
+    countDown = 3.0;
+    _pitchSum = 0.0f;
+    isRunning = false;
+    isActivated = false;
     font = bRenderer().getObjects()->loadFont("dig.ttf", 100);
     font2 = bRenderer().getObjects()->loadFont("CloseRace.ttf", 100);
     
-    bRenderer().getObjects()->createTexture("particle_texture", 0.f, 0.f);
+    checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, 0.f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
+    particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
+    skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
     
     // set shader versions (optional)
     bRenderer().getObjects()->setShaderVersionDesktop("#version 120");
@@ -101,6 +82,7 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->createFramebuffer("glow");
     bRenderer().getObjects()->createFramebuffer("glow2");
     // create textures
+    bRenderer().getObjects()->createTexture("particle_texture", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("fbo_texture1", 0.f, 0.f);	
     bRenderer().getObjects()->createTexture("fbo_texture2", 0.f, 0.f);
     bRenderer().getObjects()->createTexture("glow_texture", 0.f, 0.f);
@@ -209,7 +191,6 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     }
     
     
-    
     GLint defaultFBO = 0;
     
     if(isRunning){
@@ -241,8 +222,12 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     drawCheckpoint(checkpoint);
     drawShadow();
     drawSkybox(skyMM);
+    if(!isRunning && !isActivated){
+        drawStandingsText();
+    }
     if(!isRunning && isActivated){
         drawCountdown();
+        drawStandingsText();
     }
     if(isRunning){
         vmml::Matrix4f modelMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5));
@@ -419,6 +404,10 @@ void RenderProject::drawCountdown(){
     bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(0.f, 0.f, 0.f), numberString, font2);
     vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
     bRenderer().getModelRenderer()->drawText("startText", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
+    
+    roundTimes[0] = 0.0;
+    roundTimes[1] = 0.0;
+    roundTimes[2] = 0.0;
 }
 // Draw Functions
 void RenderProject::drawShadow(){
@@ -527,7 +516,7 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
         vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrix);
         shader->setUniform("NormalMatrix", normalMatrix);
         shader->setUniform("EyePos", eyePos);
-        shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f,1.));
+        shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f, 1.));
         shader->setUniform("Ia", vmml::Vector3f(5.f));
         shader->setUniform("Id", vmml::Vector3f(1.f));
         shader->setUniform("Is", vmml::Vector3f(5.f));
@@ -542,17 +531,11 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
 void RenderProject::resetGame(){
     _time = 0;
     countDown = 3.0;
-    car.speed = 0.0;
     cameraPtr->resetCamera();
     _pitchSum = 0.0f;
     isRunning = false;
     isActivated = false;
     pitch = 0.0;
-    roundTimes[0] = 0.0;
-    roundTimes[1] = 0.0;
-    roundTimes[2] = 0.0;
     roundCounter = 0;
-    car.modelMatrix = vmml::create_translation(vmml::Vector3f(1.0f, 0.0f, 1.f));
-    
-    car.boost = 5;
+    car.reset();
 }

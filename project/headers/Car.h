@@ -26,6 +26,7 @@ public:
     bool activateBoost();
     void addCollidable(GameObject);
     void clearCollidables();
+    void reset();
 
 private:
     std::vector<GameObject> collidables;
