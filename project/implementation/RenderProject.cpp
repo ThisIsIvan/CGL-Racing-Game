@@ -91,6 +91,7 @@ void RenderProject::initFunction()
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("skybox2.obj", false, true, skyShader, skyProperties);
+    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShader, planeProperties);
     
     // create camera
     bRenderer().getObjects()->createCamera("camera");
@@ -434,7 +435,7 @@ void RenderProject::drawShadow(){
 ////    shadowMatrix *= vmml::create_scaling(vmml::Vector3f(x, 0.1f, y));
 ////    shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
 //    
-    vmml::Vector3f light = vmml::Vector3f(0.0f, 300.f, 100.f);
+    vmml::Vector3f light = vmml::Vector3f(0.0f, -300.f, -100.f);
 //    vmml::Matrix4f m;
 //    m[3][1] = -1.0/light.y();
 //    shadowMatrix = car.modelMatrix * vmml::create_translation(light) * m * vmml::create_translation(vmml::Vector3f(-light.x(), -light.y(), -light.z()));
@@ -465,12 +466,11 @@ void RenderProject::drawShadow(){
     bRenderer().getObjects()->getFramebuffer("shadow")->bindTexture(bRenderer().getObjects()->getTexture("shadow_texture"), false);
     GLint shadowFBO = Framebuffer::getCurrentFramebuffer();
     
-//    drawCar(car, false);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
     ShaderPtr shader = setShaderUniforms("plane", car.modelMatrix);
     shader->setUniform("braking", false);
-    
     bRenderer().getObjects()->getCamera("shadowCamera")->setPosition(light);
-    bRenderer().getModelRenderer()->drawModel("plane", "shadowCamera", car.modelMatrix, std::vector<std::string>({ }));
+    bRenderer().getModelRenderer()->drawModel("planeShadow", "shadowCamera", car.modelMatrix, std::vector<std::string>({ }));
     
     vmml::Matrix4f shadowMatrix = vmml::create_translation(vmml::Vector3f(0.0f, 0.0f, -0.5f));
     bRenderer().getObjects()->getFramebuffer("shadow")->unbind(shadowFBO); //unbind (original fbo will be bound)
@@ -583,11 +583,6 @@ void RenderProject::resetGame(){
     countDown = 3.0;
     car.speed = 0.0;
     cameraPtr->resetCamera();
-//    cameraPtr->setRotation(vmml::Vector3f(0.0, _pitchSum, 0.0));
-//    camPosition = vmml::Vector3f(-car.modelMatrix.x() + 4. * sinf(_pitchSum),
-//                                 -2.0,
-//                                 -car.modelMatrix.z() - 4. * cosf(_pitchSum));
-    
     _pitchSum = 0.0f;
     isRunning = false;
     isActivated = false;
