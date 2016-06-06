@@ -75,22 +75,21 @@ void RenderProject::initFunction()
     // load materials and shaders before loading the model
     ShaderPtr planeShader = bRenderer().getObjects()->loadShaderFile("plane", 0, false, false, false, false, false);
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
-    
     ShaderPtr planeShadow = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
-    PropertiesPtr shadowProperties = bRenderer().getObjects()->createProperties("shadowProperties");
-    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadow, shadowProperties);
     
     // create additional properties for a model
     PropertiesPtr guyProperties = bRenderer().getObjects()->createProperties("guyProperties");
     PropertiesPtr terrainProperties = bRenderer().getObjects()->createProperties("terrainProperties");
     PropertiesPtr planeProperties = bRenderer().getObjects()->createProperties("planeProperties");
     PropertiesPtr skyProperties = bRenderer().getObjects()->createProperties("skyProperties");
+    PropertiesPtr shadowProperties = bRenderer().getObjects()->createProperties("shadowProperties");
 
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, planeProperties)->getBoundingBoxObjectSpace();
     aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 0, false, false, terrainProperties)->getBoundingBoxObjectSpace();
-    bRenderer().getObjects()->loadObjModel("skybox2.obj", false, true, skyShader, skyProperties);
+    bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, skyProperties);
+    bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadow, shadowProperties);
     
     // create camera
     bRenderer().getObjects()->createCamera("camera");
@@ -423,11 +422,26 @@ void RenderProject::drawCountdown(){
 }
 // Draw Functions
 void RenderProject::drawShadow(){
-    vmml::Matrix4f shadowMatrix = car.modelMatrix;
+    vmml::Matrix4f shadowMatrix= car.modelMatrix;
     shadowMatrix *= vmml::create_scaling(vmml::Vector3f(1.f, 0.1f, 1.f));
-    shadowMatrix *= vmml::create_translation(vmml::Vector3f(0.5*sinf(_pitchSum), 0.0f, 0.8 + 0.5*cosf(_pitchSum)));
-    ShaderPtr shader = setShaderUniforms("planeShadow", shadowMatrix);
-    bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", shadowMatrix, std::vector<std::string>({ }));
+    
+    vmml::Matrix4f tempMatrix;
+    ShaderPtr shader;
+    float angle_x = sinf(_pitchSum);
+    float angle_z = cosf(_pitchSum);
+    float base_x = 0.04;
+    float base_z = 0.1;
+    float offset_z = 0.3;
+    float inc_var = 0.05;
+    
+    for(int i = 0; i < 9; i++){
+        tempMatrix = shadowMatrix * vmml::create_translation(vmml::Vector3f(base_x * angle_x, 0.0f, offset_z + base_z * angle_z));
+        shader = setShaderUniforms("planeShadow", tempMatrix);
+        bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", tempMatrix, std::vector<std::string>({ }));
+        base_x += inc_var;
+        base_z += inc_var+0.02;
+//        offset_z += inc_var;
+    }
 }
 
 void RenderProject::drawTerrain(GameObject terr){
@@ -449,7 +463,7 @@ void RenderProject::drawRoad(GameObject road){
 
 void RenderProject::drawSkybox(vmml::Matrix4f skyMM){
     ShaderPtr shader = setShaderUniforms("skybox", skyMM);
-    bRenderer().getModelRenderer()->drawModel("skybox2", "camera", skyMM, std::vector<std::string>({ }));
+    bRenderer().getModelRenderer()->drawModel("skybox", "camera", skyMM, std::vector<std::string>({ }));
 }
 
 void RenderProject::drawCar(Car car, bool braking){
