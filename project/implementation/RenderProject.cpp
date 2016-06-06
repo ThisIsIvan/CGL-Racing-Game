@@ -430,8 +430,8 @@ void RenderProject::drawShadow(){
     float angle_x = sinf(_pitchSum);
     float angle_z = cosf(_pitchSum);
     float base_x = 0.04;
-    float base_z = 0.1;
-    float offset_z = 0.3;
+    float base_z = 0.08;
+    float offset_z = 0.35;
     float inc_var = 0.05;
     
     for(int i = 0; i < 9; i++){
@@ -439,8 +439,7 @@ void RenderProject::drawShadow(){
         shader = setShaderUniforms("planeShadow", tempMatrix);
         bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", tempMatrix, std::vector<std::string>({ }));
         base_x += inc_var;
-        base_z += inc_var+0.02;
-//        offset_z += inc_var;
+        base_z += inc_var;
     }
 }
 
