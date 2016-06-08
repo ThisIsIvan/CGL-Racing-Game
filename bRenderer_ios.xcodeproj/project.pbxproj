@@ -29,7 +29,6 @@
 		A82427DB1CFDB04800311BA8 /* carShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427861CFDB04800311BA8 /* carShader.vert */; };
 		A82427DC1CFDB04800311BA8 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = A82427871CFDB04800311BA8 /* config.json */; };
 		A82427DD1CFDB04800311BA8 /* cp.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427881CFDB04800311BA8 /* cp.frag */; };
-		A82427DF1CFDB04800311BA8 /* cp.obj in Resources */ = {isa = PBXBuildFile; fileRef = A824278A1CFDB04800311BA8 /* cp.obj */; };
 		A82427E01CFDB04800311BA8 /* cp.vert in Resources */ = {isa = PBXBuildFile; fileRef = A824278B1CFDB04800311BA8 /* cp.vert */; };
 		A82427E11CFDB04800311BA8 /* dig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A824278C1CFDB04800311BA8 /* dig.ttf */; };
 		A82427E21CFDB04800311BA8 /* glowShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A824278D1CFDB04800311BA8 /* glowShader.frag */; };
