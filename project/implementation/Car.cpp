@@ -29,6 +29,9 @@ bool Car::handleCollision(GameObject obj){
                 break;
             case ObjectType::CHECKPOINT:
                 break;
+            case ObjectType::BOARD:
+                speed = 0.f;
+                break;
             default:
                 break;
         }
@@ -53,6 +56,7 @@ bool Car::move(vmml::Matrix4f rotationY){
             if(handleCollision(collidables.at(i)) && collidables.at(i).getType() == ObjectType::CHECKPOINT){
                 checkPointPassed = true;
             }
+            
         }
     }
     

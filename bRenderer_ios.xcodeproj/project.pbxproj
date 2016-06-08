@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		812D18C41D05EE5A00FE4AC9 /* planeShadow.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 812D18C21D05EE5A00FE4AC9 /* planeShadow.mtl */; };
 		812D18C51D05EE5A00FE4AC9 /* planeShadow.obj in Resources */ = {isa = PBXBuildFile; fileRef = 812D18C31D05EE5A00FE4AC9 /* planeShadow.obj */; };
+		812D18D81D086AFB00FE4AC9 /* cpShadow.frag in Resources */ = {isa = PBXBuildFile; fileRef = 812D18D61D086AFB00FE4AC9 /* cpShadow.frag */; };
+		812D18D91D086AFB00FE4AC9 /* cpShadow.vert in Resources */ = {isa = PBXBuildFile; fileRef = 812D18D71D086AFB00FE4AC9 /* cpShadow.vert */; };
+		812D18E81D0886DF00FE4AC9 /* cp.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 812D18E61D0886DF00FE4AC9 /* cp.mtl */; };
+		812D18E91D0886DF00FE4AC9 /* cp.obj in Resources */ = {isa = PBXBuildFile; fileRef = 812D18E71D0886DF00FE4AC9 /* cp.obj */; };
+		812D18F01D088CE200FE4AC9 /* cpshadow.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 812D18EE1D088CE200FE4AC9 /* cpshadow.mtl */; };
+		812D18F11D088CE200FE4AC9 /* cpshadow.obj in Resources */ = {isa = PBXBuildFile; fileRef = 812D18EF1D088CE200FE4AC9 /* cpshadow.obj */; };
 		8177E8F21CD8EF76001FBFEE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8177E8F11CD8EF76001FBFEE /* GameObject.cpp */; };
 		81F45A8F1CFEEDB100C719F1 /* planeShadow.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81F45A8B1CFEEDB100C719F1 /* planeShadow.frag */; };
 		81F45A921CFEEDB100C719F1 /* planeShadow.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81F45A8E1CFEEDB100C719F1 /* planeShadow.vert */; };
@@ -23,7 +29,6 @@
 		A82427DB1CFDB04800311BA8 /* carShader.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427861CFDB04800311BA8 /* carShader.vert */; };
 		A82427DC1CFDB04800311BA8 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = A82427871CFDB04800311BA8 /* config.json */; };
 		A82427DD1CFDB04800311BA8 /* cp.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427881CFDB04800311BA8 /* cp.frag */; };
-		A82427DE1CFDB04800311BA8 /* cp.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427891CFDB04800311BA8 /* cp.mtl */; };
 		A82427DF1CFDB04800311BA8 /* cp.obj in Resources */ = {isa = PBXBuildFile; fileRef = A824278A1CFDB04800311BA8 /* cp.obj */; };
 		A82427E01CFDB04800311BA8 /* cp.vert in Resources */ = {isa = PBXBuildFile; fileRef = A824278B1CFDB04800311BA8 /* cp.vert */; };
 		A82427E11CFDB04800311BA8 /* dig.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A824278C1CFDB04800311BA8 /* dig.ttf */; };
@@ -173,6 +178,12 @@
 /* Begin PBXFileReference section */
 		812D18C21D05EE5A00FE4AC9 /* planeShadow.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planeShadow.mtl; sourceTree = "<group>"; };
 		812D18C31D05EE5A00FE4AC9 /* planeShadow.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planeShadow.obj; sourceTree = "<group>"; };
+		812D18D61D086AFB00FE4AC9 /* cpShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cpShadow.frag; sourceTree = "<group>"; };
+		812D18D71D086AFB00FE4AC9 /* cpShadow.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cpShadow.vert; sourceTree = "<group>"; };
+		812D18E61D0886DF00FE4AC9 /* cp.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cp.mtl; sourceTree = "<group>"; };
+		812D18E71D0886DF00FE4AC9 /* cp.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cp.obj; sourceTree = "<group>"; };
+		812D18EE1D088CE200FE4AC9 /* cpshadow.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cpshadow.mtl; sourceTree = "<group>"; };
+		812D18EF1D088CE200FE4AC9 /* cpshadow.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cpshadow.obj; sourceTree = "<group>"; };
 		8177E8EE1CD8ED20001FBFEE /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		8177E8F11CD8EF76001FBFEE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
 		81F45A8B1CFEEDB100C719F1 /* planeShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = planeShadow.frag; sourceTree = "<group>"; };
@@ -189,7 +200,6 @@
 		A82427861CFDB04800311BA8 /* carShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = carShader.vert; sourceTree = "<group>"; };
 		A82427871CFDB04800311BA8 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		A82427881CFDB04800311BA8 /* cp.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cp.frag; sourceTree = "<group>"; };
-		A82427891CFDB04800311BA8 /* cp.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cp.mtl; sourceTree = "<group>"; };
 		A824278A1CFDB04800311BA8 /* cp.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cp.obj; sourceTree = "<group>"; };
 		A824278B1CFDB04800311BA8 /* cp.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cp.vert; sourceTree = "<group>"; };
 		A824278C1CFDB04800311BA8 /* dig.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dig.ttf; sourceTree = "<group>"; };
@@ -469,9 +479,13 @@
 				A8540A171CFDCB750023DC56 /* CloseRace.ttf */,
 				A82427871CFDB04800311BA8 /* config.json */,
 				A82427881CFDB04800311BA8 /* cp.frag */,
-				A82427891CFDB04800311BA8 /* cp.mtl */,
-				A824278A1CFDB04800311BA8 /* cp.obj */,
+				812D18E61D0886DF00FE4AC9 /* cp.mtl */,
+				812D18E71D0886DF00FE4AC9 /* cp.obj */,
+				812D18EE1D088CE200FE4AC9 /* cpshadow.mtl */,
+				812D18EF1D088CE200FE4AC9 /* cpshadow.obj */,
 				A824278B1CFDB04800311BA8 /* cp.vert */,
+				812D18D61D086AFB00FE4AC9 /* cpShadow.frag */,
+				812D18D71D086AFB00FE4AC9 /* cpShadow.vert */,
 				A824278C1CFDB04800311BA8 /* dig.ttf */,
 				A824278D1CFDB04800311BA8 /* glowShader.frag */,
 				A824278E1CFDB04800311BA8 /* glowShader.vert */,
@@ -481,12 +495,12 @@
 				A82427941CFDB04800311BA8 /* particles.frag */,
 				A82427951CFDB04800311BA8 /* particles.vert */,
 				A82427961CFDB04800311BA8 /* plane.frag */,
-				812D18C21D05EE5A00FE4AC9 /* planeShadow.mtl */,
-				812D18C31D05EE5A00FE4AC9 /* planeShadow.obj */,
 				A82427971CFDB04800311BA8 /* plane.mtl */,
 				A82427981CFDB04800311BA8 /* plane.obj */,
 				A82427991CFDB04800311BA8 /* plane.vert */,
 				81F45A8B1CFEEDB100C719F1 /* planeShadow.frag */,
+				812D18C21D05EE5A00FE4AC9 /* planeShadow.mtl */,
+				812D18C31D05EE5A00FE4AC9 /* planeShadow.obj */,
 				81F45A8E1CFEEDB100C719F1 /* planeShadow.vert */,
 				A82427A21CFDB04800311BA8 /* road.frag */,
 				A82427A31CFDB04800311BA8 /* road.mtl */,
@@ -846,13 +860,17 @@
 				A82427EB1CFDB04800311BA8 /* plane.frag in Resources */,
 				A82427EC1CFDB04800311BA8 /* plane.mtl in Resources */,
 				A824280E1CFDB04800311BA8 /* skybox.obj in Resources */,
+				812D18F11D088CE200FE4AC9 /* cpshadow.obj in Resources */,
 				81F45A8F1CFEEDB100C719F1 /* planeShadow.frag in Resources */,
 				A82427E81CFDB04800311BA8 /* skybox_middle.png in Resources */,
 				A82428201CFDB04800311BA8 /* terrain5.mtl in Resources */,
 				A82427E11CFDB04800311BA8 /* dig.ttf in Resources */,
+				812D18D81D086AFB00FE4AC9 /* cpShadow.frag in Resources */,
+				812D18E81D0886DF00FE4AC9 /* cp.mtl in Resources */,
 				A82427DD1CFDB04800311BA8 /* cp.frag in Resources */,
 				A82427D81CFDB04800311BA8 /* carBlurShader.frag in Resources */,
 				A82427F71CFDB04800311BA8 /* road.frag in Resources */,
+				812D18D91D086AFB00FE4AC9 /* cpShadow.vert in Resources */,
 				A82427D91CFDB04800311BA8 /* carBlurShader.vert in Resources */,
 				A82427E61CFDB04800311BA8 /* guy.vert in Resources */,
 				A824281A1CFDB04800311BA8 /* terrain1.obj in Resources */,
@@ -866,9 +884,9 @@
 				A82427E41CFDB04800311BA8 /* ground.png in Resources */,
 				812D18C41D05EE5A00FE4AC9 /* planeShadow.mtl in Resources */,
 				A82428231CFDB04800311BA8 /* terrain7.obj in Resources */,
+				812D18F01D088CE200FE4AC9 /* cpshadow.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				A82428191CFDB04800311BA8 /* terrain1.mtl in Resources */,
-				A82427DE1CFDB04800311BA8 /* cp.mtl in Resources */,
 				A82428171CFDB04800311BA8 /* terrain.obj in Resources */,
 				A82428221CFDB04800311BA8 /* terrain7.mtl in Resources */,
 				A82427E71CFDB04800311BA8 /* skybox_left.png in Resources */,
@@ -894,6 +912,7 @@
 				A82427DB1CFDB04800311BA8 /* carShader.vert in Resources */,
 				A82427F61CFDB04800311BA8 /* skybox_back.png in Resources */,
 				A82428251CFDB04800311BA8 /* truck_bump.jpg in Resources */,
+				812D18E91D0886DF00FE4AC9 /* cp.obj in Resources */,
 				A82427E31CFDB04800311BA8 /* glowShader.vert in Resources */,
 				A82428161CFDB04800311BA8 /* terrain.mtl in Resources */,
 				A824281E1CFDB04800311BA8 /* terrain4.mtl in Resources */,

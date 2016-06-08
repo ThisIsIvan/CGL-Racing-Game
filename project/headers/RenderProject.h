@@ -79,13 +79,11 @@ private:
     // PostProcessing
     void renderBloomEffect(Car, bool, GLint);
     void renderCar(Car, bool, GLint);
-    ShaderPtr setShaderUniforms(std::string, vmml::Matrix4f);
+    ShaderPtr setShaderUniforms(std::string, vmml::Matrix4f, bool);
     
     void resetGame();
     
 	/* Variables */
-	double _mouseX, _mouseY;
-	GLint _lastStateSpaceKey = 0;
 	vmml::Matrix4f _viewMatrixHUD;
     
     double _time;
