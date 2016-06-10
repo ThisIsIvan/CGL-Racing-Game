@@ -43,7 +43,7 @@ void RenderProject::initFunction()
     font2 = bRenderer().getObjects()->loadFont("CloseRace.ttf", 100);
     
     checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, -0.1f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.3f, 10.f)) * vmml::create_scaling(vmml::Vector3f(10.0f, 10.0f, 10.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.0f, 10.f)) * vmml::create_scaling(vmml::Vector3f(2.0f, 2.0f, 2.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
     terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
     particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
     skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
@@ -62,7 +62,7 @@ void RenderProject::initFunction()
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, nullptr)->getBoundingBoxObjectSpace();
     aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
-    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
+    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, true, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
     bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadowShader, nullptr);
     bRenderer().getObjects()->loadObjModel("cpshadow.obj", false, true, cpShadowShader, nullptr);
@@ -417,7 +417,7 @@ void RenderProject::drawShadow(){
     float inc_val = 0.05;
     
     for(int i = 0; i < 9; i++){
-        tempMatrix = shadowMatrix * vmml::create_translation(vmml::Vector3f(base_x * angle_x, 0.0f, offset_z + base_z * angle_z));
+        tempMatrix = shadowMatrix * vmml::create_translation(vmml::Vector3f(base_x * angle_x, 0.5f, offset_z + base_z * angle_z));
         shader = setShaderUniforms("planeShadow", tempMatrix, false);
         bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", tempMatrix, std::vector<std::string>({ }));
         base_x += inc_val;
