@@ -11,4 +11,4 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd road.png
-map_Ks Tileable_cracked_asphalt_road_texture_NORMAL.jpg
+map_Bump road_bump.jpg

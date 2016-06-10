@@ -415,9 +415,10 @@ void RenderProject::drawShadow(){
     float base_z = 0.08;
     float offset_z = 0.35;
     float inc_val = 0.05;
+    float base_y = car.modelMatrix.get_translation().y()+0.2;
     
     for(int i = 0; i < 9; i++){
-        tempMatrix = shadowMatrix * vmml::create_translation(vmml::Vector3f(base_x * angle_x, 0.5f, offset_z + base_z * angle_z));
+        tempMatrix = shadowMatrix * vmml::create_translation(vmml::Vector3f(base_x * angle_x, base_y, offset_z + base_z * angle_z));
         shader = setShaderUniforms("planeShadow", tempMatrix, false);
         bRenderer().getModelRenderer()->drawModel("planeShadow", "camera", tempMatrix, std::vector<std::string>({ }));
         base_x += inc_val;
@@ -514,8 +515,8 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
             shader->setUniform("NormalMatrix", normalMatrix);
             shader->setUniform("EyePos", eyePos);
             shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f, 1.));
-            shader->setUniform("Ia", vmml::Vector3f(5.f));
-            shader->setUniform("Id", vmml::Vector3f(1.f));
+            shader->setUniform("Ia", vmml::Vector3f(2.f));
+            shader->setUniform("Id", vmml::Vector3f(2.f));
             shader->setUniform("Is", vmml::Vector3f(5.f));
         }
     }
