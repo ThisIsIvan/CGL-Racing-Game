@@ -43,7 +43,7 @@ void main()
     
     highp float intensity = dot(n, l);
     highp vec3 diffuse = /*Kd */ clamp(intensity, 0.0, 1.0) * Id;
-    highp vec4 diffuseResult = vec4(diffuse, 1.0);
+    highp vec4 diffuseResult = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
     
     // If vertex is lit, calculate specular term in view space using the Blinn-Phong model
     highp vec4 specularResult = vec4(0.0);

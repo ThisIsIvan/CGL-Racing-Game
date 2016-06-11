@@ -9,6 +9,7 @@
 
 /* Initialize the Project */
 Car car = Car(vmml::Vector3f(1.0f, 1.0f, 1.f), vmml::Vector3f(0.f, 0.f, 0.f),  vmml::Vector3f::UNIT_Z, 0.f);
+std::string text;
 
 void RenderProject::init()
 {
@@ -39,6 +40,7 @@ void RenderProject::initFunction()
     _pitchSum = 0.0f;
     isRunning = false;
     isActivated = false;
+    gameStart = true;
     font = bRenderer().getObjects()->loadFont("dig.ttf", 100);
     font2 = bRenderer().getObjects()->loadFont("CloseRace.ttf", 100);
     
@@ -62,7 +64,7 @@ void RenderProject::initFunction()
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, nullptr)->getBoundingBoxObjectSpace();
     aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
-    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, true, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
+    aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, true, true, 0, false, true, nullptr)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
     bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadowShader, nullptr);
     bRenderer().getObjects()->loadObjModel("cpshadow.obj", false, true, cpShadowShader, nullptr);
@@ -98,6 +100,8 @@ void RenderProject::initFunction()
     ShaderPtr glow2Shader = bRenderer().getObjects()->loadShaderFile("carBlurShader", 0, false, false, false, false, false);
     MaterialPtr glow2Material = bRenderer().getObjects()->createMaterial("glow2Material", glow2Shader);
     bRenderer().getObjects()->createSprite("glow2Sprite", glow2Material);
+    
+    text = "Touch To Start";
     
     // Update render queue
     updateRenderQueue("camera", 0.0f);
@@ -253,6 +257,8 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
                 _time = 0.0;
                 if(roundCounter == 3){
                     resetGame();
+                    text = "Touch To Restart";
+                    gameStart = true;
                 }
             }
         }
@@ -262,9 +268,15 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     }
     else{
         if(!isActivated){
-            drawStartText();
+            drawText(text, gameStart);
         }
         drawCar(car, false);
+    }
+    
+    if(car.modelMatrix.y() < -1){
+        resetGame();
+        text = "You drove off the map";
+        gameStart = false;
     }
 }
 
@@ -350,11 +362,16 @@ void RenderProject::updateSpeedText(std::string speedString){
     bRenderer().getModelRenderer()->drawText("speed", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
 }
 
-void RenderProject::drawStartText(){
-    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.1f)) * vmml::create_translation(vmml::Vector3f(-4.f, 1.f, 0.0f));
+void RenderProject::drawText(std::string text, bool start){
+    float base_x;
+    
+    if(start) base_x = -4.f;
+    else base_x = -5.5f;
+    
+    vmml::Matrix4f textMatrix = vmml::create_scaling(vmml::Vector3f(0.1f)) * vmml::create_translation(vmml::Vector3f(base_x, 1.f, 0.0f));
     
     bRenderer().getObjects()->removeTextSprite("startText", true);
-    bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(1.f, 1.f, 1.f), "Touch to start", font2);
+    bRenderer().getObjects()->createTextSprite("startText", vmml::Vector3f(1.f, 1.f, 1.f), text, font2);
     vmml::Matrix4f invViewMatrix = bRenderer().getObjects()->getCamera("camera")->getInverseViewMatrix();
     bRenderer().getModelRenderer()->drawText("startText", "camera", invViewMatrix * textMatrix, std::vector<std::string>({ }), false);
 }
@@ -513,11 +530,11 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
             vmml::Matrix3f normalMatrix;
             vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrix);
             shader->setUniform("NormalMatrix", normalMatrix);
-            shader->setUniform("EyePos", eyePos);
+            shader->setUniform("EyePos", cameraPtr->getPosition());
             shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f, 1.));
-            shader->setUniform("Ia", vmml::Vector3f(2.f));
-            shader->setUniform("Id", vmml::Vector3f(2.f));
-            shader->setUniform("Is", vmml::Vector3f(5.f));
+            shader->setUniform("Ia", vmml::Vector3f(1.f));
+            shader->setUniform("Id", vmml::Vector3f(1.f));
+            shader->setUniform("Is", vmml::Vector3f(1.f));
         }
     }
     else

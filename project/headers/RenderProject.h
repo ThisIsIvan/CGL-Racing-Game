@@ -64,7 +64,8 @@ private:
     
     void updateTimeText(std::string);
     void updateSpeedText(std::string);
-    void drawStartText();
+//    void drawStartText();
+    void drawText(std::string, bool);
     void drawStandingsText();
     void drawCountdown();
     
@@ -99,6 +100,7 @@ private:
     FontPtr font2;
     bool isRunning;
     bool isActivated;
+    bool gameStart;
     float pitch;
     double roundTimes[3];
     int roundCounter;

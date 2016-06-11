@@ -31,12 +31,8 @@ varying highp vec4 posVarying;        // pos in world space
 varying highp vec3 normalVarying;     // normal in world space
 varying highp vec3 tangentVarying;    // tangent in world space
 
-highp mat4 ModelViewProjectionMatrix;
-
 void main()
 {
-    ModelViewProjectionMatrix = ProjectionMatrix * ViewMatrix * ModelMatrix;
-    
     posVarying = ModelMatrix * Position;
     normalVarying = normalize(NormalMatrix * Normal);
     tangentVarying = normalize(NormalMatrix * Tangent);
