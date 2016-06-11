@@ -64,7 +64,7 @@ bool Car::move(vmml::Matrix4f rotationY){
 }
 
 void Car::accelerate(){
-    speed = speed + std::max(2., 2*std::log(speed/10.)/2.);
+    speed = speed + std::max(.5, std::log(speed/10.)/8.);
     speed = std::min((float)MAX_SPEED, speed);
     boost += 1;
 }
@@ -80,8 +80,9 @@ void Car::brake(){
 }
 
 bool Car::activateBoost(){
-    if(boost > 10){
-        boost -= 10;
+    if(boost > MAX_BOOST) boost = MAX_BOOST;
+    if(boost > 50){
+        boost -= 8;
         speed = speed + std::max(2., 10*std::log(speed/10.));
         speed = std::min(1.1f * MAX_SPEED, speed);
         return true;
