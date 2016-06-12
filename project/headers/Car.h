@@ -15,7 +15,7 @@ class Car : public GameObject{
 public:
     float speed;
     int boost;
-    const int MAX_BOOST = 300;
+    const int MAX_BOOST = 800;
     const int MAX_SPEED = 120;
     
     Car(vmml::Vector3f, vmml::Vector3f, vmml::Vector3f, float);
