@@ -60,7 +60,7 @@ private:
     void updateCamera(const std::string &camera, const double &deltaTime);
     
     /* Helper Functions */
-    GLfloat randomNumber(GLfloat min, GLfloat max);
+    GLfloat randomNumber(float min, float max);
     
     void updateTimeText(std::string);
     void updateSpeedText(std::string);
@@ -76,6 +76,7 @@ private:
     void drawSkybox(vmml::Matrix4f);
     void drawCar(Car, bool);
     void drawShadow();
+    void drawClouds(double);
     
     // PostProcessing
     void renderBloomEffect(Car, bool, GLint);
@@ -95,6 +96,10 @@ private:
     
     float _pitchSum;
     float pitch;
+    float cloud_x[40];
+    float cloud_z[40];
+    float cloud_size[40];
+    float cloud_speed[40];
     
     std::string text;
     

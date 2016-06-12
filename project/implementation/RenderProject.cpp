@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Car.h"
 #include <string>
+#include <math.h>
 
 #ifdef __OBJC__
 #import <CoreMotion/CoreMotion.h>
@@ -43,6 +44,14 @@ void RenderProject::initFunction()
     font = bRenderer().getObjects()->loadFont("dig.ttf", 100);
     font2 = bRenderer().getObjects()->loadFont("CloseRace.ttf", 100);
     
+    srand((unsigned)time(0));
+    for(int i = 0; i < 40; i++){
+        cloud_x[i] = randomNumber(-400., 400.);
+        cloud_z[i] = randomNumber(-400., 400.);
+        cloud_size[i] = randomNumber(3., 15.);
+        cloud_speed[i] = randomNumber(0.001, 0.02);
+    }
+    
     checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, -0.1f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
     roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.0f, 10.f)) * vmml::create_scaling(vmml::Vector3f(2.0f, 2.0f, 2.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
     terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
@@ -58,6 +67,7 @@ void RenderProject::initFunction()
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
     ShaderPtr planeShadowShader = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
     ShaderPtr cpShadowShader = bRenderer().getObjects()->loadShaderFile("cpShadow", 0, false, false, false, false, false);
+    ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
     
     // load models
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, nullptr)->getBoundingBoxObjectSpace();
@@ -67,6 +77,7 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
     bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadowShader, nullptr);
     bRenderer().getObjects()->loadObjModel("cpshadow.obj", false, true, cpShadowShader, nullptr);
+    bRenderer().getObjects()->loadObjModel("clouds.obj", false, true, guyShader, nullptr);
     
     // create camera
     cameraPtr = bRenderer().getObjects()->createCamera("camera");
@@ -217,6 +228,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     drawCheckpoint(checkpoint);
     drawShadow();
     drawSkybox(skyMM);
+    drawClouds(deltaTime);
     
     if(!isRunning && !isActivated){
         drawStandingsText();
@@ -324,8 +336,8 @@ void RenderProject::appWillTerminate()
 }
 
 /* Helper functions */
-GLfloat RenderProject::randomNumber(GLfloat min, GLfloat max){
-    return min + static_cast <GLfloat> (rand()) / (static_cast <GLfloat> (RAND_MAX / (max - min)));
+float RenderProject::randomNumber(float min, float max){
+    return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
 }
 
 void RenderProject::showCPPassedText(){
@@ -465,6 +477,17 @@ void RenderProject::drawRoad(GameObject road){
 void RenderProject::drawSkybox(vmml::Matrix4f skyMM){
     ShaderPtr shader = setShaderUniforms("skybox", skyMM, false);
     bRenderer().getModelRenderer()->drawModel("skybox", "camera", skyMM, std::vector<std::string>({ }));
+}
+
+void RenderProject::drawClouds(double deltaTime){
+    vmml::Matrix4f mm;
+    for(int i = 0; i < 40; i++){
+        cloud_x[i] = cloud_x[i] + cloud_speed[i];
+        cloud_z[i] = cloud_z[i] + cloud_speed[i];
+        mm = vmml::create_translation(vmml::Vector3f(cloud_x[i], 60.f, cloud_z[i])) * vmml::create_scaling(vmml::Vector3f(cloud_size[i]));
+        ShaderPtr shader = setShaderUniforms("guy", mm, true);
+        bRenderer().getModelRenderer()->drawModel("clouds", "camera", mm, std::vector<std::string>({ }));
+    }
 }
 
 void RenderProject::drawCar(Car car, bool braking){
