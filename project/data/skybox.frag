@@ -1,8 +1,8 @@
 uniform sampler2D DiffuseMap;
-varying lowp vec4 texCoordVarying;
+varying highp vec4 texCoordVarying;
 
 void main()
 {
-    lowp vec4 color = texture2DProj(DiffuseMap, texCoordVarying);
+    highp vec4 color = texture2DProj(DiffuseMap, texCoordVarying);
     gl_FragColor = color;
 }

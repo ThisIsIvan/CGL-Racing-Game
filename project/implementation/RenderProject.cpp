@@ -68,10 +68,13 @@ void RenderProject::initFunction()
     ShaderPtr planeShadowShader = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
     ShaderPtr cpShadowShader = bRenderer().getObjects()->loadShaderFile("cpShadow", 0, false, false, false, false, false);
     ShaderPtr cloudShader = bRenderer().getObjects()->loadShaderFile("cloud", 0, false, false, false, false, false);
-    
+    ShaderPtr cpShader = bRenderer().getObjects()->loadShaderFile("cp", 0, false, false, false, false, false);
+
     // load models
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, nullptr)->getBoundingBoxObjectSpace();
-    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
+//    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
+    
+    aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, true, cpShader, nullptr)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, true, true, 0, false, true, nullptr)->getBoundingBoxObjectSpace();
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
@@ -465,8 +468,10 @@ void RenderProject::drawTerrain(GameObject terr){
 }
 
 void RenderProject::drawCheckpoint(GameObject checkpoint){
-    ShaderPtr shader = setShaderUniforms("cp", checkpoint.modelMatrix, false);
+    glDisable(GL_CULL_FACE);
+    ShaderPtr shader = setShaderUniforms("cp", checkpoint.modelMatrix, true);
     bRenderer().getModelRenderer()->drawModel("cp", "camera", checkpoint.modelMatrix, std::vector<std::string>({ }));
+    glEnable(GL_CULL_FACE);
 }
 
 void RenderProject::drawRoad(GameObject road){
@@ -554,7 +559,7 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
             shader->setUniform("NormalMatrix", normalMatrix);
             shader->setUniform("EyePos", cameraPtr->getPosition());
             shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f, 1.));
-            shader->setUniform("Ia", vmml::Vector3f(1.f));
+            shader->setUniform("Ia", vmml::Vector3f(2.f));
             shader->setUniform("Id", vmml::Vector3f(1.f));
             shader->setUniform("Is", vmml::Vector3f(1.f));
         }
