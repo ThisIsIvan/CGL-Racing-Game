@@ -67,7 +67,7 @@ void RenderProject::initFunction()
     ShaderPtr skyShader = bRenderer().getObjects()->loadShaderFile("skybox", 0, false, false, false, false, false);
     ShaderPtr planeShadowShader = bRenderer().getObjects()->loadShaderFile("planeShadow", 0, false, false, false, false, false);
     ShaderPtr cpShadowShader = bRenderer().getObjects()->loadShaderFile("cpShadow", 0, false, false, false, false, false);
-    ShaderPtr guyShader = bRenderer().getObjects()->loadShaderFile("guy", 0, false, false, false, false, false);
+    ShaderPtr cloudShader = bRenderer().getObjects()->loadShaderFile("cloud", 0, false, false, false, false, false);
     
     // load models
     car.aabb = bRenderer().getObjects()->loadObjModel("plane.obj", false, true, planeShader, nullptr)->getBoundingBoxObjectSpace();
@@ -77,7 +77,7 @@ void RenderProject::initFunction()
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
     bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadowShader, nullptr);
     bRenderer().getObjects()->loadObjModel("cpshadow.obj", false, true, cpShadowShader, nullptr);
-    bRenderer().getObjects()->loadObjModel("clouds.obj", false, true, guyShader, nullptr);
+    bRenderer().getObjects()->loadObjModel("cloud.obj", false, true, cloudShader, nullptr);
     
     // create camera
     cameraPtr = bRenderer().getObjects()->createCamera("camera");
@@ -485,8 +485,8 @@ void RenderProject::drawClouds(double deltaTime){
         cloud_x[i] = cloud_x[i] + cloud_speed[i];
         cloud_z[i] = cloud_z[i] + cloud_speed[i];
         mm = vmml::create_translation(vmml::Vector3f(cloud_x[i], 60.f, cloud_z[i])) * vmml::create_scaling(vmml::Vector3f(cloud_size[i]));
-        ShaderPtr shader = setShaderUniforms("guy", mm, true);
-        bRenderer().getModelRenderer()->drawModel("clouds", "camera", mm, std::vector<std::string>({ }));
+        ShaderPtr shader = setShaderUniforms("cloud", mm, false);
+        bRenderer().getModelRenderer()->drawModel("cloud", "camera", mm, std::vector<std::string>({ }));
     }
 }
 

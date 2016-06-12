@@ -5,7 +5,7 @@ Ks 0 0 0
 d 1
 
 
-newmtl skybox_country_paths_back
+newmtl skybox_back
 Kd 0.588138 0.588138 0.588138
 Ka 0.678336 0.678336 0.678336
 Ks 0.607843 0.607843 0.607843
@@ -13,7 +13,7 @@ d 1
 map_Kd skybox_back.png
 
 
-newmtl skybox_country_paths_bottom
+newmtl skybox_bottom
 Kd 0.588138 0.588138 0.588138
 Ka 0.678336 0.678336 0.678336
 Ks 0.607843 0.607843 0.607843
@@ -21,14 +21,14 @@ d 1
 map_Kd skybox_bottom.jpg
 
 
-newmtl skybox_country_paths_front
+newmtl skybox_front
 Kd 0.580868 0.580868 0.580868
 Ka 0.669952 0.669952 0.669952
 Ks 0.60033 0.60033 0.60033
 d 1
 map_Kd skybox_middle.png
 
-newmtl skybox_country_paths_top
+newmtl skybox_top
 Kd 0.588138 0.588138 0.588138
 Ka 0.678336 0.678336 0.678336
 Ks 0.607843 0.607843 0.607843
@@ -36,7 +36,7 @@ d 1
 map_Kd skybox_top.jpg
 
 
-newmtl skybox_country_paths_left
+newmtl skybox_left
 Kd 0.588138 0.588138 0.588138
 Ka 0.678336 0.678336 0.678336
 Ks 0.607843 0.607843 0.607843
@@ -44,7 +44,7 @@ d 1
 map_Kd skybox_left.png
 
 
-newmtl skybox_country_paths_right
+newmtl skybox_right
 Kd 0.967581 0.967581 0.967581
 Ka 1 1 1
 Ks 1 1 1
