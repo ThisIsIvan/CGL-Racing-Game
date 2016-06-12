@@ -228,7 +228,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     drawCheckpoint(checkpoint);
     drawShadow();
     drawSkybox(skyMM);
-    drawClouds(deltaTime);
+    drawClouds();
     
     if(!isRunning && !isActivated){
         drawStandingsText();
@@ -479,7 +479,7 @@ void RenderProject::drawSkybox(vmml::Matrix4f skyMM){
     bRenderer().getModelRenderer()->drawModel("skybox", "camera", skyMM, std::vector<std::string>({ }));
 }
 
-void RenderProject::drawClouds(double deltaTime){
+void RenderProject::drawClouds(){
     vmml::Matrix4f mm;
     for(int i = 0; i < 40; i++){
         cloud_x[i] = cloud_x[i] + cloud_speed[i];

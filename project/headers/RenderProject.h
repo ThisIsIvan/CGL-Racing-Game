@@ -76,7 +76,7 @@ private:
     void drawSkybox(vmml::Matrix4f);
     void drawCar(Car, bool);
     void drawShadow();
-    void drawClouds(double);
+    void drawClouds();
     
     // PostProcessing
     void renderBloomEffect(Car, bool, GLint);
