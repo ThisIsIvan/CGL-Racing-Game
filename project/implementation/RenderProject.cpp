@@ -53,8 +53,9 @@ void RenderProject::initFunction()
     }
     
     checkpointMatrix = vmml::create_translation(vmml::Vector3f(-59.f, -0.1f, 10.f)) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
-    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, 0.0f, 10.f)) * vmml::create_scaling(vmml::Vector3f(2.0f, 2.0f, 2.0f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) * vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
+    roadMatrix = vmml::create_translation(vmml::Vector3f(0.f, -0.15f, 10.f)) * vmml::create_scaling(vmml::Vector3f(1.0f, 1.0f, 1.0f)) */* vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X) */ vmml::create_rotation((float)(90*M_PI_F/180), vmml::Vector3f::UNIT_Y);
     terrainMM = vmml::create_translation(vmml::Vector3f(0.0f, 0.f, 0.f)) * vmml::create_rotation((float)(M_PI_F), vmml::Vector3f::UNIT_X);
+    sunMM = vmml::create_translation(vmml::Vector3f(-75.0f, 30.f, -100.f));
     particlesMM = vmml::create_translation(vmml::Vector3f(0.0f, 10.f, 10.f));
     skyMM = vmml::create_translation(vmml::Vector3f(0.0f, 20.f, 0.f)) * vmml::create_scaling(vmml::Vector3f(2000.f));
     
@@ -77,6 +78,8 @@ void RenderProject::initFunction()
     aabb2 = bRenderer().getObjects()->loadObjModel("cp.obj", false, true, cpShader, nullptr)->getBoundingBoxObjectSpace();
     aabb3 = bRenderer().getObjects()->loadObjModel("terrain.obj", false, false, true, 0, false, false, nullptr)->getBoundingBoxObjectSpace();
     aabb4 = bRenderer().getObjects()->loadObjModel("road.obj", false, true, true, 0, false, true, nullptr)->getBoundingBoxObjectSpace();
+    aabb5 = bRenderer().getObjects()->loadObjModel("sun.obj", false, true, true, 0, false, true, nullptr)->getBoundingBoxObjectSpace();
+    
     bRenderer().getObjects()->loadObjModel("skybox.obj", false, true, skyShader, nullptr);
     bRenderer().getObjects()->loadObjModel("planeShadow.obj", false, true, planeShadowShader, nullptr);
     bRenderer().getObjects()->loadObjModel("cpshadow.obj", false, true, cpShadowShader, nullptr);
@@ -154,6 +157,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     bool boosting = false;
     GameObject checkpoint = GameObject(checkpointMatrix, aabb2, ObjectType::CHECKPOINT);
     GameObject road = GameObject(roadMatrix, aabb4, ObjectType::FLOOR);
+    GameObject sun = GameObject(sunMM, aabb5, ObjectType::BOARD);
     GameObject terr = GameObject(terrainMM, aabb3, ObjectType::FLOOR);
     
     car.clearCollidables();
@@ -226,6 +230,7 @@ void RenderProject::updateRenderQueue(const std::string &camera, const double &d
     cameraPtr->setPosition(camPosition);
     viewMatrix = cameraPtr->getViewMatrix();
     
+    drawSun(sun);
     drawRoad(road);
     drawTerrain(terr);
     drawCheckpoint(checkpoint);
@@ -479,6 +484,12 @@ void RenderProject::drawRoad(GameObject road){
     bRenderer().getModelRenderer()->drawModel("road", "camera", road.modelMatrix, std::vector<std::string>({ }));
 }
 
+void RenderProject::drawSun(GameObject sun){
+    ShaderPtr shader = setShaderUniforms("sun", sun.modelMatrix, true);
+    bRenderer().getModelRenderer()->drawModel("sun", "camera", sun.modelMatrix, std::vector<std::string>({ }));
+}
+
+
 void RenderProject::drawSkybox(vmml::Matrix4f skyMM){
     ShaderPtr shader = setShaderUniforms("skybox", skyMM, false);
     bRenderer().getModelRenderer()->drawModel("skybox", "camera", skyMM, std::vector<std::string>({ }));
@@ -558,8 +569,8 @@ ShaderPtr RenderProject::setShaderUniforms(std::string shaderName, vmml::Matrix4
             vmml::compute_inverse(vmml::transpose(vmml::Matrix3f(modelMatrix)), normalMatrix);
             shader->setUniform("NormalMatrix", normalMatrix);
             shader->setUniform("EyePos", cameraPtr->getPosition());
-            shader->setUniform("LightPos", vmml::Vector4f(0.0f, 300.f, 100.f, 1.));
-            shader->setUniform("Ia", vmml::Vector3f(2.f));
+            shader->setUniform("LightPos", vmml::Vector4f(0.0f, 500.f, 100.f, 1.));
+            shader->setUniform("Ia", vmml::Vector3f(1.f));
             shader->setUniform("Id", vmml::Vector3f(1.f));
             shader->setUniform("Is", vmml::Vector3f(1.f));
         }

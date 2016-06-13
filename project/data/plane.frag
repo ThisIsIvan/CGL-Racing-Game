@@ -42,8 +42,8 @@ void main()
     highp vec3 l = normalize(LightPos - pos).xyz;
     
     highp float intensity = dot(n, l);
-    highp vec3 diffuse = clamp(intensity, 0.0, 1.0) * Id;
-    highp vec4 diffuseResult = vec4(clamp(diffuse, 0.0, 1.0), 1.0);
+    highp vec3 diffuse = /*Kd */ clamp(intensity, 0.0, 1.0) * Id;
+    highp vec4 diffuseResult = vec4(diffuse, 1.0);
     
     // If vertex is lit, calculate specular term in view space using the Blinn-Phong model
     highp vec4 specularResult = vec4(0.0);
@@ -52,9 +52,9 @@ void main()
         highp vec3 eyeVec = normalize(EyePos.xyz - pos.xyz);
         highp vec3 h = normalize(l + eyeVec);
         
-        highp float specIntensity = pow(1.0, Ns);
-        highp vec3 specular = Ks * clamp(0.5, 0.0, 1.0) * Is;
-        specularResult = vec4(clamp(specular, 0.0, 1.0), 1.0);
+        highp float specIntensity = pow(max(dot(h,n), 0.0), Ns);
+        highp vec3 specular = Ks * clamp(specIntensity, 0.0, 1.0) * Is;
+        specularResult = vec4(specular, 1.0);
     }
     
     highp vec4 color = texture2D(DiffuseMap, texCoordVarying.st);
@@ -66,5 +66,5 @@ void main()
             diffuseResult = vec4(0.6, 0.2, 0.0, 1.0);
         }
     }
-    gl_FragColor = (ambientResult + diffuseResult + specularResult) * color;
+    gl_FragColor = (ambientResult + diffuseResult+ specularResult) * color;
 }

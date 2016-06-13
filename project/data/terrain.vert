@@ -1,4 +1,3 @@
-
 uniform highp mat4 ViewMatrix;
 uniform highp mat4 ModelMatrix;
 uniform highp mat4 ProjectionMatrix;
@@ -23,6 +22,8 @@ attribute vec3 Normal;
 attribute vec3 Tangent;
 attribute vec4 TexCoord;
 
+varying highp vec2 uv;
+
 varying highp vec4 ambientVarying;
 varying highp vec4 diffuseVarying;
 varying highp vec4 specularVarying;
@@ -39,5 +40,7 @@ void main()
     tangentVarying = normalize(NormalMatrix * Tangent);
     texCoordVarying = TexCoord;
     
+    
     gl_Position = ProjectionMatrix * ViewMatrix * posVarying;
+    uv = (vec2( gl_Position.x, gl_Position.y ) + vec2(1.0) ) / vec2(2.0);
 }

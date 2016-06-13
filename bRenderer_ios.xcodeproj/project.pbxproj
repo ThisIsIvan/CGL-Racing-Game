@@ -26,6 +26,18 @@
 		81C31F561D0D8416004A9578 /* cp.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81C31F501D0D8416004A9578 /* cp.vert */; };
 		81F45A8F1CFEEDB100C719F1 /* planeShadow.frag in Resources */ = {isa = PBXBuildFile; fileRef = 81F45A8B1CFEEDB100C719F1 /* planeShadow.frag */; };
 		81F45A921CFEEDB100C719F1 /* planeShadow.vert in Resources */ = {isa = PBXBuildFile; fileRef = 81F45A8E1CFEEDB100C719F1 /* planeShadow.vert */; };
+		896E80D61D0F618A00F39C29 /* road.obj in Resources */ = {isa = PBXBuildFile; fileRef = 896E80D41D0F618A00F39C29 /* road.obj */; };
+		896E80D71D0F618A00F39C29 /* road.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 896E80D51D0F618A00F39C29 /* road.mtl */; };
+		896E80D91D0F61F200F39C29 /* TexturesCom_Asphalt_heightmap_S.tif in Resources */ = {isa = PBXBuildFile; fileRef = 896E80D81D0F61F200F39C29 /* TexturesCom_Asphalt_heightmap_S.tif */; };
+		896E80DB1D0F61F900F39C29 /* Tileable_cracked_asphalt_road_texture_NORMAL.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 896E80DA1D0F61F900F39C29 /* Tileable_cracked_asphalt_road_texture_NORMAL.jpg */; };
+		896E80DD1D0F620400F39C29 /* Moon_floor_jaqx_tilable_1024_NRM.png in Resources */ = {isa = PBXBuildFile; fileRef = 896E80DC1D0F620400F39C29 /* Moon_floor_jaqx_tilable_1024_NRM.png */; };
+		896E80E01D0F632900F39C29 /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 896E80DE1D0F632900F39C29 /* terrain.mtl */; };
+		896E80E11D0F632900F39C29 /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = 896E80DF1D0F632900F39C29 /* terrain.obj */; };
+		896E80E31D0F6F8500F39C29 /* sun.frag in Resources */ = {isa = PBXBuildFile; fileRef = 896E80E21D0F6F8500F39C29 /* sun.frag */; };
+		896E80E51D0F6F8F00F39C29 /* sun.vert in Resources */ = {isa = PBXBuildFile; fileRef = 896E80E41D0F6F8F00F39C29 /* sun.vert */; };
+		896E80E81D0F708000F39C29 /* sun.obj in Resources */ = {isa = PBXBuildFile; fileRef = 896E80E61D0F708000F39C29 /* sun.obj */; };
+		896E80E91D0F708000F39C29 /* sun.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 896E80E71D0F708000F39C29 /* sun.mtl */; };
+		896E80EB1D0F708E00F39C29 /* preview_sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 896E80EA1D0F708E00F39C29 /* preview_sun.jpg */; };
 		A80BFF641CDA2B3900F4ADB8 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A80BFF621CDA2B3900F4ADB8 /* Car.cpp */; };
 		A82427D31CFDB04800311BA8 /* big_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = A824277E1CFDB04800311BA8 /* big_floor.png */; };
 		A82427D41CFDB04800311BA8 /* blurShader.frag in Resources */ = {isa = PBXBuildFile; fileRef = A824277F1CFDB04800311BA8 /* blurShader.frag */; };
@@ -53,8 +65,8 @@
 		A82427F51CFDB04800311BA8 /* skybox_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A82427A01CFDB04800311BA8 /* skybox_right.png */; };
 		A82427F61CFDB04800311BA8 /* skybox_back.png in Resources */ = {isa = PBXBuildFile; fileRef = A82427A11CFDB04800311BA8 /* skybox_back.png */; };
 		A82427F71CFDB04800311BA8 /* road.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427A21CFDB04800311BA8 /* road.frag */; };
-		A82427F81CFDB04800311BA8 /* road.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427A31CFDB04800311BA8 /* road.mtl */; };
-		A82427F91CFDB04800311BA8 /* road.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427A41CFDB04800311BA8 /* road.obj */; };
+		A82427F81CFDB04800311BA8 /* road2.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427A31CFDB04800311BA8 /* road2.mtl */; };
+		A82427F91CFDB04800311BA8 /* road2.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427A41CFDB04800311BA8 /* road2.obj */; };
 		A82427FA1CFDB04800311BA8 /* road.png in Resources */ = {isa = PBXBuildFile; fileRef = A82427A51CFDB04800311BA8 /* road.png */; };
 		A82427FB1CFDB04800311BA8 /* road.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427A61CFDB04800311BA8 /* road.vert */; };
 		A82428081CFDB04800311BA8 /* skybox.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427B31CFDB04800311BA8 /* skybox.frag */; };
@@ -63,8 +75,8 @@
 		A824280D1CFDB04800311BA8 /* skybox.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427B81CFDB04800311BA8 /* skybox.mtl */; };
 		A824280E1CFDB04800311BA8 /* skybox.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427B91CFDB04800311BA8 /* skybox.obj */; };
 		A82428151CFDB04800311BA8 /* terrain.frag in Resources */ = {isa = PBXBuildFile; fileRef = A82427C01CFDB04800311BA8 /* terrain.frag */; };
-		A82428161CFDB04800311BA8 /* terrain.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427C11CFDB04800311BA8 /* terrain.mtl */; };
-		A82428171CFDB04800311BA8 /* terrain.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427C21CFDB04800311BA8 /* terrain.obj */; };
+		A82428161CFDB04800311BA8 /* terrain6.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427C11CFDB04800311BA8 /* terrain6.mtl */; };
+		A82428171CFDB04800311BA8 /* terrain6.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427C21CFDB04800311BA8 /* terrain6.obj */; };
 		A82428181CFDB04800311BA8 /* terrain.vert in Resources */ = {isa = PBXBuildFile; fileRef = A82427C31CFDB04800311BA8 /* terrain.vert */; };
 		A82428191CFDB04800311BA8 /* terrain1.mtl in Resources */ = {isa = PBXBuildFile; fileRef = A82427C41CFDB04800311BA8 /* terrain1.mtl */; };
 		A824281A1CFDB04800311BA8 /* terrain1.obj in Resources */ = {isa = PBXBuildFile; fileRef = A82427C51CFDB04800311BA8 /* terrain1.obj */; };
@@ -201,6 +213,18 @@
 		81C31F501D0D8416004A9578 /* cp.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = cp.vert; sourceTree = "<group>"; };
 		81F45A8B1CFEEDB100C719F1 /* planeShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = planeShadow.frag; sourceTree = "<group>"; };
 		81F45A8E1CFEEDB100C719F1 /* planeShadow.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = planeShadow.vert; sourceTree = "<group>"; };
+		896E80D41D0F618A00F39C29 /* road.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road.obj; sourceTree = "<group>"; };
+		896E80D51D0F618A00F39C29 /* road.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road.mtl; sourceTree = "<group>"; };
+		896E80D81D0F61F200F39C29 /* TexturesCom_Asphalt_heightmap_S.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TexturesCom_Asphalt_heightmap_S.tif; sourceTree = "<group>"; };
+		896E80DA1D0F61F900F39C29 /* Tileable_cracked_asphalt_road_texture_NORMAL.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tileable_cracked_asphalt_road_texture_NORMAL.jpg; sourceTree = "<group>"; };
+		896E80DC1D0F620400F39C29 /* Moon_floor_jaqx_tilable_1024_NRM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon_floor_jaqx_tilable_1024_NRM.png; sourceTree = "<group>"; };
+		896E80DE1D0F632900F39C29 /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
+		896E80DF1D0F632900F39C29 /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
+		896E80E21D0F6F8500F39C29 /* sun.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sun.frag; sourceTree = "<group>"; };
+		896E80E41D0F6F8F00F39C29 /* sun.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sun.vert; sourceTree = "<group>"; };
+		896E80E61D0F708000F39C29 /* sun.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.obj; sourceTree = "<group>"; };
+		896E80E71D0F708000F39C29 /* sun.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sun.mtl; sourceTree = "<group>"; };
+		896E80EA1D0F708E00F39C29 /* preview_sun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = preview_sun.jpg; sourceTree = "<group>"; };
 		A80BFF611CDA2AB300F4ADB8 /* Car.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
 		A80BFF621CDA2B3900F4ADB8 /* Car.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
 		A824277E1CFDB04800311BA8 /* big_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_floor.png; sourceTree = "<group>"; };
@@ -229,8 +253,8 @@
 		A82427A01CFDB04800311BA8 /* skybox_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skybox_right.png; sourceTree = "<group>"; };
 		A82427A11CFDB04800311BA8 /* skybox_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skybox_back.png; sourceTree = "<group>"; };
 		A82427A21CFDB04800311BA8 /* road.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = road.frag; sourceTree = "<group>"; };
-		A82427A31CFDB04800311BA8 /* road.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road.mtl; sourceTree = "<group>"; };
-		A82427A41CFDB04800311BA8 /* road.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road.obj; sourceTree = "<group>"; };
+		A82427A31CFDB04800311BA8 /* road2.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road2.mtl; sourceTree = "<group>"; };
+		A82427A41CFDB04800311BA8 /* road2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road2.obj; sourceTree = "<group>"; };
 		A82427A51CFDB04800311BA8 /* road.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = road.png; sourceTree = "<group>"; };
 		A82427A61CFDB04800311BA8 /* road.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = road.vert; sourceTree = "<group>"; };
 		A82427B31CFDB04800311BA8 /* skybox.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = skybox.frag; sourceTree = "<group>"; };
@@ -239,8 +263,8 @@
 		A82427B81CFDB04800311BA8 /* skybox.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skybox.mtl; sourceTree = "<group>"; };
 		A82427B91CFDB04800311BA8 /* skybox.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skybox.obj; sourceTree = "<group>"; };
 		A82427C01CFDB04800311BA8 /* terrain.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.frag; sourceTree = "<group>"; };
-		A82427C11CFDB04800311BA8 /* terrain.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.mtl; sourceTree = "<group>"; };
-		A82427C21CFDB04800311BA8 /* terrain.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain.obj; sourceTree = "<group>"; };
+		A82427C11CFDB04800311BA8 /* terrain6.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain6.mtl; sourceTree = "<group>"; };
+		A82427C21CFDB04800311BA8 /* terrain6.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain6.obj; sourceTree = "<group>"; };
 		A82427C31CFDB04800311BA8 /* terrain.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = terrain.vert; sourceTree = "<group>"; };
 		A82427C41CFDB04800311BA8 /* terrain1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.mtl; sourceTree = "<group>"; };
 		A82427C51CFDB04800311BA8 /* terrain1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = terrain1.obj; sourceTree = "<group>"; };
@@ -518,9 +542,11 @@
 				812D18C21D05EE5A00FE4AC9 /* planeShadow.mtl */,
 				812D18C31D05EE5A00FE4AC9 /* planeShadow.obj */,
 				81F45A8E1CFEEDB100C719F1 /* planeShadow.vert */,
+				896E80D41D0F618A00F39C29 /* road.obj */,
+				896E80D51D0F618A00F39C29 /* road.mtl */,
 				A82427A21CFDB04800311BA8 /* road.frag */,
-				A82427A31CFDB04800311BA8 /* road.mtl */,
-				A82427A41CFDB04800311BA8 /* road.obj */,
+				A82427A31CFDB04800311BA8 /* road2.mtl */,
+				A82427A41CFDB04800311BA8 /* road2.obj */,
 				A82427A51CFDB04800311BA8 /* road.png */,
 				A82427A61CFDB04800311BA8 /* road.vert */,
 				A82427A11CFDB04800311BA8 /* skybox_back.png */,
@@ -529,14 +555,24 @@
 				A82427931CFDB04800311BA8 /* skybox_middle.png */,
 				A82427A01CFDB04800311BA8 /* skybox_right.png */,
 				A82427CF1CFDB04800311BA8 /* skybox_top.jpg */,
+				896E80EA1D0F708E00F39C29 /* preview_sun.jpg */,
+				896E80E61D0F708000F39C29 /* sun.obj */,
+				896E80E71D0F708000F39C29 /* sun.mtl */,
 				A82427B31CFDB04800311BA8 /* skybox.frag */,
+				896E80E21D0F6F8500F39C29 /* sun.frag */,
+				896E80E41D0F6F8F00F39C29 /* sun.vert */,
 				A82427B81CFDB04800311BA8 /* skybox.mtl */,
 				A82427B91CFDB04800311BA8 /* skybox.obj */,
 				A82427B61CFDB04800311BA8 /* skybox.png */,
 				A82427B71CFDB04800311BA8 /* skybox.vert */,
+				896E80DA1D0F61F900F39C29 /* Tileable_cracked_asphalt_road_texture_NORMAL.jpg */,
+				896E80D81D0F61F200F39C29 /* TexturesCom_Asphalt_heightmap_S.tif */,
+				896E80DC1D0F620400F39C29 /* Moon_floor_jaqx_tilable_1024_NRM.png */,
 				A82427C01CFDB04800311BA8 /* terrain.frag */,
-				A82427C11CFDB04800311BA8 /* terrain.mtl */,
-				A82427C21CFDB04800311BA8 /* terrain.obj */,
+				896E80DE1D0F632900F39C29 /* terrain.mtl */,
+				896E80DF1D0F632900F39C29 /* terrain.obj */,
+				A82427C11CFDB04800311BA8 /* terrain6.mtl */,
+				A82427C21CFDB04800311BA8 /* terrain6.obj */,
 				A82427C31CFDB04800311BA8 /* terrain.vert */,
 				A82427C41CFDB04800311BA8 /* terrain1.mtl */,
 				A82427C51CFDB04800311BA8 /* terrain1.obj */,
@@ -871,8 +907,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A82427EA1CFDB04800311BA8 /* particles.vert in Resources */,
+				896E80E31D0F6F8500F39C29 /* sun.frag in Resources */,
 				A82427F51CFDB04800311BA8 /* skybox_right.png in Resources */,
 				A82428271CFDB04800311BA8 /* truck_spec_clean.jpg in Resources */,
+				896E80D91D0F61F200F39C29 /* TexturesCom_Asphalt_heightmap_S.tif in Resources */,
 				A82427EB1CFDB04800311BA8 /* plane.frag in Resources */,
 				A82427EC1CFDB04800311BA8 /* plane.mtl in Resources */,
 				A824280E1CFDB04800311BA8 /* skybox.obj in Resources */,
@@ -886,12 +924,13 @@
 				812D18D81D086AFB00FE4AC9 /* cpShadow.frag in Resources */,
 				A82427D81CFDB04800311BA8 /* carBlurShader.frag in Resources */,
 				A82427F71CFDB04800311BA8 /* road.frag in Resources */,
+				896E80E11D0F632900F39C29 /* terrain.obj in Resources */,
 				812D18D91D086AFB00FE4AC9 /* cpShadow.vert in Resources */,
 				A82427D91CFDB04800311BA8 /* carBlurShader.vert in Resources */,
 				A82427E61CFDB04800311BA8 /* guy.vert in Resources */,
 				A824281A1CFDB04800311BA8 /* terrain1.obj in Resources */,
 				A82427EE1CFDB04800311BA8 /* plane.vert in Resources */,
-				A82427F81CFDB04800311BA8 /* road.mtl in Resources */,
+				A82427F81CFDB04800311BA8 /* road2.mtl in Resources */,
 				A82427ED1CFDB04800311BA8 /* plane.obj in Resources */,
 				81C31F521D0D8416004A9578 /* cp_normal.png in Resources */,
 				A8540A181CFDCB750023DC56 /* CloseRace.ttf in Resources */,
@@ -906,17 +945,22 @@
 				812D18F01D088CE200FE4AC9 /* cpshadow.mtl in Resources */,
 				B4794A311BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				A82428191CFDB04800311BA8 /* terrain1.mtl in Resources */,
-				A82428171CFDB04800311BA8 /* terrain.obj in Resources */,
+				A82428171CFDB04800311BA8 /* terrain6.obj in Resources */,
 				A82428221CFDB04800311BA8 /* terrain7.mtl in Resources */,
+				896E80E51D0F6F8F00F39C29 /* sun.vert in Resources */,
 				A82427E71CFDB04800311BA8 /* skybox_left.png in Resources */,
+				896E80E01D0F632900F39C29 /* terrain.mtl in Resources */,
 				A82427D41CFDB04800311BA8 /* blurShader.frag in Resources */,
 				A82427D61CFDB04800311BA8 /* skybox_bottom.jpg in Resources */,
+				896E80DB1D0F61F900F39C29 /* Tileable_cracked_asphalt_road_texture_NORMAL.jpg in Resources */,
 				A82428241CFDB04800311BA8 /* skybox_top.jpg in Resources */,
-				A82427F91CFDB04800311BA8 /* road.obj in Resources */,
+				A82427F91CFDB04800311BA8 /* road2.obj in Resources */,
 				A82428261CFDB04800311BA8 /* truck_color_clean.jpg in Resources */,
 				A82427D51CFDB04800311BA8 /* blurShader.vert in Resources */,
+				896E80D61D0F618A00F39C29 /* road.obj in Resources */,
 				81F45A921CFEEDB100C719F1 /* planeShadow.vert in Resources */,
 				A82428211CFDB04800311BA8 /* terrain5.obj in Resources */,
+				896E80E81D0F708000F39C29 /* sun.obj in Resources */,
 				A82427FA1CFDB04800311BA8 /* road.png in Resources */,
 				B4794A2A1BA6743D00B5E9DC /* LICENSE.txt in Resources */,
 				A824280B1CFDB04800311BA8 /* skybox.png in Resources */,
@@ -930,8 +974,9 @@
 				A82427F61CFDB04800311BA8 /* skybox_back.png in Resources */,
 				A82428251CFDB04800311BA8 /* truck_bump.jpg in Resources */,
 				A82427E31CFDB04800311BA8 /* glowShader.vert in Resources */,
-				A82428161CFDB04800311BA8 /* terrain.mtl in Resources */,
+				A82428161CFDB04800311BA8 /* terrain6.mtl in Resources */,
 				819133E11D0D63630000543A /* cloud.obj in Resources */,
+				896E80D71D0F618A00F39C29 /* road.mtl in Resources */,
 				A824281E1CFDB04800311BA8 /* terrain4.mtl in Resources */,
 				A82428081CFDB04800311BA8 /* skybox.frag in Resources */,
 				A82427FB1CFDB04800311BA8 /* road.vert in Resources */,
@@ -941,11 +986,14 @@
 				A824281D1CFDB04800311BA8 /* terrain2.obj in Resources */,
 				A82427DA1CFDB04800311BA8 /* carShader.frag in Resources */,
 				819133E51D0D64470000543A /* cloud.vert in Resources */,
+				896E80E91D0F708000F39C29 /* sun.mtl in Resources */,
+				896E80EB1D0F708E00F39C29 /* preview_sun.jpg in Resources */,
 				819133E41D0D64470000543A /* cloud.frag in Resources */,
 				A82427E21CFDB04800311BA8 /* glowShader.frag in Resources */,
 				81C31F561D0D8416004A9578 /* cp.vert in Resources */,
 				A824281C1CFDB04800311BA8 /* terrain2.mtl in Resources */,
 				A82427D31CFDB04800311BA8 /* big_floor.png in Resources */,
+				896E80DD1D0F620400F39C29 /* Moon_floor_jaqx_tilable_1024_NRM.png in Resources */,
 				A824281B1CFDB04800311BA8 /* terrain1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

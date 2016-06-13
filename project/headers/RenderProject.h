@@ -73,6 +73,7 @@ private:
     void drawTerrain(GameObject);
     void drawCheckpoint(GameObject);
     void drawRoad(GameObject);
+    void drawSun(GameObject);
     void drawSkybox(vmml::Matrix4f);
     void drawCar(Car, bool);
     void drawShadow();
@@ -113,6 +114,7 @@ private:
     
     vmml::Matrix4f viewMatrix;
     vmml::Matrix4f checkpointMatrix;
+    vmml::Matrix4f sunMM;
     vmml::Matrix4f roadMatrix;
     vmml::Matrix4f terrainMM;
     vmml::Matrix4f particlesMM;
